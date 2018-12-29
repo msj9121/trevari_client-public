@@ -1,0 +1,18 @@
+{
+  "name": "Trevari-client",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.4",
+    "isomorphic-unfetch": "^3.0.0",
+    "jshint": "^2.9.7",
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "scripts": {
+    "dev": "next",
+    "start": "pm2 start server.js"
+  }
+}
