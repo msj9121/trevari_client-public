@@ -11,7 +11,7 @@ const Signup = () => {
 
         <style jsx>{`
           #signup {
-            border: 1px solid #DDD;
+            
           }
           #signup_box {
             border: 1px solid #DDD;

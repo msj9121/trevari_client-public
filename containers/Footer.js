@@ -16,8 +16,8 @@ const Footer = () => (
       </div>
 
       <div className="footer-three">
-        <div>페이스북</div>
-        <div>네이버블로그</div>
+        <img src="../static/icon-fb.png"></img>
+        <img src="../static/icon-naver-blog.png"></img>
       </div>
 
       <div className="footer-four">
@@ -30,33 +30,25 @@ const Footer = () => (
 
     <style jsx>{`
       #footer {
-        border: 1px solid #DDD;
         background: rgba(0, 0, 0, 0.03);
       }
       #footer_box {
-        border: 1px solid #DDD;
         margin: 0 auto;
         width: 60%;
       }
       .footer-one {
         display: flex;
         justify-content: space-between;
-        border: 1px solid #DDD;
-        margin-bottom: 20px;
         padding: 10px;
       }
       .footer-two {
-        border: 1px solid #DDD;
         padding: 10px;
       }
       .footer-three {
-        border: 1px solid #DDD;
-        margin-bottom: 20px;
         display: flex;
         padding: 10px;
       }
       .footer-four {
-        border: 1px solid #DDD;
         font-size: 12px;
         color: #adb5bd;
         padding: 10px;
@@ -85,7 +77,9 @@ const Footer = () => (
       a {
         color: #1778b5;
       }
-
+      img {
+        margin-right: 10px;
+      }
       @media screen and (max-width: 600px) {
         #footer_box {
           width: 100%;

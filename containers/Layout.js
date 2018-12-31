@@ -13,7 +13,6 @@ class Layout extends Component {
 
         <style jsx>{`
             #layout {
-              border: 1px solid #DDD;
               width: 100%;
             }
           `}</style>

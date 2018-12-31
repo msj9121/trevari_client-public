@@ -15,7 +15,7 @@ const Login = () => {
 
         <style jsx>{`
           #login {
-            border: 1px solid #DDD;
+            
           }
           #login_box {
             border: 1px solid #DDD;

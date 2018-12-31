@@ -3,23 +3,21 @@ import fetch from "isomorphic-unfetch";
 import Layout from '../containers/Layout';
 import Filter from '../containers/Filter';
 
-const Index = props => {
+const Books = props => {
   return (
     <Layout>
       <Filter />
-      <div id="index">
+      <div id="books">
 
-        <div id="index_box">
-          <h1>Index Page</h1>
-          <h2>by SuperSexy!</h2>
-          <h1>{props.show}</h1>
+        <div id="books_box">
+          <h1>Books Page</h1>
         </div>
 
         <style jsx>{`
-          #index {
+          #books {
             
           }
-          #index_box {
+          #books_box {
             border: 1px solid #DDD;
             margin: 0 auto;
             width: 60%;
@@ -36,7 +34,7 @@ const Index = props => {
   );
 };
 
-// Index.getInitialProps = async function() {
+// Books.getInitialProps = async function() {
 //   const res = await fetch("http://3.16.58.104:5000/");
 //   const data = await res.json();
 //   return {
@@ -44,4 +42,4 @@ const Index = props => {
 //   };
 // };
 
-export default Index;
+export default Books;

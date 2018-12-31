@@ -11,7 +11,7 @@ const Mypage = () => {
 
         <style jsx>{`
           #mypage {
-            border: 1px solid #DDD;
+            
           }
           #mypage_box {
             border: 1px solid #DDD;

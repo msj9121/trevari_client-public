@@ -14,12 +14,11 @@ class Filter extends Component {
         </div>
         <style jsx>{`
           #filter {
-            border: 1px solid #DDD;
+            border-bottom: solid 1px #DDD;
           }
           #filter_box {
             display: flex;
             justify-content: flex-end;
-            border: 1px solid #DDD;
             margin: 0 auto;
             width: 60%;
           }
