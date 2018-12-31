@@ -6,7 +6,6 @@ import Filter from '../containers/Filter';
 const Index = props => {
   return (
     <Layout>
-      <Filter />
       <div id="index">
 
         <div id="index_box">

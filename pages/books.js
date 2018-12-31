@@ -6,7 +6,6 @@ import Filter from '../containers/Filter';
 const Books = props => {
   return (
     <Layout>
-      <Filter />
       <div id="books">
 
         <div id="books_box">
