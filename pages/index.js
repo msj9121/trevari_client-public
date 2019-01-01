@@ -29,7 +29,6 @@ const Index = props => {
             }
           }
         `}</style>
-
       </div>
     </Layout>
   );
