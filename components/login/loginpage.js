@@ -2,18 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Router } from "../../routes/routes";
 
-class logincom extends Component {
+class loginpage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: "",
-      isLogined: false
+      password: ""
     };
     this.handleChange = this.handleChange.bind(this);
-    this.loginButtonClick = this.loginButtonClick.bind(this);
+    this.checkRegisteredEmail = this.checkRegisteredEmail.bind(this);
     this.requestLogin = this.requestLogin.bind(this);
-    this.loginCheck = this.loginCheck.bind(this);
   }
 
   handleChange = e => {
@@ -22,51 +20,32 @@ class logincom extends Component {
     });
   };
 
-  email_check = email => {
-    var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    if (!regex.test(email)) {
-      console.log("[-] Not email!!!");
-      return false;
-    } else {
-      console.log("[+] email OK!");
-      return true;
-    }
-  };
-
-  loginButtonClick = () => {
-    for (var key in this.state) {
-      if (this.state[key] === "") {
-        console.log(`[-] ${key} is Empty`);
-        return;
-      }
-    }
-    if (!this.email_check(this.state.email)) {
-      return;
-    }
-
-    console.log("[+] Data OK!");
-
-    this.requestLogin();
-  };
-
-  requestLogin = () => {
-    var data = {
+  checkRegisteredEmail = () => {
+    const data = {
       email: this.state.email,
       password: this.state.password
     };
     axios
-      .post("http://3.16.58.104:5000/users/login", data)
+      //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
+      .post("http://localhost:5000/users/checkEmailAvailability", data)
       .then(res =>
-        res.data ? this.loginCheck() : console.log("[-] data NoNO!")
+        res.data
+          ? console.log("[-] Check your email!")
+          : this.requestLogin(data)
       )
-      //   .then()
       .catch(err => console.log(err));
   };
 
-  loginCheck = () => {
-    console.log("[+] Login OK!");
-    this.state.isLogined = true;
-    Router.pushRoute("/index");
+  requestLogin = data => {
+    axios
+      //   .post("http://3.16.58.104:5000/users/login", data)
+      .post("http://localhost:5000/users/login", data)
+      .then(res =>
+        res.data
+          ? Router.pushRoute("/index")
+          : console.log("[-] Check your password!")
+      )
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -98,7 +77,7 @@ class logincom extends Component {
           <a>* 비밀번호 확인</a>
         </div>
 
-        <button onClick={this.loginButtonClick}>Login</button>
+        <button onClick={this.checkRegisteredEmail}>Login</button>
         <div>
           <a href="/signup">회원가입</a>
         </div>
@@ -107,4 +86,4 @@ class logincom extends Component {
   }
 }
 
-export default logincom;
+export default loginpage;

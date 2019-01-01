@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Link from "next/link";
 import { Router } from "../../routes/routes";
 
-class signupcom extends Component {
+class signuppage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,11 +12,17 @@ class signupcom extends Component {
       phoneNumber: "",
       repassword: ""
     };
-    this.signupButtonClick = this.signupButtonClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.signupButtonClick = this.signupButtonClick.bind(this);
+    this.checkRegisteredEmail = this.checkRegisteredEmail.bind(this);
     this.requestSignup = this.requestSignup.bind(this);
-    this.signupCheck = this.signupCheck.bind(this);
   }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
   email_check = email => {
     var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -40,27 +45,6 @@ class signupcom extends Component {
     }
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  requestSignup = () => {
-    var data = {
-      email: this.state.email,
-      name: this.state.name,
-      password: this.state.password,
-      phoneNumber: this.state.phoneNumber
-    };
-    axios
-      .post("http://3.16.58.104:5000/users/signup", data)
-      .then(res => {
-        res.data ? this.signupCheck() : console.log("[-] Sign up fail!!");
-      })
-      .catch(err => console.log(err));
-  };
-
   signupButtonClick = () => {
     for (var key in this.state) {
       if (this.state[key] === "") {
@@ -74,13 +58,40 @@ class signupcom extends Component {
     if (!this.password_check(this.state.password, this.state.repassword)) {
       return;
     }
-
-    this.requestSignup();
+    this.checkRegisteredEmail();
   };
 
-  signupCheck = () => {
-    console.log("[+] Sign up OK!");
-    Router.pushRoute("/login");
+  checkRegisteredEmail = () => {
+    const data = {
+      email: this.state.email
+    };
+    axios
+      //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
+      .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .then(res =>
+        res.data
+          ? this.requestSignup(data)
+          : console.log("[-] Already Registered your email!")
+      )
+      .catch(err => console.log(err));
+  };
+
+  requestSignup = () => {
+    var data = {
+      email: this.state.email,
+      name: this.state.name,
+      password: this.state.password,
+      phoneNumber: this.state.phoneNumber
+    };
+    axios
+      //   .post("http://3.16.58.104:5000/users/signup", data)
+      .post("http://localhost:5000/users/signup", data)
+      .then(res => {
+        res.data
+          ? Router.pushRoute("/login")
+          : console.log("[-] Sign up fail!!");
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -138,4 +149,4 @@ class signupcom extends Component {
   }
 }
 
-export default signupcom;
+export default signuppage;
