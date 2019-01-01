@@ -1,38 +1,38 @@
 import React, { Component } from "react";
 import Layout from "../containers/Layout";
-import Logincom from "../components/login/logincom";
-import Index from "../pages/index";
+import Loginpage from "../components/login/loginpage";
 
 class Login extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
-      <Layout>
+      <Layout t>
         <div id="login">
           <div id="login_box">
-            <Logincom />
+            <Loginpage />
           </div>
-
-          <style jsx>{`
-            #login {
-            }
-            #login_box {
-              display: flex;
-              justify-content: center;
-              allign-items: center;
-              border: 1px solid #ddd;
-              margin: 0 auto;
-              width: 60%;
-            }
-            @media screen and (max-width: 600px) {
-              #login_box {
-                width: 100%;
-              }
-            }
-          `}</style>
         </div>
+        {/* style */}
+        <style jsx>{`
+          #login {
+          }
+          #login_box {
+            display: flex;
+            justify-content: center;
+            allign-items: center;
+            border: 1px solid #ddd;
+            margin: 0 auto;
+            width: 60%;
+          }
+          @media screen and (max-width: 600px) {
+            #login_box {
+              width: 100%;
+            }
+          }
+        `}</style>
       </Layout>
     );
   }

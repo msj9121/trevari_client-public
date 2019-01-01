@@ -4,23 +4,22 @@ import Link from "next/link";
 class Header extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      isLogined: false,
-      movepage: ""
+      movepage: "/login",
+      login: "로그인",
+      isLogined: false
     };
-    this.state.isLogined === true
-      ? (this.state.login = "로그아웃")
-      : (this.state.login = "로그인");
-
-    console.log(this.state.login);
-
-    if (this.state.isLogined) {
-      this.state.movepage = "/index";
-    } else {
-      this.state.movepage = "/login";
-    }
+    console.log(this.state.isLogined);
+    this.changeCondition = this.changeCondition.bind(this);
   }
+
+  changeCondition = () => {
+    this.setState({
+      login: "로그아웃",
+      movepage: "/index",
+      isLogined: true
+    });
+  };
 
   render() {
     return (

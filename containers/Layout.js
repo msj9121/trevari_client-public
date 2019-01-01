@@ -9,7 +9,7 @@ class Layout extends Component {
   render() {
     return (
       <div id="layout">
-        <Header />
+        <Header userLogin={this.props.userLogin} />
         {this.props.children}
         <Footer />
 
