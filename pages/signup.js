@@ -1,20 +1,21 @@
-import Layout from '../containers/Layout';
+import Layout from "../containers/Layout";
+import Signup from "../components/signup/signupcom";
 
-const Signup = () => {
+const signup = () => {
   return (
     <Layout>
       <div id="signup">
-
         <div id="signup_box">
-          <h1>회원가입</h1>
+          <Signup />
         </div>
-
         <style jsx>{`
           #signup {
-            
           }
           #signup_box {
-            border: 1px solid #DDD;
+            display: flex;
+            justify-content: center;
+            allign-items: center;
+            border: 1px solid #ddd;
             margin: 0 auto;
             width: 60%;
           }
@@ -24,10 +25,9 @@ const Signup = () => {
             }
           }
         `}</style>
-
       </div>
     </Layout>
   );
 };
 
-export default Signup;
+export default signup;

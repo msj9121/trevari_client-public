@@ -1,4 +1,8 @@
-const handle = app.getRequestHandler();
+const next = require("next");
+const routes = require("./routes/routes");
+const app = next({ dev: process.env.NODE_ENV !== "production" });
+const express = require("express");
+const handle = routes.getRequestHandler(app);
 
 app
   .prepare()
@@ -18,3 +22,7 @@ app
     console.error(ex.stack);
     process.exit(1);
   });
+
+// const handler = routes.getRequestHandler(app, ({ req, res, reoute, query }) => {
+//   app.render(req, res, reoute.page, query);
+// });
