@@ -1,24 +1,25 @@
-import Layout from '../containers/Layout';
-import Link from 'next/link';
+import React, { Component } from "react";
+import Loginpage from "../components/login/loginpage";
 
-const Login = () => {
-  return (
-    <Layout>
+class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
       <div id="login">
-
         <div id="login_box">
-          <h1>로그인</h1>
-          <Link href="/signup">
-            <a>회원가입</a>
-          </Link>
+          <Loginpage />
         </div>
-
         <style jsx>{`
           #login {
-            
           }
           #login_box {
-            border: 1px solid #DDD;
+            display: flex;
+            justify-content: center;
+            allign-items: center;
+            border: 1px solid #ddd;
             margin: 0 auto;
             width: 60%;
           }
@@ -28,10 +29,9 @@ const Login = () => {
             }
           }
         `}</style>
-
       </div>
-    </Layout>
-  );
-};
+    );
+  }
+}
 
 export default Login;

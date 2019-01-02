@@ -1,4 +1,3 @@
-import Layout from '../containers/Layout'
 import axios from 'axios'
 import MypageContents from '../components/mypage/MypageContents'
 
@@ -9,9 +8,9 @@ class Mypage extends React.Component {
 
     const res = await axios.get(`${devAPI}`)
     const data = await res.data
-    
-    const scrollY = scrollY; 
-    return { 
+
+    const scrollY = scrollY
+    return {
       books: data,
       scrollY: scrollY
     }
@@ -26,31 +25,45 @@ class Mypage extends React.Component {
       scrollY: null
     }
     this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
-    this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
+    this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(
+      this
+    )
     this.getBooks = this.getBooks.bind(this)
   }
-  
+
   render () {
-    
     return (
-      <Layout>
-        <div id='mypage'>
-          <div id='mypage_box'>
-            <h1>마이페이지</h1>
+      <div id='mypage'>
+        <div id='mypage_box'>
+          <h1>마이페이지</h1>
+        </div>
+        <div id='Mypage_nav'>
+          <button id='ratedBooks_btn' onClick={this.ratedBooks_clickHandler}>
+            내가 평가한 책
+          </button>
+          <button
+            id='wantToReadBooks_btn'
+            onClick={this.wantToReadBooks_clickHandler}
+          >
+            내가 읽고싶은 책
+          </button>
+          <div>
+            <a id='test' href='/'>
+              TextBox
+            </a>
           </div>
-          <div id='Mypage_nav'>
-            <button id='ratedBooks_btn' onClick={this.ratedBooks_clickHandler}>내가 평가한 책</button>
-            <button id='wantToReadBooks_btn' onClick={this.wantToReadBooks_clickHandler}>내가 읽고싶은 책</button>
-            <div ><a id='test' href='/'>TextBox</a></div>
+        </div>
+        <div id='contents_box'>
+          <MypageContents
+            books={this.state.data}
+            wantToReadBooksShow={this.state.wantToReadBooksShow}
+            ratedBooksShow={this.state.ratedBooksShow}
+          />
+          <div id='addBooks_btn' onClick={this.getBooks} align='center'>
+            더 보기
           </div>
-          <div id='contents_box'>
-            <MypageContents 
-              books={this.state.data} 
-              wantToReadBooksShow={this.state.wantToReadBooksShow}
-              ratedBooksShow={this.state.ratedBooksShow}/>    
-            <div id='addBooks_btn' onClick={this.getBooks} align='center'>더 보기</div>
-          </div>
-          <style jsx>{`
+        </div>
+        <style jsx>{`
             #test {
               border: solid 2px;
             }
@@ -120,23 +133,15 @@ class Mypage extends React.Component {
               border: solid 2px #ced4da;
             }
           `}</style>
-        </div>
-      </Layout>
+      </div>
     )
   }
-  
-  
-  wantToReadBooks_clickHandler = () => {
-    if (this.state.wantToReadBooksShow === false && this.state.ratedBooksShow === true) {
-      this.setState({
-        ratedBooksShow: !this.state.ratedBooksShow,
-        wantToReadBooksShow: !this.state.wantToReadBooksShow
-      }) 
-    }
-  }
 
-  ratedBooks_clickHandler = () => {
-    if (this.state.wantToReadBooksShow === true && this.state.ratedBooksShow === false) {
+  wantToReadBooks_clickHandler = () => {
+    if (
+      this.state.wantToReadBooksShow === false &&
+      this.state.ratedBooksShow === true
+    ) {
       this.setState({
         ratedBooksShow: !this.state.ratedBooksShow,
         wantToReadBooksShow: !this.state.wantToReadBooksShow
@@ -144,28 +149,41 @@ class Mypage extends React.Component {
     }
   }
 
-  scrollHandler = (event) => {
-    if (this.state.scrollY > 1000) { //arbitrary amount
+  ratedBooks_clickHandler = () => {
+    if (
+      this.state.wantToReadBooksShow === true &&
+      this.state.ratedBooksShow === false
+    ) {
+      this.setState({
+        ratedBooksShow: !this.state.ratedBooksShow,
+        wantToReadBooksShow: !this.state.wantToReadBooksShow
+      })
+    }
+  }
+
+  scrollHandler = event => {
+    if (this.state.scrollY > 1000) {
+      // arbitrary amount
       this.setState({
         scrollY: window.scrollY
-      });
+      })
     }
   }
 
   getBooks = async () => {
-    const devAPI = "https://api.tvmaze.com/search/shows?q=batman";
-    const realAPI = '';
+    const devAPI = 'https://api.tvmaze.com/search/shows?q=batman'
+    const realAPI = ''
 
-    const res = await axios.get(`${devAPI}`);
-    const data = await res.data;
-    console.log(data);
-    
+    const res = await axios.get(`${devAPI}`)
+    const data = await res.data
+    console.log(data)
+
     this.setState(state => {
       return {
         data: state.data.concat(data)
-      };
-    });
-  };
+      }
+    })
+  }
 }
 
 export default Mypage

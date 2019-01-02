@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
 
 class Filter extends Component {
   render() {
@@ -9,7 +10,7 @@ class Filter extends Component {
           <div className="filter_group">
             <input placeholder="책제목 검색" type="search" className="filter_input"></input>
             <div className="filter_xbox">X</div>
-            <div className="filter_search">검색</div>
+            <Link href="/search"><div className="filter_search">검색</div></Link>
           </div>
         </div>
         <style jsx>{`
@@ -38,12 +39,14 @@ class Filter extends Component {
             border-color: #ff8906;
             color: #ff8906;
             padding: 5px 10px 5px 10px;
+            cursor: pointer;
           }
           .filter_search {
             background-color: #ff8906;
             color: white;
             padding: 5px 10px 5px 10px;
             border-radius: 0px 3px 3px 0px;
+            cursor: pointer;
           }
           @media screen and (max-width: 600px) {
             #filter_box {
