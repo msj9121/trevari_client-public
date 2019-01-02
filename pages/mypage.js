@@ -1,15 +1,12 @@
-import Layout from '../containers/Layout';
-
-const Mypage = () => {
+const Mypage = (props) => {
   return (
-    <Layout>
-      <div id="mypage">
+    <div id="mypage">
 
-        <div id="mypage_box">
-          <h1>마이페이지</h1>
-        </div>
+      <div id="mypage_box">
+        <h1>마이페이지</h1>
+      </div>
 
-        <style jsx>{`
+      <style jsx>{`
           #mypage {
             
           }
@@ -23,10 +20,9 @@ const Mypage = () => {
               width: 100%;
             }
           }
-        `}</style>
+      `}</style>
 
-      </div>
-    </Layout>
+    </div>
   )
 }
 

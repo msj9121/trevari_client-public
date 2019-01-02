@@ -1,15 +1,11 @@
-import Layout from "../containers/Layout";
 import Signuppage from "../components/signup/signuppage";
 
 const signup = () => {
   return (
-    <Layout>
-      <div id="signup">
-        <div id="signup_box">
-          <Signuppage />
-        </div>
+    <div id="signup">
+      <div id="signup_box">
+        <Signuppage />
       </div>
-      {/* style */}
       <style jsx>{`
         #signup {
         }
@@ -27,7 +23,7 @@ const signup = () => {
           }
         }
       `}</style>
-    </Layout>
+    </div>
   );
 };
 

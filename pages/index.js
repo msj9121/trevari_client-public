@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Layout from "../containers/Layout";
 import Filter from "../containers/Filter";
 
 class Index extends Component {
@@ -11,8 +10,6 @@ class Index extends Component {
   }
   render() {
     return (
-      <Layout>
-        <Filter />
         <div id="index">
           <div id="index_box">
             <h1>Index Page</h1>
@@ -35,7 +32,6 @@ class Index extends Component {
             }
           `}</style>
         </div>
-      </Layout>
     );
   }
 }

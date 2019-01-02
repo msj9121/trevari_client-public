@@ -10,7 +10,7 @@ class CustomDocument extends Document {
     return (
       <html>
         <Head>
-          <title>트레바리 - 읽고, 쓰고, 대화하고, 친해져요</title>
+          {/* <title>트레바리 - 읽고, 쓰고, 대화하고, 친해져요</title> */}
         </Head>
         <body style={bodyStyle}>
           <Main />

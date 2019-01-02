@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Layout from "../containers/Layout";
 import Loginpage from "../components/login/loginpage";
 
 class Login extends Component {
@@ -9,13 +8,10 @@ class Login extends Component {
 
   render() {
     return (
-      <Layout t>
-        <div id="login">
-          <div id="login_box">
-            <Loginpage />
-          </div>
+      <div id="login">
+        <div id="login_box">
+          <Loginpage />
         </div>
-        {/* style */}
         <style jsx>{`
           #login {
           }
@@ -33,7 +29,7 @@ class Login extends Component {
             }
           }
         `}</style>
-      </Layout>
+      </div>
     );
   }
 }
