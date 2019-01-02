@@ -1,18 +1,17 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
-import Layout from "../containers/Layout";
 import Banner from "../components/books/Banner";
 import Kategori from "../components/books/Kategori";
 import Link from "next/link";
 
 const Books = props => {
   return (
-    <Layout>
+    <div>
       <Banner />
       <div id="books">
 
         <div id="books_box">
-    
+
           <Kategori />
           <Kategori />
           <Kategori />
@@ -37,7 +36,7 @@ const Books = props => {
         `}</style>
 
       </div>
-    </Layout>
+    </div>
   );
 };
 

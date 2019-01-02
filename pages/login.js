@@ -1,19 +1,17 @@
-import Layout from '../containers/Layout';
 import Link from 'next/link';
 
-const Login = () => {
+const Login = (props) => {
   return (
-    <Layout>
-      <div id="login">
+    <div id="login">
 
-        <div id="login_box">
-          <h1>로그인</h1>
-          <Link href="/signup">
-            <a>회원가입</a>
-          </Link>
-        </div>
+      <div id="login_box">
+        <h1>로그인</h1>
+        <Link href="/signup">
+          <a>회원가입</a>
+        </Link>
+      </div>
 
-        <style jsx>{`
+      <style jsx>{`
           #login {
             
           }
@@ -27,10 +25,9 @@ const Login = () => {
               width: 100%;
             }
           }
-        `}</style>
+      `}</style>
 
-      </div>
-    </Layout>
+    </div>
   );
 };
 

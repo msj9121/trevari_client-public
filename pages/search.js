@@ -1,9 +1,7 @@
-import Layout from "../containers/Layout";
 import Link from "next/link";
 
 const Search = props => {
   return (
-    <Layout>
       <div id="search">
 
         <div id="search_box">
@@ -47,7 +45,6 @@ const Search = props => {
         `}</style>
 
       </div>
-    </Layout>
   );
 };
 

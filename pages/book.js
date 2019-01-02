@@ -1,29 +1,27 @@
-import Layout from '../containers/Layout';
 import fetch from 'isomorphic-unfetch';
 
 const Book = props => {
   return (
-    <Layout>
-      <div id="book">
+    <div id="book">
 
-        <div id="book_box">
-          <div className="book_titlebox">
-            <div className="book_titlebox_img"><img src={props.show.image.medium}></img></div>
-            <div className="book_titlebox_title">
-              <div className="book_titlebox_titleName">{props.show.name}</div>
-              <div className="book_titlebox_author">백정림 / 소설</div>
-              <div className="book_titlebox_author">2018.11.23</div>
-              <div className="book_titlebox_author">ISBN : 9791196359751</div>
-              <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
-              <span className="book_titlebox_bookmarkBtn">+ 읽고싶어요</span>
-              <span className="book_titlebox_gradeBtn">+ 평점주기</span>
-            </div>
+      <div id="book_box">
+        <div className="book_titlebox">
+          <div className="book_titlebox_img"><img src={props.show.image.medium}></img></div>
+          <div className="book_titlebox_title">
+            <div className="book_titlebox_titleName">{props.show.name}</div>
+            <div className="book_titlebox_author">백정림 / 소설</div>
+            <div className="book_titlebox_author">2018.11.23</div>
+            <div className="book_titlebox_author">ISBN : 9791196359751</div>
+            <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
+            <span className="book_titlebox_bookmarkBtn">+ 읽고싶어요</span>
+            <span className="book_titlebox_gradeBtn">+ 평점주기</span>
           </div>
-
-          <p>{props.show.summary.replace(/<[/]?p>/g, '')}</p>
         </div>
 
-        <style jsx>{`
+        <p>{props.show.summary.replace(/<[/]?p>/g, '')}</p>
+      </div>
+
+      <style jsx>{`
           #book {
             
           }
@@ -82,8 +80,7 @@ const Book = props => {
           }
         `}</style>
 
-      </div>
-    </Layout>
+    </div>
   )
 }
 

@@ -1,15 +1,12 @@
-import Layout from '../containers/Layout';
-
-const Signup = () => {
+const Signup = (props) => {
   return (
-    <Layout>
-      <div id="signup">
+    <div id="signup">
 
-        <div id="signup_box">
-          <h1>회원가입</h1>
-        </div>
+      <div id="signup_box">
+        <h1>회원가입</h1>
+      </div>
 
-        <style jsx>{`
+      <style jsx>{`
           #signup {
             
           }
@@ -23,10 +20,9 @@ const Signup = () => {
               width: 100%;
             }
           }
-        `}</style>
+      `}</style>
 
-      </div>
-    </Layout>
+    </div>
   );
 };
 

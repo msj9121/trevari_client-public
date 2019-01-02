@@ -1,19 +1,17 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
-import Layout from '../containers/Layout';
 
 const Index = props => {
   return (
-    <Layout>
-      <div id="index">
+    <div id="index">
 
-        <div id="index_box">
-          <h1>Index Page</h1>
-          <h2>by SuperSexy!</h2>
-          <h1>{props.show}</h1>
-        </div>
+      <div id="index_box">
+        <h1>Index Page</h1>
+        <h2>by SuperSexy!</h2>
+        <h1>{props.show}</h1>
+      </div>
 
-        <style jsx>{`
+      <style jsx>{`
           #index {
             
           }
@@ -27,10 +25,9 @@ const Index = props => {
               width: 100%;
             }
           }
-        `}</style>
+      `}</style>
 
-      </div>
-    </Layout>
+    </div>
   );
 };
 
