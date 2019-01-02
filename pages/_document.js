@@ -1,9 +1,9 @@
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Head, Main, NextScript } from "next/document";
 
 const bodyStyle = {
-  margin: '0 auto',
+  margin: "0 auto"
   // width: '1600px'
-}
+};
 
 class CustomDocument extends Document {
   render() {
@@ -17,7 +17,7 @@ class CustomDocument extends Document {
           <NextScript />
         </body>
       </html>
-    )
+    );
   }
 }
 
