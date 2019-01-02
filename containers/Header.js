@@ -4,24 +4,10 @@ import Link from "next/link";
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      movepage: "/login",
-      login: "로그인",
-      isLogined: false
-    };
-    console.log(this.state.isLogined);
-    this.changeCondition = this.changeCondition.bind(this);
   }
 
-  changeCondition = () => {
-    this.setState({
-      login: "로그아웃",
-      movepage: "/index",
-      isLogined: true
-    });
-  };
-
   render() {
+    console.log(this.props.rechangeCondition);
     return (
       <div id="header">
         <div id="header_box">
@@ -40,9 +26,9 @@ class Header extends Component {
                 <span>마이페이지</span>
               </li>
             </Link>
-            <Link href={this.state.movepage}>
-              <li>
-                <span>{this.state.login}</span>
+            <Link href={this.props.loginState.movepage}>
+              <li onClick={this.props.rechangeCondition}>
+                <span>{this.props.loginState.text}</span>
               </li>
             </Link>
           </ul>
