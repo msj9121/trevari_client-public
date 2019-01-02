@@ -21,7 +21,7 @@ class RatedBooks extends React.Component {
         </div>
         <style jsx>{`
           #ratedBooks {
-            border: solid 1px;
+            border: solid 1px #ced4da;
           }
           #ratedCardContainer {
             display: flex;

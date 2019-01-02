@@ -8,26 +8,41 @@ class RatedBookItem extends React.Component {
       <div className='content'>
         <div className='image'>
           <img src={book.show.image.medium} className='oneImage' align='center' />
-          <div>내가 준 평점</div>
-          <div>평균 평점</div>
+          <div className="myRate" align='center'>내가 준 평점</div>
+          <div className="averageRate" align='center'>평균 평점</div>
         </div>
         <div className='innerContent'>
           <div className='name'>{book.show.name}</div>
+          <div className='date'>작성일자: 2019.01.01</div>
           <div className='summary'>{book.show.summary.replace(/<[/]?p>/g, '')}</div>
         </div>
         <style jsx>{`
           .content {
             display: flex;
-            background: ;
+            background: #fff3e8;
             width: 100%;
             margin-bottom: 20px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
           }
-          .content, .image, .name, .summary {
-            border: solid 1px;
+          .content, .image, .name, .date, .summary {
+            border: solid 1px #ced4da;
           }
+
           .image {
-            background: ;
+            display: flex;
+            flex-direction: column;
+            background: #fcfbf9;
           }
+          .myRate {
+            margin : 15px 0px 10px 0px;
+          }
+          .averageRate {
+            margin : 0px 0px 10px 0px;
+          }
+          .oneImage {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+          }
+
           .innerContent {
             margin-left: 10px;
             margin-right: 10px;
@@ -35,12 +50,22 @@ class RatedBookItem extends React.Component {
           .name {
             background: ;
             margin-top: 10px;
+            font-size: 30px;
+            font-weight: bold;
+          }
+          .date {
+            margin-top: 5px;
+            font-size: 12px;
+            color: grey;
           }
           .summary {
             background: ;
             margin-top: 15px;
+            height: 70%;
+            overflow: scroll;
           }
-          @media (max-width: 600px) {
+
+          @media (max-width: 800px) {
             .container {
               display: flex;
               flex-direction: column;
@@ -53,7 +78,7 @@ class RatedBookItem extends React.Component {
             }
             
             .content, .imageContainer, .name, .summary {
-              border: solid 1px;
+              border: solid 1px #ced4da;
             }
             .image {
               background: ;
@@ -68,6 +93,8 @@ class RatedBookItem extends React.Component {
             }
             .summary {
               background: ;
+              height: 50%;
+              overflow: scroll;
             }
           }
         `}</style>

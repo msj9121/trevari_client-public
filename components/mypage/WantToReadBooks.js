@@ -6,7 +6,7 @@ class WantToReadBooks extends React.Component {
   
     return (
       <div>
-        <h2>"WantToReadBookItem"</h2>
+        <h2>WantToReadBookItem</h2>
     
         <div className='imageContainer'>
           {this.props.books.map((book) => (
@@ -19,6 +19,7 @@ class WantToReadBooks extends React.Component {
             flex-wrap: wrap;
             justify-content: center;
             background: ;
+            border: solid 1px #ced4da;
           }
         `}</style>
       </div>
