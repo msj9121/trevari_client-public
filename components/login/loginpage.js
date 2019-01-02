@@ -40,11 +40,14 @@ class loginpage extends Component {
     axios
       //   .post("http://3.16.58.104:5000/users/login", data)
       .post("http://localhost:5000/users/login", data)
-      .then(res =>
-        res.data
-          ? Router.pushRoute("/index")
-          : console.log("[-] Check your password!")
-      )
+      .then(res => {
+        if (res.data) {
+          this.props.changeCondition();
+          Router.pushRoute("/index");
+        } else {
+          console.log("[-] Check your password!");
+        }
+      })
       .catch(err => console.log(err));
   };
 
