@@ -1,12 +1,10 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
 import Layout from '../containers/Layout';
-import Filter from '../containers/Filter';
 
 const Index = props => {
   return (
     <Layout>
-      <Filter />
       <div id="index">
 
         <div id="index_box">

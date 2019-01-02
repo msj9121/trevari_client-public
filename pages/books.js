@@ -1,16 +1,23 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
-import Layout from '../containers/Layout';
-import Filter from '../containers/Filter';
+import Layout from "../containers/Layout";
+import Banner from "../components/books/Banner";
+import Kategori from "../components/books/Kategori";
+import Link from "next/link";
 
 const Books = props => {
   return (
     <Layout>
-      <Filter />
+      <Banner />
       <div id="books">
 
         <div id="books_box">
-          <h1>Books Page</h1>
+    
+          <Kategori />
+          <Kategori />
+          <Kategori />
+          <Kategori />
+
         </div>
 
         <style jsx>{`
@@ -23,7 +30,7 @@ const Books = props => {
             width: 60%;
           }
           @media screen and (max-width: 600px) {
-            #index_box {
+            #books_box {
               width: 100%;
             }
           }
@@ -41,5 +48,16 @@ const Books = props => {
 //     show: data.message
 //   };
 // };
+
+Books.getInitialProps = async function () {
+  const res = await fetch("https://api.tvmaze.com/search/shows?q=batman");
+  const data = await res.json();
+
+  console.log(`Show data fetched. Count: ${data.length}`);
+
+  return {
+    shows: data
+  };
+};
 
 export default Books;

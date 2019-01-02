@@ -5,7 +5,6 @@ const Header = () => (
   
     <div id="header_box">
       <Link href="/">
-        {/* <div className="header_logo">TREVARI</div> */}
         <img src="../static/trevari ci.png" className="header_logo"></img>
       </Link>
       <ul>
@@ -41,6 +40,7 @@ const Header = () => (
       ul {
         margin: 0px;
         padding-top: 20px;
+        padding-right: 10px;
       }
       li {
         display: inline-block
