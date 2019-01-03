@@ -7,6 +7,7 @@ class search extends Component {
     super(props)
     this.state = {
       bookTitle: "",
+      isSearching: false,
       booksData: []
     }
   }
@@ -18,20 +19,23 @@ class search extends Component {
   _callApi = async () => {
     
     console.log("Search.js :", this.props.bookTitle)
+    console.log("여기@")
     if (this.props.bookTitle === "" && this.props.isSearching === false) {
       console.log("책 제목을 입력해야합니다.")
     } else if (this.props.bookTitle !== "" && this.props.isSearching === true) {
-    
+      this.setState({
+        booksData: []
+      })
       const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: this.props.bookTitle })
       const data = await res.data;
       this.setState({
-        booksData: this.state.booksData.concat(data)
+        booksData: data
       })
     }
   }
 
   _renderSearch = () => {
-    if (this.props.isSearching === false) {
+    if (this.props.title === "") {
       return (
         <div id="search_initbox">
           <style jsx>{`
@@ -69,11 +73,11 @@ class search extends Component {
 
   render() {
     console.log("isSearch", this.props.isSearching)
+    
     return (
       <div id="search">
 
         {this._renderSearch()}
-
         <style jsx>{`
           @media screen and (max-width: 600px) {
             #search_box {
