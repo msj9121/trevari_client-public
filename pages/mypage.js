@@ -1,5 +1,5 @@
-import axios from 'axios'
-import MypageContents from '../components/mypage/MypageContents'
+import axios from "axios";
+import MypageContents from "../components/mypage/MypageContents";
 
 
 
@@ -33,8 +33,8 @@ class Mypage extends React.Component {
     }
   }
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       books: props.books,
       reviews: props.reviews,
@@ -49,28 +49,28 @@ class Mypage extends React.Component {
   }
 
   render () {
-    
+ 
     return (
-      <div id='mypage'>
-        <div id='mypage_box'>
+      <div id="mypage">
+        <div id="mypage_box">
           <h1>마이페이지</h1>
         </div>
-        <div id='Mypage_nav'>
-          <button id='ratedBooks_btn' onClick={this.ratedBooks_clickHandler}>
+        <div id="Mypage_nav">
+          <button id="ratedBooks_btn" onClick={this.ratedBooks_clickHandler}>
             내가 평가한 책
           </button>
           <button id='wantToReadBooks_btn' onClick={this.wantToReadBooks_clickHandler}>
             내가 읽고싶은 책
           </button>
         </div>
-        <div id='contents_box'>
+        <div id="contents_box">
           <MypageContents
             books={this.state.books}
             reviews={this.state.reviews}
             wantToReadBooksShow={this.state.wantToReadBooksShow}
             ratedBooksShow={this.state.ratedBooksShow}
           />
-          <div id='addBooks_btn' onClick={this.getBooks} align='center'>
+          <div id="addBooks_btn" onClick={this.getBooks} align="center">
             더 보기
           </div>
         </div>
@@ -145,7 +145,7 @@ class Mypage extends React.Component {
             }
           `}</style>
       </div>
-    )
+    );
   }
 
   wantToReadBooks_clickHandler = () => {
@@ -156,9 +156,9 @@ class Mypage extends React.Component {
       this.setState({
         ratedBooksShow: !this.state.ratedBooksShow,
         wantToReadBooksShow: !this.state.wantToReadBooksShow
-      })
+      });
     }
-  }
+  };
 
   ratedBooks_clickHandler = () => {
     if (
@@ -168,33 +168,33 @@ class Mypage extends React.Component {
       this.setState({
         ratedBooksShow: !this.state.ratedBooksShow,
         wantToReadBooksShow: !this.state.wantToReadBooksShow
-      })
+      });
     }
-  }
+  };
 
   scrollHandler = event => {
     if (this.state.scrollY > 1000) {
       // arbitrary amount
       this.setState({
         scrollY: window.scrollY
-      })
+      });
     }
-  }
+  };
 
   getBooks = async () => {
-    const devAPI = 'https://api.tvmaze.com/search/shows?q=batman'
-    const realAPI = ''
+    const devAPI = "https://api.tvmaze.com/search/shows?q=batman";
+    const realAPI = "";
 
-    const res = await axios.get(`${devAPI}`)
-    const data = await res.data
-    console.log(data)
+    const res = await axios.get(`${devAPI}`);
+    const data = await res.data;
+    console.log(data);
 
     this.setState(state => {
       return {
         data: state.data.concat(data)
-      }
-    })
-  }
+      };
+    });
+  };
 }
 
-export default Mypage
+export default Mypage;

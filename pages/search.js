@@ -1,42 +1,84 @@
-import Link from "next/link";
+import React, { Component } from 'react';
+import axios from "axios";
+import SearchBooks from "../components/search/SearchBooks";
 
-const Search = props => {
-  return (
+class search extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      bookTitle: "",
+      isSearching: false,
+      booksData: []
+    }
+  }
+
+  componentDidMount() {
+    this._callApi()
+  }
+
+  _callApi = async () => {
+    
+    console.log("Search.js :", this.props.bookTitle)
+    console.log("여기@")
+    if (this.props.bookTitle === "" && this.props.isSearching === false) {
+      console.log("책 제목을 입력해야합니다.")
+    } else if (this.props.bookTitle !== "" && this.props.isSearching === true) {
+      this.setState({
+        booksData: []
+      })
+      const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: this.props.bookTitle })
+      const data = await res.data;
+      this.setState({
+        booksData: data
+      })
+    }
+  }
+
+  _renderSearch = () => {
+    if (this.props.title === "") {
+      return (
+        <div id="search_initbox">
+          <style jsx>{`
+            #search_initbox {
+              border: 1px solid #DDD;
+              margin: 0 auto;
+              width: 60%;
+              height: 700px;
+            }
+          `}</style>
+        </div>
+      )
+    } else {
+      return (
+        <div id="search_box">
+          {this.state.booksData.map((book, index) => {
+            return (
+              <SearchBooks book={book} key={index} />
+            )
+          })}
+          <style jsx>{`
+            #search_box {
+              border: 1px solid #DDD;
+              margin: 0 auto;
+              width: 60%;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+            }
+          `}</style>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    console.log("isSearch", this.props.isSearching)
+    
+    return (
       <div id="search">
 
-        <div id="search_box">
-          {props.shows.map(({ show }) => (
-            <Link as={`/book/${show.id}`} href={`/book?id=${show.id}`}>
-              <div key={show.id} className="search_imgbox">
-                <img src={show.image.medium} className="search_img"></img>
-                <div className="search_name">{show.name}</div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
+        {this._renderSearch()}
         <style jsx>{`
-          #search {
-            
-          }
-          #search_box {
-            border: 1px solid #DDD;
-            margin: 0 auto;
-            width: 60%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-          }
-          .search_imgbox {
-            width: 15%;
-            margin: 30px;
-          }
-          .search_img {
-            width: 100%
-          }
-          .search_name {
-            width: 100%
-          }
           @media screen and (max-width: 600px) {
             #search_box {
               width: 100%;
@@ -45,18 +87,8 @@ const Search = props => {
         `}</style>
 
       </div>
-  );
-};
+    );
+  }
+}
 
-Search.getInitialProps = async function () {
-  const res = await fetch("https://api.tvmaze.com/search/shows?q=batman");
-  const data = await res.json();
-
-  console.log(`Show data fetched. Count: ${data.length}`);
-
-  return {
-    shows: data
-  };
-};
-
-export default Search;
+export default search;

@@ -6,18 +6,33 @@ class loginpage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: ""
+      email: null,
+      password: null,
+      check: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.checkRegisteredEmail = this.checkRegisteredEmail.bind(this);
     this.requestLogin = this.requestLogin.bind(this);
+    this.loginButtonClick = this.loginButtonClick.bind(this);
   }
 
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
+  };
+
+  loginButtonClick = () => {
+    for (var key in this.state) {
+      if (this.state[key] === null) {
+        console.log(`[-] ${key} is Empty`);
+        this.setState({
+          check: "빈칸을 모두 채워 주세요!"
+        });
+        return;
+      }
+    }
+    this.checkRegisteredEmail();
   };
 
   checkRegisteredEmail = () => {
@@ -28,11 +43,16 @@ class loginpage extends Component {
     axios
       //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
       .post("http://localhost:5000/users/checkEmailAvailability", data)
-      .then(res =>
-        res.data
-          ? console.log("[-] Check your email!")
-          : this.requestLogin(data)
-      )
+      .then(res => {
+        if (res.data) {
+          console.log("[-] Check your email!");
+          this.setState({
+            check: "가입되지 않은 이메일 입니다!"
+          });
+        } else {
+          this.requestLogin(data);
+        }
+      })
       .catch(err => console.log(err));
   };
 
@@ -42,10 +62,14 @@ class loginpage extends Component {
       .post("http://localhost:5000/users/login", data)
       .then(res => {
         if (res.data) {
+          this.props.saveId(this.state.email);
           this.props.changeCondition();
           Router.pushRoute("/index");
         } else {
           console.log("[-] Check your password!");
+          this.setState({
+            check: "비밀번호를 확인해 주세요!"
+          });
         }
       })
       .catch(err => console.log(err));
@@ -65,9 +89,7 @@ class loginpage extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
-          <a>* 이메일 형식 확인</a>
-        </div>
+
         <div>
           <input
             placeholder="password"
@@ -76,14 +98,20 @@ class loginpage extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
-          <a>* 비밀번호 확인</a>
+        <div id="textStyle">
+          <a>{this.state.check}</a>
         </div>
 
-        <button onClick={this.checkRegisteredEmail}>Login</button>
+        <button onClick={this.loginButtonClick}>Login</button>
         <div>
           <a href="/signup">회원가입</a>
         </div>
+        <style jsx>{`
+          #textStyle {
+            color: red;
+            font-size: 11px;
+          }
+        `}</style>
       </div>
     );
   }

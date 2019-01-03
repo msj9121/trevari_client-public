@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import axios from 'axios';
 
 const Book = props => {
   return (
@@ -6,19 +7,19 @@ const Book = props => {
 
       <div id="book_box">
         <div className="book_titlebox">
-          <div className="book_titlebox_img"><img src={props.show.image.medium}></img></div>
+          <div className="book_titlebox_img"><img src={props.show.image}></img></div>
           <div className="book_titlebox_title">
-            <div className="book_titlebox_titleName">{props.show.name}</div>
-            <div className="book_titlebox_author">백정림 / 소설</div>
-            <div className="book_titlebox_author">2018.11.23</div>
-            <div className="book_titlebox_author">ISBN : 9791196359751</div>
+            <div className="book_titlebox_titleName">{props.show.title}</div>
+            <div className="book_titlebox_author">저자 : {props.show.author}</div>
+            <div className="book_titlebox_author">{props.show.publishedAt}</div>
+            <div className="book_titlebox_author">ISBN : {props.show.isbn}</div>
             <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
             <span className="book_titlebox_bookmarkBtn">+ 읽고싶어요</span>
             <span className="book_titlebox_gradeBtn">+ 평점주기</span>
           </div>
         </div>
 
-        <p>{props.show.summary.replace(/<[/]?p>/g, '')}</p>
+        <p>{props.show.description}</p>
       </div>
 
       <style jsx>{`
@@ -38,7 +39,7 @@ const Book = props => {
             margin: 80px;
           }
           .book_titlebox_img {
-            width: 25%;
+            width: 30%;
           }
           img {
             width: 100%;
@@ -50,7 +51,7 @@ const Book = props => {
             margin-bottom: 30px;
           }
           .book_titlebox_titleName {
-            font-size: 40px;
+            font-size: 20px;
             margin-bottom: 10px;
           }
           .book_titlebox_author {
@@ -84,12 +85,21 @@ const Book = props => {
   )
 }
 
-Book.getInitialProps = async function (context) {
-  const { id } = context.query
-  const res = await fetch(`https://api.tvmaze.com/shows/${id}`)
-  const show = await res.json()
+// Book.getInitialProps = async function (context) {
+//   const { id } = context.query
+//   const res = await fetch(`https://api.tvmaze.com/shows/${id}`)
+//   const show = await res.json()
 
-  console.log(`Fetched show: ${show.name}`)
+//   console.log(`Fetched show: ${show.name}`)
+
+//   return { show }
+// }
+
+Book.getInitialProps = async function (context) {
+  console.log("bookprops",context.query)
+  const { id } = context.query
+  const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, { id })
+  const show = await res.data
 
   return { show }
 }

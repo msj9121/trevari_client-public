@@ -10,7 +10,10 @@ class Login extends Component {
     return (
       <div id="login">
         <div id="login_box">
-          <Loginpage changeCondition={this.props.changeCondition} />
+          <Loginpage
+            saveId={this.props.saveId}
+            changeCondition={this.props.changeCondition}
+          />
         </div>
         <style jsx>{`
           #login {

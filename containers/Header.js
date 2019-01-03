@@ -7,12 +7,10 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props.rechangeCondition);
     return (
       <div id="header">
         <div id="header_box">
           <Link href="/">
-            {/* <div className="header_logo">TREVARI</div> */}
             <img src="../static/trevari ci.png" className="header_logo" />
           </Link>
           <ul>
