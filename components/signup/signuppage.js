@@ -6,11 +6,12 @@ class signuppage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      name: "",
-      phoneNumber: "",
-      repassword: ""
+      email: null,
+      password: null,
+      name: null,
+      phoneNumber: null,
+      repassword: null,
+      check: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.signupButtonClick = this.signupButtonClick.bind(this);
@@ -27,7 +28,10 @@ class signuppage extends Component {
   email_check = email => {
     var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!regex.test(email)) {
-      console.log("[-] Not email!!!");
+      console.log("[-] Not Email!");
+      this.setState({
+        check: "이메일을 확인해 주세요!"
+      });
       return false;
     } else {
       console.log("[+] email OK!");
@@ -37,7 +41,10 @@ class signuppage extends Component {
 
   password_check = (pw, repw) => {
     if (pw !== repw) {
-      console.log("[-] Not match PW!!!");
+      console.log("[-] Not match PW!");
+      this.setState({
+        check: "비밀번호를 확인해 주세요!"
+      });
       return false;
     } else {
       console.log("[+] password OK!");
@@ -47,8 +54,11 @@ class signuppage extends Component {
 
   signupButtonClick = () => {
     for (var key in this.state) {
-      if (this.state[key] === "") {
+      if (this.state[key] === null) {
         console.log(`[-] ${key} is Empty`);
+        this.setState({
+          check: "빈칸을 모두 채워 주세요!"
+        });
         return;
       }
     }
@@ -58,6 +68,7 @@ class signuppage extends Component {
     if (!this.password_check(this.state.password, this.state.repassword)) {
       return;
     }
+
     this.checkRegisteredEmail();
   };
 
@@ -71,7 +82,9 @@ class signuppage extends Component {
       .then(res =>
         res.data
           ? this.requestSignup(data)
-          : console.log("[-] Already Registered your email!")
+          : this.setState({
+              check: "이미 가입된 이메일 입니다!"
+            })
       )
       .catch(err => console.log(err));
   };
@@ -87,9 +100,13 @@ class signuppage extends Component {
       //   .post("http://3.16.58.104:5000/users/signup", data)
       .post("http://localhost:5000/users/signup", data)
       .then(res => {
-        res.data
-          ? Router.pushRoute("/login")
-          : console.log("[-] Sign up fail!!");
+        if (res.data) {
+          Router.pushRoute("/login");
+        } else {
+          this.setState({
+            check: "전화번호는 숫자만 입력!"
+          });
+        }
       })
       .catch(err => console.log(err));
   };
@@ -108,9 +125,7 @@ class signuppage extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
-          <a>* 이메일 형식 확인</a>
-        </div>
+
         <div>
           <input
             placeholder="password"
@@ -127,9 +142,7 @@ class signuppage extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
-          <a>* 비밀번호 확인</a>
-        </div>
+
         <div>
           <input placeholder="name" name="name" onChange={this.handleChange} />
         </div>
@@ -140,10 +153,16 @@ class signuppage extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div>
-          <a>* 숫자만 입력 가능</a>
+        <div id="textStyle">
+          <a>{this.state.check}</a>
         </div>
         <button onClick={this.signupButtonClick}>Signup</button>
+        <style jsx>{`
+          #textStyle {
+            color: red;
+            font-size: 11px;
+          }
+        `}</style>
       </div>
     );
   }
