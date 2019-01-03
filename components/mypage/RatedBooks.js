@@ -2,21 +2,23 @@ import React from 'react';
 import RatedBookItem from './RatedBookItem';
 
 class RatedBooks extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     data: this.props.books
-  //   }
-  //   console.log(`RatedBooks state : ${this.state.data}`);
-    
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      reviews: this.props.reviews
+    }
+    // console.log(`[*] RatedBooks state books : ${JSON.stringify(this.state.books[0])}`);
+    console.log(`[*] RatedBooks state reviews : ${JSON.stringify(this.state.reviews[0])}`);
+  }
+
   render () {
+    // const temp = [this.state.books, this.state.reviews];
     return (
       <div id="ratedBooks">
         <h2>Rated Books!!</h2>
         <div id='ratedCardContainer'>
-          {this.props.books.map((book) => (
-            <RatedBookItem book={book} />
+          {this.state.reviews.map((review) => (
+            <RatedBookItem review={review} /> 
           ))}
         </div>
         <style jsx>{`

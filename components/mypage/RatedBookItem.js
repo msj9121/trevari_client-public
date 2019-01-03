@@ -2,19 +2,22 @@ import React from 'react'
 
 class RatedBookItem extends React.Component {
   render () {
-    const book = this.props.book
+    const review = this.props.review
+    console.log(`[*] review : ${JSON.stringify(review)}`)
+    
 
     return (
       <div className='content'>
         <div className='image'>
-          <img src={book.show.image.medium} className='oneImage' align='center' />
-          <div className="myRate" align='center'>내가 준 평점</div>
-          <div className="averageRate" align='center'>평균 평점</div>
+          <img src={review.Book.image} className='oneImage' align='center' />
+          <div className="myRate" align='center'>내가 준 평점 : {review.score}</div>
+          <div className="averageRate" align='center'>평균 평점 : {review.Book.averageScore}</div>
         </div>
         <div className='innerContent'>
-          <div className='name'>{book.show.name}</div>
-          <div className='date'>작성일자: 2019.01.01</div>
-          <div className='summary'>{book.show.summary.replace(/<[/]?p>/g, '')}</div>
+          <div className='name'>{review.Book.title}</div>
+          <div className='date'>{review.Book.publishedAt}</div>
+          <div className='summary'>{review.text}</div>
+          {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
         <style jsx>{`
           .content {
