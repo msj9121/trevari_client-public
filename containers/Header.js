@@ -7,7 +7,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props.rechangeCondition);
     return (
       <div id="header">
         <div id="header_box">

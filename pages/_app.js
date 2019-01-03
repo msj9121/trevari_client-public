@@ -8,6 +8,7 @@ export default class MyApp extends App {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       movepage: "/login",
       text: "로그인"
     };
@@ -31,6 +32,12 @@ export default class MyApp extends App {
       });
     }
   };
+
+  saveId = loginId => {
+    this.setState({
+      id: loginId
+    });
+  };
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
@@ -50,7 +57,11 @@ export default class MyApp extends App {
           rechangeCondition={this.rechangeCondition}
         />
         <Filter />
-        <Component {...pageProps} changeCondition={this.changeCondition} />
+        <Component
+          {...pageProps}
+          saveId={this.saveId}
+          changeCondition={this.changeCondition}
+        />
         <Footer />
       </Container>
     );
