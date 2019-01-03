@@ -3,14 +3,16 @@ import WantToReadBookItem from './WantToReadBookItem';
 
 class WantToReadBooks extends React.Component {
   render () {
-  
+    const books = this.props.books
+    // console.log(`[*] WantToReadBooks : ${JSON.stringify(books)}`)
+    
     return (
       <div>
         <h2>WantToReadBookItem</h2>
     
         <div className='imageContainer'>
-          {this.props.books.map((book) => (
-            <WantToReadBookItem book={book} />
+          {books.map((book, id) => (
+            <WantToReadBookItem book={book} id={book.id}/>
           ))}
         </div>
         <style jsx>{`

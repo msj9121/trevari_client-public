@@ -1,37 +1,55 @@
 import axios from 'axios'
 import MypageContents from '../components/mypage/MypageContents'
 
+
+
 class Mypage extends React.Component {
   static getInitialProps = async function () {
-    const devAPI = 'https://api.tvmaze.com/search/shows?q=batman'
-    const realAPI = ''
+    const devAPI1 = 'https://api.tvmaze.com/search/shows?q=batman'
+    const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
+    const realAPI1 = ''
+    const data1= { userId: 1 }
+    
+    const res1 = await axios.post(url1, data1)
+      .catch(err => console.log(err))
+    const books = await res1.data;
+    
+    // console.log("[*] books : ", books);
 
-    const res = await axios.get(`${devAPI}`)
-    const data = await res.data
+    const devAPI2 = 'https://api.tvmaze.com/search/shows?q=batman'
+    const url2 = 'http://localhost:5000/reviews/getMyReviews'
+    const realAPI2 = ''
+    const data2= { userId: 1 }
+    
+    const res2 = await axios.post(url2, data2)
+      .catch(err => console.log(err))
+    const reviews = await res2.data;
+    
+    // console.log("[*] reviews : ", reviews);
 
-    const scrollY = scrollY
     return {
-      books: data,
-      scrollY: scrollY
+      books: books,
+      reviews: reviews
     }
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      data: props.books,
+      books: props.books,
+      reviews: props.reviews,
       ratedBooksShow: true,
       wantToReadBooksShow: false,
-      scrollY: null
     }
+    // console.log(`[*] mypage state reviews : ${JSON.stringify(this.state.reviews)}`)
+    
     this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
-    this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(
-      this
-    )
+    this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
     this.getBooks = this.getBooks.bind(this)
   }
 
   render () {
+    
     return (
       <div id='mypage'>
         <div id='mypage_box'>
@@ -41,21 +59,14 @@ class Mypage extends React.Component {
           <button id='ratedBooks_btn' onClick={this.ratedBooks_clickHandler}>
             내가 평가한 책
           </button>
-          <button
-            id='wantToReadBooks_btn'
-            onClick={this.wantToReadBooks_clickHandler}
-          >
+          <button id='wantToReadBooks_btn' onClick={this.wantToReadBooks_clickHandler}>
             내가 읽고싶은 책
           </button>
-          <div>
-            <a id='test' href='/'>
-              TextBox
-            </a>
-          </div>
         </div>
         <div id='contents_box'>
           <MypageContents
-            books={this.state.data}
+            books={this.state.books}
+            reviews={this.state.reviews}
             wantToReadBooksShow={this.state.wantToReadBooksShow}
             ratedBooksShow={this.state.ratedBooksShow}
           />

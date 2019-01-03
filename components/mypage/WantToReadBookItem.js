@@ -3,10 +3,11 @@ import React from 'react'
 class WantToReadBookItem extends React.Component {
   render () {
     const book = this.props.book
+    console.log(`WantToReadBookItem book : ${JSON.stringify(book)}`)
 
     return (
       <div className='image'>
-        <img src={book.show.image.medium} className='image' align='center' />
+        <img src={book.Book.image} className='image' align='center' />
         <style jsx>{`
           .image {
             background: ;
