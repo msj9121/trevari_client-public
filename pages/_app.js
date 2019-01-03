@@ -9,11 +9,14 @@ export default class MyApp extends App {
     super(props);
     this.state = {
       movepage: "/login",
-      text: "로그인"
+      text: "로그인",
+      bookTitle: "",
+      isSearching: false
     };
 
     this.changeCondition = this.changeCondition.bind(this);
     this.rechangeCondition = this.rechangeCondition.bind(this);
+    this._changeBookTitle = this._changeBookTitle.bind(this);
   }
 
   changeCondition = () => {
@@ -31,6 +34,21 @@ export default class MyApp extends App {
       });
     }
   };
+
+  _changeBookTitle = (title) => {
+    if(title === "") {
+      this.setState({
+        bookTitle: "",
+        isSearching: false
+      })
+    } else {
+      this.setState({
+        bookTitle: title,
+        isSearching: true
+      })
+    }
+  }
+
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
@@ -43,14 +61,18 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    // console.log("App.js", this.state.isSearching)
+    console.log("App.js", this.state.bookTitle)
     return (
       <Container>
         <Header
           loginState={this.state}
           rechangeCondition={this.rechangeCondition}
         />
-        <Filter />
-        <Component {...pageProps} changeCondition={this.changeCondition} />
+        <Filter 
+          _changeBookTitle={this._changeBookTitle}
+        />
+        <Component {...pageProps} changeCondition={this.changeCondition} isSearching={this.state.isSearching} bookTitle={this.state.bookTitle}/>
         <Footer />
       </Container>
     );

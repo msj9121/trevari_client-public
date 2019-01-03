@@ -2,7 +2,18 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 class Filter extends Component {
+  constructor(props) {
+    super(props)
+  }
+  
+  _changeBookTitle = () => {
+    const title = document.getElementsByClassName("filter_input")[0].value
+    console.log("Filter.js :", title)
+    this.props._changeBookTitle(title)
+  }
+  
   render() {
+    
     return (
       <div id="filter">
 
@@ -10,7 +21,7 @@ class Filter extends Component {
           <div className="filter_group">
             <input placeholder="책제목 검색" type="search" className="filter_input"></input>
             <div className="filter_xbox">X</div>
-            <Link href="/search"><div className="filter_search">검색</div></Link>
+            <Link href="/search"><div className="filter_search" onClick={this._changeBookTitle}>검색</div></Link>
           </div>
         </div>
         <style jsx>{`
