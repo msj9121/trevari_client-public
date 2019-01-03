@@ -11,7 +11,6 @@ class Header extends Component {
       <div id="header">
         <div id="header_box">
           <Link href="/">
-            {/* <div className="header_logo">TREVARI</div> */}
             <img src="../static/trevari ci.png" className="header_logo" />
           </Link>
           <ul>

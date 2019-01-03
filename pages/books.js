@@ -2,9 +2,10 @@ import React from "react";
 import fetch from "isomorphic-unfetch";
 import Banner from "../components/books/Banner";
 import Kategori from "../components/books/Kategori";
-import Link from "next/link";
+import axios from "axios";
 
 const Books = props => {
+  console.log("Books.js : ", props)
   return (
     <div>
       <Banner />
@@ -40,23 +41,22 @@ const Books = props => {
   );
 };
 
-// Books.getInitialProps = async function() {
-//   const res = await fetch("http://3.16.58.104:5000/");
-//   const data = await res.json();
+// Books.getInitialProps = async function () {
+//   const res = await axios("http://3.16.58.104:5000/books/searchByTitle");
+//   const data = await res.data;
+
 //   return {
-//     show: data.message
+//     shows: data
 //   };
 // };
 
-Books.getInitialProps = async function () {
-  const res = await fetch("https://api.tvmaze.com/search/shows?q=batman");
-  const data = await res.json();
+// Books.getInitialProps = async function () {
+//   const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "a"});
+//   const data = await res.data;
 
-  console.log(`Show data fetched. Count: ${data.length}`);
-
-  return {
-    shows: data
-  };
-};
+//   return {
+//     shows: data
+//   };
+// };
 
 export default Books;
