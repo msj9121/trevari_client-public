@@ -42,6 +42,7 @@ class loginpage extends Component {
       .post("http://localhost:5000/users/login", data)
       .then(res => {
         if (res.data) {
+          this.props.saveId(this.state.email);
           this.props.changeCondition();
           Router.pushRoute("/index");
         } else {
