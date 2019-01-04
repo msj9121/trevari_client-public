@@ -78,7 +78,7 @@ class signuppage extends Component {
     };
     axios
       //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
-      .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
       .then(res =>
         res.data
           ? this.requestSignup(data)
@@ -98,7 +98,7 @@ class signuppage extends Component {
     };
     axios
       //   .post("http://3.16.58.104:5000/users/signup", data)
-      .post("http://localhost:5000/users/signup", data)
+      .post("http://3.16.58.104:5000/users/signup", data)
       .then(res => {
         if (res.data) {
           Router.pushRoute("/login");
