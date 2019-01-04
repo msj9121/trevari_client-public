@@ -1,22 +1,25 @@
 import React from 'react'
+import Link from 'next/link'
 
 class RatedBookItem extends React.Component {
   render () {
     const review = this.props.review
-    console.log(`[*] review : ${JSON.stringify(review)}`)
+    // console.log(`[*] review : ${JSON.stringify(review)}`)
     
 
     return (
       <div className='content'>
-        <div className='image'>
-          <img src={review.Book.image} className='oneImage' align='center' />
-          <div className="myRate" align='center'>내가 준 평점 : {review.score}</div>
-          <div className="averageRate" align='center'>평균 평점 : {review.Book.averageScore}</div>
-        </div>
+        <Link as={`/book/${review.book_id}`} href={`/book?id=${review.book_id}`}>
+          <div className='image'>
+            <img src={review.Book.image} className='oneImage' align='center' />
+            <div className="myRate" align='center'>내가 준 평점 : {review.score}</div>
+            <div className="averageRate" align='center'>평균 평점 : {review.Book.averageScore}</div>
+          </div>
+        </Link>
         <div className='innerContent'>
           <div className='name'>{review.Book.title}</div>
-          <div className='date'>{review.Book.publishedAt}</div>
-          <div className='summary'>{review.text}</div>
+          <div className='date'>{review.createdAt}</div>
+          <div className='summary'>{review.Book.description}</div>
           {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
         <style jsx>{`

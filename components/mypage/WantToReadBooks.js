@@ -4,17 +4,17 @@ import WantToReadBookItem from './WantToReadBookItem';
 class WantToReadBooks extends React.Component {
   render () {
     const books = this.props.books
-    // console.log(`[*] WantToReadBooks : ${JSON.stringify(books)}`)
+    console.log(`[*] WantToReadBooks books : ${JSON.stringify(books)}`)
     
     return (
       <div>
         <h2>WantToReadBookItem</h2>
     
-        <div className='imageContainer'>
+        {/* <div className='imageContainer'>
           {books.map((book, id) => (
-            <WantToReadBookItem book={book} id={book.id}/>
+            <WantToReadBookItem book={book} key={id}/>
           ))}
-        </div>
+        </div> */}
         <style jsx>{`
           .imageContainer {
             display: flex;

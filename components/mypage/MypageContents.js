@@ -10,12 +10,6 @@ class MypageContents extends React.Component {
     else if (this.props.wantToReadBooksShow === true && this.props.ratedBooksShow === false) {
       return <WantToReadBooks books={this.props.books} />
     }
-
-    // return this.props.wantToReadBooksShow === false && this.props.ratedBooksShow === true ? 
-    // <RatedBooks books={this.props.books} /> : 
-    // this.props.wantToReadBooksShow === true && this.props.ratedBooksShow === false ? 
-    // <WantToReadBooks books={this.props.books} /> :
-    // <RatedBooks books={this.props.books} /> ;
   }
 }
 
