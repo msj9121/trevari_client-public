@@ -1,8 +1,8 @@
-const Banner = () => {
+const BooksBanner = () => {
   return (
-    <div id="banner">
+    <div id="books_banner">
       <style jsx>{`
-        #banner {
+        #books_banner {
           border: 1px solid #DDD;
           width: 100%;
           height: 350px;
@@ -13,4 +13,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default BooksBanner;

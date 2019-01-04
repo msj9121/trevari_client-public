@@ -72,6 +72,7 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     // console.log("App.js", this.state.isSearching)
     console.log("App.js", this.state.bookTitle)
+    console.log("App.js--ID : ",this.state.id)
     return (
       <Container>
         <Header
@@ -81,7 +82,7 @@ export default class MyApp extends App {
         <Filter 
           _changeBookTitle={this._changeBookTitle}
         />
-        <Component {...pageProps} saveId={this.saveId} changeCondition={this.changeCondition} isSearching={this.state.isSearching} bookTitle={this.state.bookTitle}/>
+        <Component {...pageProps} ID={this.state.id} saveId={this.saveId} changeCondition={this.changeCondition} isSearching={this.state.isSearching} bookTitle={this.state.bookTitle}/>
         <Footer />
       </Container>
     );

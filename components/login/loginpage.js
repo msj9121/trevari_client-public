@@ -41,8 +41,8 @@ class loginpage extends Component {
       password: this.state.password
     };
     axios
-      //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
-      .post("http://localhost:5000/users/checkEmailAvailability", data)
+        .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
+      // .post("http://localhost:5000/users/checkEmailAvailability", data)
       .then(res => {
         if (res.data) {
           console.log("[-] Check your email!");
@@ -58,8 +58,8 @@ class loginpage extends Component {
 
   requestLogin = data => {
     axios
-      //   .post("http://3.16.58.104:5000/users/login", data)
-      .post("http://localhost:5000/users/login", data)
+        .post("http://3.16.58.104:5000/users/login", data)
+      // .post("http://localhost:5000/users/login", data)
       .then(res => {
         if (res.data) {
           this.props.saveId(this.state.email);
