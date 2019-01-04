@@ -19,7 +19,6 @@ class search extends Component {
   _callApi = async () => {
     
     console.log("Search.js :", this.props.bookTitle)
-    console.log("여기@")
     if (this.props.bookTitle === "" && this.props.isSearching === false) {
       console.log("책 제목을 입력해야합니다.")
     } else if (this.props.bookTitle !== "" && this.props.isSearching === true) {
@@ -45,6 +44,11 @@ class search extends Component {
               width: 60%;
               height: 700px;
             }
+            @media screen and (max-width: 600px) {
+              #search_initbox {
+                width: 100%;
+              }
+            }
           `}</style>
         </div>
       )
@@ -65,6 +69,11 @@ class search extends Component {
               flex-wrap: wrap;
               justify-content: center;
             }
+            @media screen and (max-width: 600px) {
+              #search_box {
+                width: 100%;
+              }
+            }
           `}</style>
         </div>
       )
@@ -72,19 +81,10 @@ class search extends Component {
   }
 
   render() {
-    console.log("isSearch", this.props.isSearching)
-    
     return (
       <div id="search">
 
         {this._renderSearch()}
-        <style jsx>{`
-          @media screen and (max-width: 600px) {
-            #search_box {
-              width: 100%;
-            }
-          }
-        `}</style>
 
       </div>
     );

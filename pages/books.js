@@ -1,22 +1,16 @@
-import React from "react";
-import fetch from "isomorphic-unfetch";
-import Banner from "../components/books/Banner";
-import Kategori from "../components/books/Kategori";
 import axios from "axios";
+import BooksBanner from "../components/books/BooksBanner";
+import BooksBestsellers from "../components/books/BooksBestsellers";
 
 const Books = props => {
-  console.log("Books.js : ", props)
   return (
     <div>
-      <Banner />
+      <BooksBanner />
       <div id="books">
 
         <div id="books_box">
 
-          <Kategori />
-          <Kategori />
-          <Kategori />
-          <Kategori />
+          <BooksBestsellers bestsellers={props.bestsellers}/>
 
         </div>
 
@@ -50,13 +44,13 @@ const Books = props => {
 //   };
 // };
 
-// Books.getInitialProps = async function () {
-//   const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "a"});
-//   const data = await res.data;
+Books.getInitialProps = async function () {
+  const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "수학"});
+  const data = await res.data.slice(0, 4);
 
-//   return {
-//     shows: data
-//   };
-// };
+  return {
+    bestsellers: data
+  };
+};
 
 export default Books;

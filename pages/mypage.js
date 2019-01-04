@@ -4,9 +4,9 @@ import MypageContents from "../components/mypage/MypageContents";
 
 
 class Mypage extends React.Component {
-  static getInitialProps = async function () {
+
+  static getInitialProps = async function (context) {
     const userId = { userId: 1 }
-    // const userId = { userId: this.props.ID } 
 
     const devAPI1 = 'https://api.tvmaze.com/search/shows?q=batman'
     const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'

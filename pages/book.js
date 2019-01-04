@@ -1,28 +1,52 @@
+import React, { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
 import axios from 'axios';
 
-const Book = props => {
-  return (
-    <div id="book">
+class Book extends Component {
+  constructor(props) {
+    super(props)
+  }
 
-      <div id="book_box">
-        <div className="book_titlebox">
-          <div className="book_titlebox_img"><img src={props.show.image}></img></div>
-          <div className="book_titlebox_title">
-            <div className="book_titlebox_titleName">{props.show.title}</div>
-            <div className="book_titlebox_author">저자 : {props.show.author}</div>
-            <div className="book_titlebox_author">{props.show.publishedAt}</div>
-            <div className="book_titlebox_author">ISBN : {props.show.isbn}</div>
-            <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
-            <span className="book_titlebox_bookmarkBtn">+ 읽고싶어요</span>
-            <span className="book_titlebox_gradeBtn">+ 평점주기</span>
+  static async getInitialProps(context) {
+    const { id } = context.query
+    const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, { id })
+    const show = await res.data
+
+    return { show }
+  }
+
+  _addBookmark = () => {
+    if(this.props.ID) {
+      console.log("북마크 : ", this.props.show.id)
+      alert("북마크 POST 요청")
+    } else {
+      alert("로그인 해주세요!")
+    }
+  }
+
+  render() {
+    console.log("Book.js--ID : ", this.props.ID)
+    return (
+      <div id="book">
+
+        <div id="book_box">
+          <div className="book_titlebox">
+            <div className="book_titlebox_img"><img src={this.props.show.image}></img></div>
+            <div className="book_titlebox_title">
+              <div className="book_titlebox_titleName">{this.props.show.title}</div>
+              <div className="book_titlebox_author">저자 : {this.props.show.author}</div>
+              <div className="book_titlebox_author">{this.props.show.publishedAt}</div>
+              <div className="book_titlebox_author">ISBN : {this.props.show.isbn}</div>
+              <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
+              <span className="book_titlebox_bookmarkBtn" onClick={this._addBookmark}>+ 읽고싶어요</span>
+              <span className="book_titlebox_gradeBtn">+ 평점주기</span>
+            </div>
           </div>
+
+          <p>{this.props.show.description}</p>
         </div>
 
-        <p>{props.show.description}</p>
-      </div>
-
-      <style jsx>{`
+        <style jsx>{`
           #book {
             
           }
@@ -67,11 +91,13 @@ const Book = props => {
             padding: 5px 15px 5px 15px;
             margin-top: 10px;
             margin-right: 15px;
+            cursor: pointer;
           }
           .book_titlebox_gradeBtn {
             border: 1px solid #DDD;
             font-size: 20px;
             padding: 5px 25px 5px 25px;
+            cursor: pointer;
           }
     
           @media screen and (max-width: 600px) {
@@ -81,27 +107,9 @@ const Book = props => {
           }
         `}</style>
 
-    </div>
-  )
+      </div>
+    );
+  }
 }
 
-// Book.getInitialProps = async function (context) {
-//   const { id } = context.query
-//   const res = await fetch(`https://api.tvmaze.com/shows/${id}`)
-//   const show = await res.json()
-
-//   console.log(`Fetched show: ${show.name}`)
-
-//   return { show }
-// }
-
-Book.getInitialProps = async function (context) {
-  console.log("bookprops",context.query)
-  const { id } = context.query
-  const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, { id })
-  const show = await res.data
-
-  return { show }
-}
-
-export default Book
+export default Book;
