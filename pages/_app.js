@@ -81,7 +81,7 @@ export default class MyApp extends App {
         <Filter 
           _changeBookTitle={this._changeBookTitle}
         />
-        <Component {...pageProps} saveId={this.saveId} changeCondition={this.changeCondition} isSearching={this.state.isSearching} bookTitle={this.state.bookTitle}/>
+        <Component {...pageProps} ID={this.state.id} saveId={this.saveId} changeCondition={this.changeCondition} isSearching={this.state.isSearching} bookTitle={this.state.bookTitle}/>
         <Footer />
       </Container>
     );

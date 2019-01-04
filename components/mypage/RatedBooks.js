@@ -7,8 +7,7 @@ class RatedBooks extends React.Component {
     this.state = {
       reviews: this.props.reviews
     }
-    // console.log(`[*] RatedBooks state books : ${JSON.stringify(this.state.books[0])}`);
-    console.log(`[*] RatedBooks state reviews : ${JSON.stringify(this.state.reviews[0])}`);
+    // console.log(`[*] RatedBooks state reviews : ${JSON.stringify(this.state.reviews[0])}`);
   }
 
   render () {
@@ -17,8 +16,8 @@ class RatedBooks extends React.Component {
       <div id="ratedBooks">
         <h2>Rated Books!!</h2>
         <div id='ratedCardContainer'>
-          {this.state.reviews.map((review) => (
-            <RatedBookItem review={review} /> 
+          {this.state.reviews.map((review, id) => (
+            <RatedBookItem review={review} key={id}/> 
           ))}
         </div>
         <style jsx>{`

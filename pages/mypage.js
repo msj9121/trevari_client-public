@@ -5,26 +5,26 @@ import MypageContents from "../components/mypage/MypageContents";
 
 class Mypage extends React.Component {
   static getInitialProps = async function () {
+    const userId = { userId: 1 }
+    // const userId = { userId: this.props.ID } 
+
     const devAPI1 = 'https://api.tvmaze.com/search/shows?q=batman'
     const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
-    const realAPI1 = ''
-    const data1= { userId: 1 }
+    const realAPI1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
     
-    const res1 = await axios.post(url1, data1)
+    
+    const res1 = await axios.post(realAPI1, userId)
       .catch(err => console.log(err))
     const books = await res1.data;
-    
     // console.log("[*] books : ", books);
 
     const devAPI2 = 'https://api.tvmaze.com/search/shows?q=batman'
     const url2 = 'http://localhost:5000/reviews/getMyReviews'
-    const realAPI2 = ''
-    const data2= { userId: 1 }
+    const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
     
-    const res2 = await axios.post(url2, data2)
+    const res2 = await axios.post(realAPI2, userId)
       .catch(err => console.log(err))
     const reviews = await res2.data;
-    
     // console.log("[*] reviews : ", reviews);
 
     return {
@@ -36,12 +36,12 @@ class Mypage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: props.books,
-      reviews: props.reviews,
+      books: this.props.books,
+      reviews: this.props.reviews,
       ratedBooksShow: true,
       wantToReadBooksShow: false,
     }
-    // console.log(`[*] mypage state reviews : ${JSON.stringify(this.state.reviews)}`)
+    // console.log(`[*] mypage state reviews : ${JSON.stringify(this.state.reviews)}`);
     
     this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
     this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
@@ -182,16 +182,20 @@ class Mypage extends React.Component {
   };
 
   getBooks = async () => {
-    const devAPI = "https://api.tvmaze.com/search/shows?q=batman";
-    const realAPI = "";
+    const userId = { userId: 1 }
+    // const userId = { userId: this.props.ID } 
 
-    const res = await axios.get(`${devAPI}`);
-    const data = await res.data;
-    console.log(data);
+    const url2 = 'http://localhost:5000/reviews/getMyReviews'
+    const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
+    
+    const res2 = await axios.post(realAPI2, userId)
+      .catch(err => console.log(err))
+    const reviews = await res2.data;
+    // console.log("[*] reviews : ", reviews);
 
     this.setState(state => {
       return {
-        data: state.data.concat(data)
+        reviews: Object.assign(state.reviews, reviews)
       };
     });
   };
