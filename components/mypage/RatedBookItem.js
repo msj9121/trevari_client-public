@@ -18,7 +18,7 @@ class RatedBookItem extends React.Component {
         </Link>
         <div className='innerContent'>
           <div className='name'>{review.Book.title}</div>
-          <div className='date'>{review.createdAt}</div>
+          <div className='date'>작성시간 :  {review.createdAt}</div>
           <div className='summary'>{review.Book.description}</div>
           {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
@@ -41,9 +41,11 @@ class RatedBookItem extends React.Component {
           }
           .myRate {
             margin : 15px 0px 10px 0px;
+            border: solid 1px #ced4da;
           }
           .averageRate {
             margin : 0px 0px 10px 0px;
+            border: solid 1px #ced4da;
           }
           .oneImage {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
