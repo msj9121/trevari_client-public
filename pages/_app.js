@@ -77,6 +77,7 @@ export default class MyApp extends App {
         <Header
           loginState={this.state}
           rechangeCondition={this.rechangeCondition}
+          ID={this.state.id}
         />
         <Filter _changeBookTitle={this._changeBookTitle} />
         <Component

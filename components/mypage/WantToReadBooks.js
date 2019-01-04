@@ -10,11 +10,11 @@ class WantToReadBooks extends React.Component {
       <div>
         <h2>WantToReadBookItem</h2>
     
-        {/* <div className='imageContainer'>
+        <div className='imageContainer'>
           {books.map((book, id) => (
             <WantToReadBookItem book={book} key={id}/>
           ))}
-        </div> */}
+        </div>
         <style jsx>{`
           .imageContainer {
             display: flex;

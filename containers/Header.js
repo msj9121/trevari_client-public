@@ -19,7 +19,7 @@ class Header extends Component {
                 <span>책추천</span>
               </li>
             </Link>
-            <Link href="/mypage">
+            <Link as={`/mypage/${this.props.ID}`} href={`/mypage?userId=${this.props.ID}`}>
               <li>
                 <span>마이페이지</span>
               </li>
