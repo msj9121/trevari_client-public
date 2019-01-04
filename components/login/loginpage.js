@@ -58,16 +58,19 @@ class loginpage extends Component {
   };
 
   requestLogin = data => {
+    // const bookmarkUser = {
+    //   userId: this.state.id
+    // };
     axios
       .post("http://3.16.58.104:5000/users/login", data)
       // .post("http://localhost:5000/users/login", data)
       .then(res => {
-        console.log(res);
         if (res.data) {
           this.setState({
             id: res.data.id
           });
           this.props.saveId(this.state.id);
+          this.props._receiveBookmark({ userId: this.state.id });
           this.props.changeCondition();
           Router.pushRoute("/index");
         } else {

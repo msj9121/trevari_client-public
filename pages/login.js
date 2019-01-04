@@ -13,6 +13,7 @@ class Login extends Component {
           <Loginpage
             saveId={this.props.saveId}
             changeCondition={this.props.changeCondition}
+            _receiveBookmark={this.props._receiveBookmark}
           />
         </div>
         <style jsx>{`
