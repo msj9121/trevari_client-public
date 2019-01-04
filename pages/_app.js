@@ -105,6 +105,7 @@ export default class MyApp extends App {
           isSearching={this.state.isSearching}
           bookTitle={this.state.bookTitle}
           _receiveBookmark={this._receiveBookmark}
+          bookMarkData={this.state.bookMarkData}
         />
         <Footer />
       </Container>
