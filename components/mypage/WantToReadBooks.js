@@ -4,7 +4,7 @@ import WantToReadBookItem from './WantToReadBookItem';
 class WantToReadBooks extends React.Component {
   render () {
     const books = this.props.books
-    console.log(`[*] WantToReadBooks books : ${JSON.stringify(books)}`)
+    // console.log(`[*] WantToReadBooks books : ${JSON.stringify(books)}`)
     
     return (
       <div>
