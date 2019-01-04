@@ -3,13 +3,13 @@ import Link from 'next/link'
 import axios from 'axios'
 
 class WantToReadBookItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      book: [this.props.book]
-    }  
-    this._deleteBookmark = this._deleteBookmark.bind(this)
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     book: [this.props.book]
+  //   }  
+  //   this._deleteBookmark = this._deleteBookmark.bind(this)
+  // }
 
   render () {
     const book = this.props.book
@@ -23,7 +23,7 @@ class WantToReadBookItem extends React.Component {
           </div>
         </Link>
         <div align='center' className="deleteBtn">
-          <button onClick={this._deleteBookmark}>삭제</button>
+          <button>삭제</button>
         </div>
         <style jsx>{`
           .image {
@@ -50,11 +50,18 @@ class WantToReadBookItem extends React.Component {
   _deleteBookmark = async () => {
     console.log("[*] WantToReadBookitem this.state.book : ", this.state.book);
     
-    // const url = 'http://3.16.58.104:5000/bookmarks/deleteBookmark'
-    // const data = { userId: this.state.book.user_id, bookmarkId: this.state.book.id }
-    // await axios.post(url, data)
-    //   .catch(err => console.log(err))
-
+    const url = 'http://3.16.58.104:5000/bookmarks/deleteBookmark'
+    const data = { userId: this.props.book.user_id, bookmarkId: this.props.book.id }
+    await axios.post(url, data)
+      .then(res => {
+        console.log("[*] res : ", res)
+        if (res.data) {
+          this.setState({
+            book: this.state.book.concat(this.props.book)
+          })
+          console.log(this.state.book)
+        }})
+      .catch(err => console.log(err))
   }
 }
 
