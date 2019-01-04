@@ -8,30 +8,32 @@ class Mypage extends React.Component {
   static getInitialProps = async function (context) {
     const { userId } = context.query
 
-    console.log("[*] mypage props.ID : ", { userId })
-
-    const devAPI1 = 'https://api.tvmaze.com/search/shows?q=batman'
-    const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
-    const realAPI1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
-    
-    
-    const res1 = await axios.post(realAPI1, { userId })
-      .catch(err => console.log(err))
-    const books = await res1.data;
-    // console.log("[*] books : ", books);
-
-    const devAPI2 = 'https://api.tvmaze.com/search/shows?q=batman'
-    const url2 = 'http://localhost:5000/reviews/getMyReviews'
-    const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
-    
-    const res2 = await axios.post(realAPI2, { userId })
-      .catch(err => console.log(err))
-    const reviews = await res2.data;
-    // console.log("[*] reviews : ", reviews);
-
-    return {
-      books: books,
-      reviews: reviews
+    if (userId) {
+      console.log("[*] mypage props.ID : ", { userId })
+  
+      const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
+      const realAPI1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
+      // app.state.bookmark의 데이터를 가져오도록 수정하야야 한다.
+      
+      const res1 = await axios.post(realAPI1, { userId })
+        .catch(err => console.log(err))
+      const books = await res1.data;
+      // console.log("[*] books : ", books);
+  
+      const url2 = 'http://localhost:5000/reviews/getMyReviews'
+      const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
+      
+      const res2 = await axios.post(realAPI2, { userId })
+        .catch(err => console.log(err))
+      const reviews = await res2.data;
+      // console.log("[*] reviews : ", reviews);
+  
+      return {
+        books: books,
+        reviews: reviews
+      }
+    } else if (userId === "") {
+      return;
     }
   }
 
@@ -54,8 +56,16 @@ class Mypage extends React.Component {
   render () {
     if (!this.state.id) {
       return (
-        <div>
-          로그인을 해주세요
+        <div id="notLogin" align="center">
+          <h2>로그인을 해주세요</h2>
+          <style jsx>{`
+            #notLogin {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: solid 1px #ced4da;
+              height: 350px;
+          `}</style>
         </div>
       )
     } else {

@@ -7,6 +7,7 @@ class RatedBookItem extends React.Component {
     // console.log(`[*] review : ${JSON.stringify(review)}`)
     
 
+
     return (
       <div className='content'>
         <Link as={`/book/${review.book_id}`} href={`/book?id=${review.book_id}`}>
@@ -19,7 +20,7 @@ class RatedBookItem extends React.Component {
         <div className='innerContent'>
           <div className='name'>{review.Book.title}</div>
           <div className='date'>작성시간 :  {review.createdAt}</div>
-          <div className='summary'>{review.Book.description}</div>
+          <div className='summary'>{review.text}</div>
           {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
         <style jsx>{`
