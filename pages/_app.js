@@ -1,5 +1,6 @@
 import React from "react";
 import App, { Container } from "next/app";
+import axios from "axios";
 import Header from "../containers/Header";
 import Footer from "../containers/Footer";
 import Filter from "../containers/Filter";
@@ -12,12 +13,14 @@ export default class MyApp extends App {
       movepage: "/login",
       text: "로그인",
       bookTitle: "",
-      isSearching: false
+      isSearching: false,
+      bookMarkData: ""
     };
 
     this.changeCondition = this.changeCondition.bind(this);
     this.rechangeCondition = this.rechangeCondition.bind(this);
     this._changeBookTitle = this._changeBookTitle.bind(this);
+    this._receiveBookmark = this._receiveBookmark.bind(this);
   }
 
   changeCondition = () => {
@@ -32,7 +35,8 @@ export default class MyApp extends App {
       this.setState({
         id: "",
         movepage: "/login",
-        text: "로그인"
+        text: "로그인",
+        bookMarkData: ""
       });
     }
   };
@@ -57,6 +61,18 @@ export default class MyApp extends App {
     });
   };
 
+  _receiveBookmark = user => {
+    axios
+      .post("http://3.16.58.104:5000/bookmarks/getMyBookmarks", user)
+      // .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .then(res =>
+        this.setState({
+          bookMarkData: res.data
+        })
+      )
+      .catch(err => console.log(err));
+  };
+
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
@@ -72,6 +88,7 @@ export default class MyApp extends App {
     // console.log("App.js", this.state.isSearching)
     console.log("App.js", this.state.bookTitle);
     console.log("App.js--ID : ", this.state.id);
+    console.log("Bookmarkdata : ", this.state.bookMarkData);
     return (
       <Container>
         <Header
@@ -86,6 +103,7 @@ export default class MyApp extends App {
           changeCondition={this.changeCondition}
           isSearching={this.state.isSearching}
           bookTitle={this.state.bookTitle}
+          _receiveBookmark={this._receiveBookmark}
         />
         <Footer />
       </Container>
