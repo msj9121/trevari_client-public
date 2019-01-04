@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import BestsellersBooks from '../components/bestsellers/BestsellersBooks';
 
-class bestsellers extends Component {
+class Bestsellers extends Component {
   constructor(props) {
     super(props)
   }
@@ -49,4 +49,4 @@ class bestsellers extends Component {
   }
 }
 
-export default bestsellers;
+export default Bestsellers;

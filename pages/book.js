@@ -14,70 +14,106 @@ class Book extends Component {
     return { book }
   }
 
+  _appStateChange = async () => {
+    const res = await axios.post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
+      userId: this.props.ID
+    })
+    const changeBookmark = await res.data
+    console.log("GET-changeBookmarkDatas response : ", changeBookmark)
+    this.props._changeBookmarkData(changeBookmark)
+  }
+
+  _filterBookmarkId = () => {
+    if (this.props.ID && this.props.bookMarkData) {
+      const bookId = this.props.book.id
+      const bookmarkData = this.props.bookMarkData
+      for (let i = 0; i < bookmarkData.length; i++) {
+        if (bookmarkData[i].book_id === bookId) {
+          return bookmarkData[i].id
+        }
+      }
+    } else {
+      console.log("유저정보가 없습니다.")
+    }
+  }
+
+  _renderBookmarkBtn = () => {
+    const bookmark_Id = this._filterBookmarkId()
+    if (this.props.ID && bookmark_Id) {
+      return (
+        <span className="book_titlebox_deleteBookmarkBtn" onClick={this._deleteBookmark}>
+          - 읽고싶어요
+          <style jsx>{`
+            .book_titlebox_deleteBookmarkBtn {
+              background-color: blue;
+              color: white;
+              font-size: 20px;
+              padding: 5px 15px 5px 15px;
+              margin-top: 10px;
+              margin-right: 15px;
+              cursor: pointer;
+            }
+          `}</style>
+        </span>
+      )
+    }
+    else {
+      return (
+        <span className="book_titlebox_addBookmarkBtn" onClick={this._addBookmark}>
+          + 읽고싶어요
+          <style jsx>{`
+            .book_titlebox_addBookmarkBtn {
+              background-color: #ff8906;
+              color: white;
+              font-size: 20px;
+              padding: 5px 15px 5px 15px;
+              margin-top: 10px;
+              margin-right: 15px;
+              cursor: pointer;
+            }
+          `}</style>
+        </span>
+      )
+    }
+  }
+
   _addBookmark = async () => {
     if (this.props.ID) {
-      const { userId, bookId } = {
+      const res = await axios.post(`http://3.16.58.104:5000/bookmarks/addBookmark`, {
         userId: this.props.ID,
         bookId: this.props.book.id
-      }
-      const res = await axios.post(`http://3.16.58.104:5000/bookmarks/addBookmark`, { userId, bookId })
+      })
       const data = await res.data
       console.log("POST-addBookmark response : ", data)
       alert("addBookmark POST 요청")
 
       /* --------------------------------------App state change--------------------------------------------------------- */
 
-      // const res = await axios.post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
-      //   userId: this.props.ID
-      // })
-      // const changeBookmarkDatas = await res.data
-      // console.log("GET-changeBookmarkDatas response : ", filterBookmarkId())
-
-    } else {
+      this._appStateChange()
+    }
+    else {
       alert("로그인 해주세요!")
     }
   }
 
   _deleteBookmark = async () => {
-
-
     if (this.props.ID) {
-      const bookId = this.props.book.id
-      const bookmarkDatas = this.props.bookMarkData
-      const filterBookmarkId = () => {
-        for(let i = 0; i < bookmarkDatas.length; i++) {
-          if(bookmarkDatas[i].book_id === bookId) {
-            return bookmarkDatas[i].id
-          }
-        }
-      }
-      
-      const bookmark_Id = filterBookmarkId()
-      console.log(bookmark_Id)
-
+      const bookmark_Id = this._filterBookmarkId()
       const res = await axios.post(`http://3.16.58.104:5000/bookmarks/deleteBookmark`, {
         userId: this.props.ID,
         bookmarkId: bookmark_Id
       })
-
       const data = await res.data
       console.log("POST-deleteBookmark response : ", data)
-
       alert("deleteBookmark POST 요청")
-      
+
       /* --------------------------------------App state change--------------------------------------------------------- */
-      
-      // const res = await axios.post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
-      //   userId: this.props.ID
-      // })
-      // const changeBookmarkDatas = await res.data
-      // console.log("GET-changeBookmarkDatas response : ", filterBookmarkId())
-    } 
+
+      this._appStateChange()
+    }
     else {
       alert("로그인 해주세요!")
     }
-
-
   }
 
   render() {
@@ -93,9 +129,10 @@ class Book extends Component {
               <div className="book_titlebox_author">저자 : {this.props.book.author}</div>
               <div className="book_titlebox_author">{this.props.book.publishedAt}</div>
               <div className="book_titlebox_author">ISBN : {this.props.book.isbn}</div>
-              <div className="book_titlebox_grade">평점 ★★★★☆ 8(210명)</div>
-              <span className="book_titlebox_addBookmarkBtn" onClick={this._addBookmark}>+ 읽고싶어요</span>
-              <span className="book_titlebox_addBookmarkBtn" onClick={this._deleteBookmark}>- 읽고싶어요</span>
+              <div className="book_titlebox_grade">평점 ★★★★☆ {this.props.book.averageScore}(0명)</div>
+              {this._renderBookmarkBtn()}
+              {/* <span className="book_titlebox_addBookmarkBtn" onClick={this._addBookmark}>+ 읽고싶어요</span>
+              <span className="book_titlebox_deleteBookmarkBtn" onClick={this._deleteBookmark}>- 읽고싶어요</span> */}
               <span className="book_titlebox_gradeBtn">+ 평점주기</span>
             </div>
           </div>
@@ -143,6 +180,18 @@ class Book extends Component {
             margin-bottom: 20px;
           }
           .book_titlebox_addBookmarkBtn {
+            background-color: orange;
+            color: white;
+            border: 1px solid #DDD;
+            font-size: 20px;
+            padding: 5px 15px 5px 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+          }
+          .book_titlebox_deleteBookmarkBtn {
+            background-color: blue;
+            color: white;
             border: 1px solid #DDD;
             font-size: 20px;
             padding: 5px 15px 5px 15px;

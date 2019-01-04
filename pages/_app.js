@@ -6,6 +6,16 @@ import Footer from "../containers/Footer";
 import Filter from "../containers/Filter";
 
 export default class MyApp extends App {
+  static async getInitialProps({ Component, router, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps };
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +31,7 @@ export default class MyApp extends App {
     this.rechangeCondition = this.rechangeCondition.bind(this);
     this._changeBookTitle = this._changeBookTitle.bind(this);
     this._receiveBookmark = this._receiveBookmark.bind(this);
+    this._changeBookmarkData = this._changeBookmarkData.bind(this);
   }
 
   changeCondition = () => {
@@ -73,22 +84,15 @@ export default class MyApp extends App {
       .catch(err => console.log(err));
   };
 
-  static async getInitialProps({ Component, router, ctx }) {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
+  _changeBookmarkData = changeData => {
+    this.setState({
+      bookMarkData: changeData
+    })
   }
 
   render() {
     const { Component, pageProps } = this.props;
-    // console.log("App.js", this.state.isSearching)
-    console.log("App.js", this.state.bookTitle);
-    console.log("App.js--ID : ", this.state.id);
-    console.log("Bookmarkdata : ", this.state.bookMarkData);
+    console.log("App.js--Bookmarkdata : ", this.state.bookMarkData);
     return (
       <Container>
         <Header
@@ -106,6 +110,7 @@ export default class MyApp extends App {
           bookTitle={this.state.bookTitle}
           _receiveBookmark={this._receiveBookmark}
           bookMarkData={this.state.bookMarkData}
+          _changeBookmarkData={this._changeBookmarkData}
         />
         <Footer />
       </Container>
