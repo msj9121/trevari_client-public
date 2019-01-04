@@ -8,6 +8,7 @@ class loginpage extends Component {
     this.state = {
       email: null,
       password: null,
+      userid: "",
       check: ""
     };
     this.handleChange = this.handleChange.bind(this);
@@ -41,7 +42,7 @@ class loginpage extends Component {
       password: this.state.password
     };
     axios
-        .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
+      .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
       // .post("http://localhost:5000/users/checkEmailAvailability", data)
       .then(res => {
         if (res.data) {
@@ -58,11 +59,15 @@ class loginpage extends Component {
 
   requestLogin = data => {
     axios
-        .post("http://3.16.58.104:5000/users/login", data)
+      .post("http://3.16.58.104:5000/users/login", data)
       // .post("http://localhost:5000/users/login", data)
       .then(res => {
+        console.log(res);
         if (res.data) {
-          this.props.saveId(this.state.email);
+          this.setState({
+            id: res.data.id
+          });
+          this.props.saveId(this.state.id);
           this.props.changeCondition();
           Router.pushRoute("/index");
         } else {
