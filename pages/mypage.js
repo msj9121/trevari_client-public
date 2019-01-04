@@ -6,7 +6,7 @@ import MypageContents from "../components/mypage/MypageContents";
 class Mypage extends React.Component {
   static getInitialProps = async function () {
     const devAPI1 = 'https://api.tvmaze.com/search/shows?q=batman'
-    const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
+    const url1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
     const realAPI1 = ''
     const data1= { userId: 1 }
     
@@ -17,7 +17,7 @@ class Mypage extends React.Component {
     // console.log("[*] books : ", books);
 
     const devAPI2 = 'https://api.tvmaze.com/search/shows?q=batman'
-    const url2 = 'http://localhost:5000/reviews/getMyReviews'
+    const url2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
     const realAPI2 = ''
     const data2= { userId: 1 }
     
