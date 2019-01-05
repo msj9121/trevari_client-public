@@ -1,7 +1,7 @@
 import React from 'react';
-import RatedBookItem from './RatedBookItem';
+import ReviewItem from './ReviewItem';
 
-class RatedBooks extends React.Component {
+class Reviews extends React.Component {
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -16,7 +16,7 @@ class RatedBooks extends React.Component {
         <h2>Rated Books!!</h2>
         <div id='ratedCardContainer'>
           {this.props.reviews.map((review, id) => (
-            <RatedBookItem 
+            <ReviewItem 
               review={review} 
               key={id}
               deleteReview={this.props.deleteReview}
@@ -37,4 +37,4 @@ class RatedBooks extends React.Component {
   }
 }
 
-export default RatedBooks;
+export default Reviews;

@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 
-class RatedBookItem extends React.Component {
+class ReviewItem extends React.Component {
   render () {
     const review = this.props.review
     // console.log(`[*] review : ${JSON.stringify(review)}`)
@@ -115,7 +115,7 @@ class RatedBookItem extends React.Component {
 
   deleteBtn_handler = async () => {
     const review = this.props.review
-    // console.log(`RatedBookItem review : ${JSON.stringify(review)}`)
+    // console.log(`ReviewItem review : ${JSON.stringify(review)}`)
     
     const deleteReview = this.props.deleteReview
     // console.log(`deleteReview : ${deleteReview}`);
@@ -140,4 +140,4 @@ class RatedBookItem extends React.Component {
   }
 }
 
-export default RatedBookItem
+export default ReviewItem

@@ -2,11 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 
-class WantToReadBookItem extends React.Component {
+class BookmarkItem extends React.Component {
 
   render () {
     const book = this.props.book
-    // console.log(`WantToReadBookItem book : ${JSON.stringify(book)}`)
+    // console.log(`BookmarkItem book : ${JSON.stringify(book)}`)
 
     return (
       <div>
@@ -54,4 +54,4 @@ class WantToReadBookItem extends React.Component {
   }
 }
 
-export default WantToReadBookItem
+export default BookmarkItem

@@ -1,20 +1,20 @@
 import React from 'react'
-import WantToReadBookItem from './WantToReadBookItem';
+import BookmarkItem from './BookmarkItem';
 
-class WantToReadBooks extends React.Component {
+class Bookmarks extends React.Component {
 
   render () {
     const books = this.props.books
-    // console.log(`[*] WantToReadBooks books : ${JSON.stringify(books)}`)
-    // console.log(`[*] WantToreadBooks this.props.deleteBookmark : ${this.props.deleteBookmark}`)
+    // console.log(`[*] Bookmarks books : ${JSON.stringify(books)}`)
+    // console.log(`[*] Bookmarks this.props.deleteBookmark : ${this.props.deleteBookmark}`)
     
     return (
       <div>
-        <h2>WantToReadBookItem</h2>
+        <h2>BookmarkItem</h2>
     
         <div className='imageContainer'>
           {books.map((book, id) => (
-            <WantToReadBookItem 
+            <BookmarkItem 
               book={book} 
               key={id}
               deleteBookmark={this.props.deleteBookmark}/>
@@ -34,4 +34,4 @@ class WantToReadBooks extends React.Component {
   }
 }
 
-export default WantToReadBooks;
+export default Bookmarks;
