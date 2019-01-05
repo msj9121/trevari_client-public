@@ -3,13 +3,6 @@ import Link from 'next/link'
 import axios from 'axios'
 
 class WantToReadBookItem extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     book: [this.props.book]
-  //   }  
-  //   this._deleteBookmark = this._deleteBookmark.bind(this)
-  // }
 
   render () {
     const book = this.props.book
@@ -23,7 +16,7 @@ class WantToReadBookItem extends React.Component {
           </div>
         </Link>
         <div align='center' className="deleteBtn">
-          <button>삭제</button>
+          <button onClick={this.deleteBtn_handler}>삭제</button>
         </div>
         <style jsx>{`
           .image {
@@ -41,26 +34,22 @@ class WantToReadBookItem extends React.Component {
     )
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     book: Object.assign(this.state.book, this.props.book)
-  //   })
-  // }
-
-  _deleteBookmark = async () => {
-    console.log("[*] WantToReadBookitem this.state.book : ", this.state.book);
+  deleteBtn_handler = async () => {
+    const book = this.props.book
+    const deleteBookmark = this.props.deleteBookmark
     
-    const url = 'http://3.16.58.104:5000/bookmarks/deleteBookmark'
-    const data = { userId: this.props.book.user_id, bookmarkId: this.props.book.id }
-    await axios.post(url, data)
-      .then(res => {
-        console.log("[*] res : ", res)
+    await axios.post('http://3.16.58.104:5000/bookmarks/deleteBookmark', { userId: book.user_id, bookmarkId: book.id })
+      .then(async(res) => {
+        console.log("[*] deleteBookmark res : ", res)
         if (res.data) {
-          this.setState({
-            book: this.state.book.concat(this.props.book)
-          })
-          console.log(this.state.book)
-        }})
+          await axios.post('http://3.16.58.104:5000/bookmarks/getMyBookmarks', {userId:book.user_id})
+            .then(response => {
+              const newBooks = response.data
+              deleteBookmark(newBooks)
+            })
+            .catch(err => console.log(err))
+        }
+      })
       .catch(err => console.log(err))
   }
 }

@@ -8,7 +8,10 @@ class MypageContents extends React.Component {
       return <RatedBooks reviews={this.props.reviews} />
     } 
     else if (this.props.wantToReadBooksShow === true && this.props.ratedBooksShow === false) {
-      return <WantToReadBooks books={this.props.books} />
+      return <WantToReadBooks 
+              books={this.props.books} 
+              deleteBookmark={this.props.deleteBookmark}
+            />
     }
   }
 }

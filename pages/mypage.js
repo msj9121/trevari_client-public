@@ -51,6 +51,7 @@ class Mypage extends React.Component {
     this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
     this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
     this.getBooks = this.getBooks.bind(this)
+    this.deleteBookmark = this.deleteBookmark.bind(this)
   }
 
   render () {
@@ -88,6 +89,7 @@ class Mypage extends React.Component {
               reviews={this.state.reviews}
               wantToReadBooksShow={this.state.wantToReadBooksShow}
               ratedBooksShow={this.state.ratedBooksShow}
+              deleteBookmark={this.deleteBookmark}
             />
             <div id="addBooks_btn" onClick={this.getBooks} align="center">
               더 보기
@@ -219,6 +221,12 @@ class Mypage extends React.Component {
       };
     });
   };
+
+  deleteBookmark = (books) => {
+    this.setState({
+      books: books
+    })
+  }
 }
 
 export default Mypage;

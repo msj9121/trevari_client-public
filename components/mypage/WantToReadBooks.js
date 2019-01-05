@@ -2,17 +2,11 @@ import React from 'react'
 import WantToReadBookItem from './WantToReadBookItem';
 
 class WantToReadBooks extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     book: [this.props.book]
-  //   }  
-  //   this._deleteBookmark = this._deleteBookmark.bind(this)
-  // }
 
   render () {
     const books = this.props.books
     // console.log(`[*] WantToReadBooks books : ${JSON.stringify(books)}`)
+    // console.log(`[*] WantToreadBooks this.props.deleteBookmark : ${this.props.deleteBookmark}`)
     
     return (
       <div>
@@ -20,7 +14,10 @@ class WantToReadBooks extends React.Component {
     
         <div className='imageContainer'>
           {books.map((book, id) => (
-            <WantToReadBookItem book={book} key={id}/>
+            <WantToReadBookItem 
+              book={book} 
+              key={id}
+              deleteBookmark={this.props.deleteBookmark}/>
           ))}
         </div>
         <style jsx>{`
@@ -34,23 +31,6 @@ class WantToReadBooks extends React.Component {
         `}</style>
       </div>
     )
-  }
-
-  _deleteBookmark = async () => {
-    // console.log("[*] WantToReadBookitem this.state.book : ", this.state.book);
-    
-    const url = 'http://3.16.58.104:5000/bookmarks/deleteBookmark'
-    const data = { userId: this.props.book.user_id, bookmarkId: this.props.book.id }
-    await axios.post(url, data)
-      .then(res => {
-        // console.log("[*] res : ", res)
-        if (res.data) {
-          this.setState({
-            book: this.state.book.concat(this.props.book)
-          })
-          // console.log(this.state.book)
-        }})
-      .catch(err => console.log(err))
   }
 }
 
