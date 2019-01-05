@@ -25,6 +25,7 @@ export default class MyApp extends App {
 
     this.changeCondition = this.changeCondition.bind(this);
     this.rechangeCondition = this.rechangeCondition.bind(this);
+    this._receiveBookmark = this._receiveBookmark.bind(this);
   }
 
   changeCondition = () => {
@@ -50,6 +51,18 @@ export default class MyApp extends App {
     });
   };
 
+  _receiveBookmark = user => {
+    axios
+      .post("http://3.16.58.104:5000/bookmarks/getMyBookmarks", user)
+      // .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .then(res =>
+        this.setState({
+          bookMarkData: res.data
+        })
+      )
+      .catch(err => console.log(err));
+  };
+
   render() {
     const { Component, pageProps } = this.props;
     return (
@@ -66,7 +79,6 @@ export default class MyApp extends App {
           saveId={this.saveId}
           changeCondition={this.changeCondition}
           isSearching={this.state.isSearching}
-          bookMarkData={this.state.bookMarkData}
         />
         <Footer />
       </Container>

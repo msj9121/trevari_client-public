@@ -10,7 +10,7 @@ const Books = props => {
 
         <div id="books_box">
 
-          <BooksBestsellers bestsellers={props.bestsellers}/>
+          <BooksBestsellers bestsellers={props.bestsellers} ID={props.ID}/>
 
         </div>
 

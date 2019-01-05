@@ -23,7 +23,7 @@ class Bestsellers extends Component {
         <div id="bestsellers_box">
           {this.props.bestsellers.map((book, index) => {
             return (
-              <BestsellersBooks book={book} key={index} />
+              <BestsellersBooks book={book} key={index} ID={this.props.ID}/>
             )
           })}
         </div>
