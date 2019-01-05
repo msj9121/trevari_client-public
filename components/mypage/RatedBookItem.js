@@ -1,13 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import axios from 'axios'
 
 class RatedBookItem extends React.Component {
   render () {
     const review = this.props.review
     // console.log(`[*] review : ${JSON.stringify(review)}`)
     
-
-
     return (
       <div className='content'>
         <Link as={`/book/${review.book_id}`} href={`/book?id=${review.book_id}`}>
@@ -22,6 +21,9 @@ class RatedBookItem extends React.Component {
           <div className='date'>작성시간 :  {review.createdAt}</div>
           <div className='summary'>{review.text}</div>
           {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
+        </div>
+        <div align='center' className="deleteBtn">
+          <button onClick={this.deleteBtn_handler}>삭제</button>
         </div>
         <style jsx>{`
           .content {
@@ -109,6 +111,32 @@ class RatedBookItem extends React.Component {
         `}</style>
       </div>
     )
+  }
+
+  deleteBtn_handler = async () => {
+    const review = this.props.review
+    // console.log(`RatedBookItem review : ${JSON.stringify(review)}`)
+    
+    const deleteReview = this.props.deleteReview
+    // console.log(`deleteReview : ${deleteReview}`);
+    
+    await axios.post('http://3.16.5:5000/reviews/deleteReview', { userId: review.user_id, bookId: review.book_id })
+      .then((res) => {
+        console.log("[*] deleteReview res : ", res)
+        if (res.data) {
+          // console.log(`[*] re get Reviews user_id : ${review.user_id}`);
+          
+           axios.post('http://3.16.5:5000/reviews/getMyReviews', { userId: review.user_id })
+            .then(response => {
+              // console.log(`[*] get new reviews response: ${response}`);
+              
+              const newReviews = response.data
+              deleteReview(newReviews)
+            })
+            .catch(err => console.log(err))
+        }
+      })
+      .catch(err => console.log(err))
   }
 }
 

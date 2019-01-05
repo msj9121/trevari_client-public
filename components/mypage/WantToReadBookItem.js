@@ -40,7 +40,7 @@ class WantToReadBookItem extends React.Component {
     
     await axios.post('http://3.16.58.104:5000/bookmarks/deleteBookmark', { userId: book.user_id, bookmarkId: book.id })
       .then(async(res) => {
-        console.log("[*] deleteBookmark res : ", res)
+        // console.log("[*] deleteBookmark res : ", res)
         if (res.data) {
           await axios.post('http://3.16.58.104:5000/bookmarks/getMyBookmarks', {userId:book.user_id})
             .then(response => {
