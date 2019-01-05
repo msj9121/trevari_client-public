@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Router } from "../../routes/routes";
+import * as Styled from "../../style";
 
 class loginpage extends Component {
   constructor(props) {
@@ -85,42 +86,32 @@ class loginpage extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <h1>로그인</h1>
-        </div>
-        <div>
-          <input
+      <Styled.MainDiv>
+        <Styled.Div>로그인</Styled.Div>
+        <Styled.InputDiv>
+          <Styled.Input
             type="email"
-            placeholder="email"
+            placeholder="이메일"
             name="email"
             onChange={this.handleChange}
           />
-        </div>
+        </Styled.InputDiv>
 
-        <div>
-          <input
-            placeholder="password"
+        <Styled.InputDiv>
+          <Styled.Input
+            placeholder="비밀번호"
             type="password"
             name="password"
             onChange={this.handleChange}
           />
-        </div>
-        <div id="textStyle">
-          <a>{this.state.check}</a>
-        </div>
+        </Styled.InputDiv>
+        <Styled.WarnningDiv>{this.state.check}</Styled.WarnningDiv>
 
-        <button onClick={this.loginButtonClick}>Login</button>
-        <div>
-          <a href="/signup">회원가입</a>
-        </div>
-        <style jsx>{`
-          #textStyle {
-            color: red;
-            font-size: 11px;
-          }
-        `}</style>
-      </div>
+        <Styled.Button onClick={this.loginButtonClick}>로그인</Styled.Button>
+        <Styled.ADiv>
+          <Styled.Alink href="/signup">트레바리 가입하기!</Styled.Alink>
+        </Styled.ADiv>
+      </Styled.MainDiv>
     );
   }
 }
