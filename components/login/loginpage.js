@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Router } from "../../routes/routes";
 
+const URL = "http://3.16.58.104:5000";
+// const URL = "http://localhost:5000";
+
 class loginpage extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +29,6 @@ class loginpage extends Component {
   loginButtonClick = () => {
     for (var key in this.state) {
       if (this.state[key] === null) {
-        console.log(`[-] ${key} is Empty`);
         this.setState({
           check: "빈칸을 모두 채워 주세요!"
         });
@@ -42,11 +44,9 @@ class loginpage extends Component {
       password: this.state.password
     };
     axios
-      .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
-      // .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .post(`${URL}/users/checkEmailAvailability`, data)
       .then(res => {
         if (res.data) {
-          console.log("[-] Check your email!");
           this.setState({
             check: "가입되지 않은 이메일 입니다!"
           });
@@ -58,23 +58,17 @@ class loginpage extends Component {
   };
 
   requestLogin = data => {
-    // const bookmarkUser = {
-    //   userId: this.state.id
-    // };
     axios
-      .post("http://3.16.58.104:5000/users/login", data)
-      // .post("http://localhost:5000/users/login", data)
+      .post(`${URL}/users/login`, data)
       .then(res => {
         if (res.data) {
           this.setState({
             id: res.data.id
           });
           this.props.saveId(this.state.id);
-          this.props._receiveBookmark({ userId: this.state.id });
           this.props.changeCondition();
           Router.pushRoute("/index");
         } else {
-          console.log("[-] Check your password!");
           this.setState({
             check: "비밀번호를 확인해 주세요!"
           });

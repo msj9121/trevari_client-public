@@ -1,6 +1,5 @@
 import React from "react";
 import App, { Container } from "next/app";
-import axios from "axios";
 import Header from "../containers/Header";
 import Footer from "../containers/Footer";
 import Filter from "../containers/Filter";
@@ -15,7 +14,7 @@ export default class MyApp extends App {
 
     return { pageProps };
   }
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -41,8 +40,7 @@ export default class MyApp extends App {
       this.setState({
         id: "",
         movepage: "/login",
-        text: "로그인",
-        bookMarkData: ""
+        text: "로그인"
       });
     }
   };
@@ -67,7 +65,6 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log("App.js--Bookmarkdata : ", this.state.bookMarkData);
     return (
       <Container>
         <Header
@@ -75,15 +72,13 @@ export default class MyApp extends App {
           rechangeCondition={this.rechangeCondition}
           ID={this.state.id}
         />
-        <Filter/>
+        <Filter />
         <Component
           {...pageProps}
           ID={this.state.id}
           saveId={this.saveId}
           changeCondition={this.changeCondition}
           isSearching={this.state.isSearching}
-          _receiveBookmark={this._receiveBookmark}
-          bookMarkData={this.state.bookMarkData}
         />
         <Footer />
       </Container>
