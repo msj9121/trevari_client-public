@@ -21,14 +21,12 @@ export default class MyApp extends App {
     this.state = {
       id: "",
       movepage: "/login",
-      text: "로그인",
-      bookMarkData: ""
+      text: "로그인"
     };
 
     this.changeCondition = this.changeCondition.bind(this);
     this.rechangeCondition = this.rechangeCondition.bind(this);
     this._receiveBookmark = this._receiveBookmark.bind(this);
-    this._changeBookmarkData = this._changeBookmarkData.bind(this);
   }
 
   changeCondition = () => {
@@ -67,12 +65,6 @@ export default class MyApp extends App {
       .catch(err => console.log(err));
   };
 
-  _changeBookmarkData = changeData => {
-    this.setState({
-      bookMarkData: changeData
-    })
-  }
-
   render() {
     const { Component, pageProps } = this.props;
     console.log("App.js--Bookmarkdata : ", this.state.bookMarkData);
@@ -92,7 +84,6 @@ export default class MyApp extends App {
           isSearching={this.state.isSearching}
           _receiveBookmark={this._receiveBookmark}
           bookMarkData={this.state.bookMarkData}
-          _changeBookmarkData={this._changeBookmarkData}
         />
         <Footer />
       </Container>

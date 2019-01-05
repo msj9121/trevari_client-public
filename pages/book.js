@@ -2,33 +2,95 @@ import React, { Component } from "react";
 import axios from "axios";
 
 class Book extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   static async getInitialProps(context) {
-    const { id } = context.query;
-    const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, {
-      id
-    });
+    const { id, ID } = context.query;
+    const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, { id });
     const book = await res.data;
+    if (ID) {
+      const bookMarkDatas = await axios.post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
+        userId: ID
+      })
+      .then((response) => {
+        return response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      return { book, bookMarkDatas };
+    }
 
     return { book };
   }
 
-  _appStateChange = async () => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookMarkData: this.props.bookMarkDatas,
+      review: false
+    }
+  }
+
+  _startReview = () => {
+    this.setState({
+      review: true
+    })
+  }
+
+  _endReview = () => {
+    this.setState({
+      review: false
+    })
+  }
+
+  _renderReviewBtn = () => {
+    if (this.state.review) {
+      return (
+        <span className="book_titlebox_endReviewBtn" onClick={this._endReview}>
+          - 평점보기
+          <style jsx>{`
+            .book_titlebox_endReviewBtn {
+              background-color: blue;
+              color: white;
+              font-size: 20px;
+              padding: 5px 25px 5px 25px;
+              cursor: pointer;
+            }
+          `}</style>
+        </span>
+      )
+    } else {
+      return (
+        <span className="book_titlebox_startReviewBtn" onClick={this._startReview}>
+          + 평점보기
+          <style jsx>{`
+            .book_titlebox_startReviewBtn {
+              background-color: #ff8906;
+              color: white;
+              font-size: 20px;
+              padding: 5px 25px 5px 25px;
+              cursor: pointer;
+            }
+          `}</style>
+        </span>
+      )
+    }
+  }
+
+  _bookStateChange = async () => {
     const res = await axios.post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
       userId: this.props.ID
     })
     const changeBookmark = await res.data
     console.log("GET-changeBookmarkDatas response : ", changeBookmark)
-    this.props._changeBookmarkData(changeBookmark)
+    this.setState({
+      bookMarkData: changeBookmark
+    })
   }
 
   _filterBookmarkId = () => {
-    if (this.props.ID && this.props.bookMarkData) {
+    if (this.props.ID && this.state.bookMarkData) {
       const bookId = this.props.book.id
-      const bookmarkData = this.props.bookMarkData
+      const bookmarkData = this.state.bookMarkData
       for (let i = 0; i < bookmarkData.length; i++) {
         if (bookmarkData[i].book_id === bookId) {
           return bookmarkData[i].id
@@ -89,9 +151,9 @@ class Book extends Component {
       console.log("POST-addBookmark response : ", data)
       alert("addBookmark POST 요청")
 
-      /* --------------------------------------App state change--------------------------------------------------------- */
+      /* --------------------------------------Book state change--------------------------------------------------------- */
 
-      this._appStateChange()
+      this._bookStateChange()
     }
     else {
       alert("로그인 해주세요!")
@@ -109,9 +171,9 @@ class Book extends Component {
       console.log("POST-deleteBookmark response : ", data)
       alert("deleteBookmark POST 요청")
 
-      /* --------------------------------------App state change--------------------------------------------------------- */
+      /* --------------------------------------Book state change--------------------------------------------------------- */
 
-      this._appStateChange()
+      this._bookStateChange()
     }
     else {
       alert("로그인 해주세요!")
@@ -119,7 +181,7 @@ class Book extends Component {
   }
 
   render() {
-    console.log("Book.js--bookMarkData : ", this.props.bookMarkData);
+    console.log("Book.js--bookMarkDatas : ", this.state.bookMarkData);
     return (
       <div id="book">
         <div id="book_box">
@@ -132,13 +194,16 @@ class Book extends Component {
               <div className="book_titlebox_author">저자 : {this.props.book.author}</div>
               <div className="book_titlebox_author">{this.props.book.publishedAt}</div>
               <div className="book_titlebox_author">ISBN : {this.props.book.isbn}</div>
-              <div className="book_titlebox_grade">평점 ★★★★☆ {this.props.book.averageScore}(0명)</div>
+              <div className="book_titlebox_review">평점 ★★★★☆ {this.props.book.averageScore}(0명)</div>
               {this._renderBookmarkBtn()}
-              <span className="book_titlebox_gradeBtn">+ 평점주기</span>
+              {this._renderReviewBtn()}
             </div>
           </div>
 
-          <p>{this.props.book.description}</p>
+          {/* <p>{this.props.book.description}</p> */}
+          <div className="book_reviewbox">
+
+          </div>
         </div>
 
         <style jsx>{`
@@ -174,37 +239,10 @@ class Book extends Component {
           .book_titlebox_author {
             margin-bottom: 10px;
           }
-          .book_titlebox_grade {
+          .book_titlebox_review {
             font-size: 25px;
             margin-bottom: 20px;
           }
-          .book_titlebox_addBookmarkBtn {
-            background-color: orange;
-            color: white;
-            border: 1px solid #DDD;
-            font-size: 20px;
-            padding: 5px 15px 5px 15px;
-            margin-top: 10px;
-            margin-right: 15px;
-            cursor: pointer;
-          }
-          .book_titlebox_deleteBookmarkBtn {
-            background-color: blue;
-            color: white;
-            border: 1px solid #DDD;
-            font-size: 20px;
-            padding: 5px 15px 5px 15px;
-            margin-top: 10px;
-            margin-right: 15px;
-            cursor: pointer;
-          }
-          .book_titlebox_gradeBtn {
-            border: 1px solid #ddd;
-            font-size: 20px;
-            padding: 5px 25px 5px 25px;
-            cursor: pointer;
-          }
-
           @media screen and (max-width: 600px) {
             #book_box {
               width: 100%;

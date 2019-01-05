@@ -3,7 +3,7 @@ import Link from "next/link";
 const BooksBestseller = (props) => {
   return (
     <React.Fragment>
-      <Link as={`/book/${props.bestseller.id}`} href={`/book?id=${props.bestseller.id}`}>
+      <Link as={`/book/${props.bestseller.id}`} href={{ pathname: '/book', query: { id: props.bestseller.id, ID: props.ID } }}>
         <div className="books_bestseller">
           <img className="books_bestseller_img" src={props.bestseller.image}></img>
         </div>
