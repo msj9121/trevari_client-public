@@ -35,15 +35,6 @@ const Books = props => {
   );
 };
 
-// Books.getInitialProps = async function () {
-//   const res = await axios("http://3.16.58.104:5000/books/searchByTitle");
-//   const data = await res.data;
-
-//   return {
-//     shows: data
-//   };
-// };
-
 Books.getInitialProps = async function () {
   const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "수학"});
   const data = await res.data.slice(0, 4);

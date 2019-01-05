@@ -22,14 +22,11 @@ export default class MyApp extends App {
       id: "",
       movepage: "/login",
       text: "로그인",
-      bookTitle: "",
-      isSearching: false,
       bookMarkData: ""
     };
 
     this.changeCondition = this.changeCondition.bind(this);
     this.rechangeCondition = this.rechangeCondition.bind(this);
-    this._changeBookTitle = this._changeBookTitle.bind(this);
     this._receiveBookmark = this._receiveBookmark.bind(this);
     this._changeBookmarkData = this._changeBookmarkData.bind(this);
   }
@@ -48,20 +45,6 @@ export default class MyApp extends App {
         movepage: "/login",
         text: "로그인",
         bookMarkData: ""
-      });
-    }
-  };
-
-  _changeBookTitle = title => {
-    if (title === "") {
-      this.setState({
-        bookTitle: "",
-        isSearching: false
-      });
-    } else {
-      this.setState({
-        bookTitle: title,
-        isSearching: true
       });
     }
   };
@@ -100,14 +83,13 @@ export default class MyApp extends App {
           rechangeCondition={this.rechangeCondition}
           ID={this.state.id}
         />
-        <Filter _changeBookTitle={this._changeBookTitle} />
+        <Filter/>
         <Component
           {...pageProps}
           ID={this.state.id}
           saveId={this.saveId}
           changeCondition={this.changeCondition}
           isSearching={this.state.isSearching}
-          bookTitle={this.state.bookTitle}
           _receiveBookmark={this._receiveBookmark}
           bookMarkData={this.state.bookMarkData}
           _changeBookmarkData={this._changeBookmarkData}
