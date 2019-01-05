@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 
 class Book extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   static async getInitialProps(context) {
-    const { id } = context.query
-    const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, { id })
-    const book = await res.data
+    const { id } = context.query;
+    const res = await axios.post(`http://3.16.58.104:5000/books/getBookById`, {
+      id
+    });
+    const book = await res.data;
 
-    return { book }
+    return { book };
   }
 
   _appStateChange = async () => {
@@ -94,7 +96,7 @@ class Book extends Component {
     else {
       alert("로그인 해주세요!")
     }
-  }
+  };
 
   _deleteBookmark = async () => {
     if (this.props.ID) {
@@ -117,13 +119,14 @@ class Book extends Component {
   }
 
   render() {
-    console.log("Book.js--bookMarkData : ", this.props.bookMarkData)
+    console.log("Book.js--bookMarkData : ", this.props.bookMarkData);
     return (
       <div id="book">
-
         <div id="book_box">
           <div className="book_titlebox">
-            <div className="book_titlebox_img"><img src={this.props.book.image}></img></div>
+            <div className="book_titlebox_img">
+              <img src={this.props.book.image} />
+            </div>
             <div className="book_titlebox_title">
               <div className="book_titlebox_titleName">{this.props.book.title}</div>
               <div className="book_titlebox_author">저자 : {this.props.book.author}</div>
@@ -131,8 +134,6 @@ class Book extends Component {
               <div className="book_titlebox_author">ISBN : {this.props.book.isbn}</div>
               <div className="book_titlebox_grade">평점 ★★★★☆ {this.props.book.averageScore}(0명)</div>
               {this._renderBookmarkBtn()}
-              {/* <span className="book_titlebox_addBookmarkBtn" onClick={this._addBookmark}>+ 읽고싶어요</span>
-              <span className="book_titlebox_deleteBookmarkBtn" onClick={this._deleteBookmark}>- 읽고싶어요</span> */}
               <span className="book_titlebox_gradeBtn">+ 평점주기</span>
             </div>
           </div>
@@ -142,16 +143,14 @@ class Book extends Component {
 
         <style jsx>{`
           #book {
-            
           }
           #book_box {
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
             margin: 0 auto;
             width: 60%;
-            
           }
           .book_titlebox {
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
             display: flex;
             margin: 0 auto;
             margin: 80px;
@@ -163,7 +162,7 @@ class Book extends Component {
             width: 100%;
           }
           .book_titlebox_title {
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
             margin-left: 40px;
             margin-top: 30px;
             margin-bottom: 30px;
@@ -200,19 +199,18 @@ class Book extends Component {
             cursor: pointer;
           }
           .book_titlebox_gradeBtn {
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
             font-size: 20px;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
           }
-    
+
           @media screen and (max-width: 600px) {
             #book_box {
               width: 100%;
             }
           }
         `}</style>
-
       </div>
     );
   }
