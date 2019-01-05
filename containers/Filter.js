@@ -4,24 +4,32 @@ import Link from 'next/link';
 class Filter extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      bookTitle : ""
+    }
   }
-  
-  _changeBookTitle = () => {
-    const title = document.getElementsByClassName("filter_input")[0].value
-    console.log("Filter.js :", title)
-    this.props._changeBookTitle(title)
+
+  _changeBookTitle = (e) => {
+    this.setState({
+      bookTitle : e.target.value
+    })
   }
-  
+
+  _deleteBookTitle = () => {
+    this.setState({
+      bookTitle : ""
+    })
+  }
+
   render() {
-    
     return (
       <div id="filter">
 
         <div id="filter_box">
           <div className="filter_group">
-            <input placeholder="책제목 검색" type="search" className="filter_input"></input>
-            <div className="filter_xbox">X</div>
-            <Link href="/search"><div className="filter_search" onClick={this._changeBookTitle}>검색</div></Link>
+            <input placeholder="책제목 검색" type="search" className="filter_input" value={this.state.bookTitle} onChange={this._changeBookTitle}></input>
+            <div className="filter_xbox" onClick={this._deleteBookTitle}>X</div>
+            <Link href={`/search?title=${this.state.bookTitle}`}><div className="filter_search">검색</div></Link>
           </div>
         </div>
         <style jsx>{`
