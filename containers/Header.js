@@ -19,12 +19,15 @@ class Header extends Component {
                 <span>책추천</span>
               </li>
             </Link>
-            <Link as={`/mypage/${this.props.ID}`} href={`/mypage?userId=${this.props.ID}`}>
+            <Link
+              as={`/mypage/${this.props.ID}`}
+              href={`/mypage?userId=${this.props.ID}`}
+            >
               <li>
                 <span>마이페이지</span>
               </li>
             </Link>
-            <Link href={this.props.loginState.movepage}>
+            <Link as={`/login`} href={this.props.loginState.movepage}>
               <li onClick={this.props.rechangeCondition}>
                 <span>{this.props.loginState.text}</span>
               </li>
