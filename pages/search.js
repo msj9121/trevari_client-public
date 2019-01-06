@@ -2,39 +2,27 @@ import React, { Component } from 'react';
 import axios from "axios";
 import SearchBooks from "../components/search/SearchBooks";
 
-class search extends Component {
+class Search extends Component {
+  static async getInitialProps(context) {
+    const { title } = context.query
+
+    const books = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: title })
+    .then((res)=>{
+      return res.data
+    }).catch(err => {
+      console.log(err)
+    })
+
+    return { books, title }
+  }
+
   constructor(props) {
     super(props)
-    this.state = {
-      bookTitle: "",
-      isSearching: false,
-      booksData: []
-    }
-  }
-
-  componentDidMount() {
-    this._callApi()
-  }
-
-  _callApi = async () => {
-    
-    console.log("Search.js :", this.props.bookTitle)
-    if (this.props.bookTitle === "" && this.props.isSearching === false) {
-      console.log("책 제목을 입력해야합니다.")
-    } else if (this.props.bookTitle !== "" && this.props.isSearching === true) {
-      this.setState({
-        booksData: []
-      })
-      const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: this.props.bookTitle })
-      const data = await res.data;
-      this.setState({
-        booksData: data
-      })
-    }
   }
 
   _renderSearch = () => {
-    if (this.props.title === "") {
+    if (this.props.title === "" || this.props.books.length === 0) {
+      alert("책정보가 없습니다.")
       return (
         <div id="search_initbox">
           <style jsx>{`
@@ -52,12 +40,13 @@ class search extends Component {
           `}</style>
         </div>
       )
-    } else {
+    } 
+    else {
       return (
         <div id="search_box">
-          {this.state.booksData.map((book, index) => {
+          {this.props.books.map((book, index) => {
             return (
-              <SearchBooks book={book} key={index} />
+              <SearchBooks book={book} key={index} ID={this.props.ID}/>
             )
           })}
           <style jsx>{`
@@ -91,4 +80,4 @@ class search extends Component {
   }
 }
 
-export default search;
+export default Search;

@@ -10,7 +10,7 @@ const Books = props => {
 
         <div id="books_box">
 
-          <BooksBestsellers bestsellers={props.bestsellers}/>
+          <BooksBestsellers bestsellers={props.bestsellers} ID={props.ID}/>
 
         </div>
 
@@ -34,15 +34,6 @@ const Books = props => {
     </div>
   );
 };
-
-// Books.getInitialProps = async function () {
-//   const res = await axios("http://3.16.58.104:5000/books/searchByTitle");
-//   const data = await res.data;
-
-//   return {
-//     shows: data
-//   };
-// };
 
 Books.getInitialProps = async function () {
   const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "수학"});

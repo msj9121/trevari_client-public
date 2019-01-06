@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import BestsellersBooks from '../components/bestsellers/BestsellersBooks';
 
-class bestsellers extends Component {
+class Bestsellers extends Component {
   constructor(props) {
     super(props)
   }
@@ -23,7 +23,7 @@ class bestsellers extends Component {
         <div id="bestsellers_box">
           {this.props.bestsellers.map((book, index) => {
             return (
-              <BestsellersBooks book={book} key={index} />
+              <BestsellersBooks book={book} key={index} ID={this.props.ID}/>
             )
           })}
         </div>
@@ -49,4 +49,4 @@ class bestsellers extends Component {
   }
 }
 
-export default bestsellers;
+export default Bestsellers;

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Router } from "../../routes/routes";
 
+const URL = "http://3.16.58.104:5000";
+// const URL = "http://localhost:5000";
+
 class signuppage extends Component {
   constructor(props) {
     super(props);
@@ -28,26 +31,22 @@ class signuppage extends Component {
   email_check = email => {
     var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!regex.test(email)) {
-      console.log("[-] Not Email!");
       this.setState({
         check: "이메일을 확인해 주세요!"
       });
       return false;
     } else {
-      console.log("[+] email OK!");
       return true;
     }
   };
 
   password_check = (pw, repw) => {
     if (pw !== repw) {
-      console.log("[-] Not match PW!");
       this.setState({
         check: "비밀번호를 확인해 주세요!"
       });
       return false;
     } else {
-      console.log("[+] password OK!");
       return true;
     }
   };
@@ -55,7 +54,6 @@ class signuppage extends Component {
   signupButtonClick = () => {
     for (var key in this.state) {
       if (this.state[key] === null) {
-        console.log(`[-] ${key} is Empty`);
         this.setState({
           check: "빈칸을 모두 채워 주세요!"
         });
@@ -77,8 +75,7 @@ class signuppage extends Component {
       email: this.state.email
     };
     axios
-      //   .post("http://3.16.58.104:5000/users/checkEmailAvailability", data)
-      .post("http://localhost:5000/users/checkEmailAvailability", data)
+      .post(`${URL}/users/checkEmailAvailability`, data)
       .then(res =>
         res.data
           ? this.requestSignup(data)
@@ -97,8 +94,7 @@ class signuppage extends Component {
       phoneNumber: this.state.phoneNumber
     };
     axios
-      //   .post("http://3.16.58.104:5000/users/signup", data)
-      .post("http://localhost:5000/users/signup", data)
+      .post(`${URL}/users/signup`, data)
       .then(res => {
         if (res.data) {
           Router.pushRoute("/login");
