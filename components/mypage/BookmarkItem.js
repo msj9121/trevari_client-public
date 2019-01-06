@@ -21,7 +21,7 @@ class BookmarkItem extends React.Component {
         <style jsx>{`
           .image {
             background: ;
-            width: ;
+            width: 300px;
             border: solid 1px #ced4da;
             margin: 10px 10px 5px 10px;
           }

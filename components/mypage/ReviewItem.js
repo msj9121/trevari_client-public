@@ -20,11 +20,12 @@ class ReviewItem extends React.Component {
           <div className='name'>{review.Book.title}</div>
           <div className='date'>작성시간 :  {review.createdAt}</div>
           <div className='summary'>{review.text}</div>
+          <div>
+            <button className="deleteBtn" onClick={this.deleteBtn_handler} align="center">삭제</button>
+          </div>
           {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
-        <div align='center' className="deleteBtn">
-          <button onClick={this.deleteBtn_handler}>삭제</button>
-        </div>
+        
         <style jsx>{`
           .content {
             display: flex;
@@ -33,7 +34,7 @@ class ReviewItem extends React.Component {
             margin-bottom: 20px;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
           }
-          .content, .image, .name, .date, .summary {
+          .content, .image, .name, .date, .summary, .innerContent, .deleteBtn{
             border: solid 1px #ced4da;
           }
 
@@ -61,19 +62,29 @@ class ReviewItem extends React.Component {
           .name {
             background: ;
             margin-top: 10px;
-            font-size: 30px;
+            font-size: 25px;
+            height: 15%;
             font-weight: bold;
+            text-align: center;
           }
           .date {
             margin-top: 5px;
             font-size: 12px;
+            height: 5%;
             color: grey;
           }
           .summary {
             background: ;
             margin-top: 15px;
-            height: 70%;
+            height: 50%;
             overflow: scroll;
+          }
+          .deleteBtn {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5px;
+            text-align: center;
+            height: 10%;
           }
 
           @media (max-width: 800px) {
