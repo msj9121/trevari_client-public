@@ -1,17 +1,16 @@
 const next = require("next");
-const routes = require("./routes/routes");
 const app = next({ dev: process.env.NODE_ENV !== "production" });
 const express = require("express");
-const handle = routes.getRequestHandler(app);
+const handle = app.getRequestHandler();
 
 app
   .prepare()
   .then(() => {
     const server = express();
 
-    server.get("/login", (req, res) => {
+    server.get("/login/:id", (req, res) => {
       const actualPage = "/login";
-      queryParams = { id: "" };
+      const queryParams = { id: req.params.id };
       app.render(req, res, actualPage, queryParams);
     });
 
@@ -23,10 +22,10 @@ app
       app.render(req, res, actualPage, queryParams);
     });
 
-    server.get('/mypage/:id', (req, res) => {
-      const actualPage = '/mypage'
-      const queryParams = {id: req.params.id}
-      app.render(req, res, actualPage, queryParams)
+    server.get("/mypage/:id", (req, res) => {
+      const actualPage = "/mypage";
+      const queryParams = { id: req.params.id };
+      app.render(req, res, actualPage, queryParams);
     });
 
     server.get("*", (req, res) => {

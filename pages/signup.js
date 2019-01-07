@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Router from "next/router";
-// import { BACKEND_ENDPOINT } from "../constant";
-
-const URL = "http://3.16.58.104:5000";
-// const URL = "http://localhost:5000";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class Signup extends Component {
   constructor(props) {
@@ -72,7 +69,7 @@ class Signup extends Component {
       email: this.state.email
     };
     await axios
-      .post(`${URL}/users/checkEmailAvailability`, data)
+      .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
       .then(res =>
         res.data
           ? this.requestSignup(data)
@@ -91,7 +88,7 @@ class Signup extends Component {
       phoneNumber: this.state.phoneNumber
     };
     await axios
-      .post(`${URL}/users/signup`, data)
+      .post(`${BACKEND_ENDPOINT}/users/signup`, data)
       .then(res => {
         if (res.data) {
           Router.push("/login");

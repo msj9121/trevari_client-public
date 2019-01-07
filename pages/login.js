@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Router from "next/router";
-// import { BACKEND_ENDPOINT } from "../constant";
+import Route from "next/router";
+import { BACKEND_ENDPOINT } from "../constant";
 
-const URL = "http://3.16.58.104:5000";
+// const URL = "http://3.16.58.104:5000";
 // const URL = "http://localhost:5000";
 
 class Login extends Component {
@@ -41,7 +41,7 @@ class Login extends Component {
       password: this.state.password
     };
     await axios
-      .post(`${URL}/users/checkEmailAvailability`, data)
+      .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
       .then(res => {
         if (res.data) {
           this.setState({
@@ -56,7 +56,7 @@ class Login extends Component {
 
   requestLogin = async data => {
     await axios
-      .post(`${URL}/users/login`, data)
+      .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
           this.setState({
@@ -64,7 +64,7 @@ class Login extends Component {
           });
           this.props.saveId(this.state.id);
           this.props.changeCondition();
-          Router.push("/index");
+          Route.push("/index");
         } else {
           this.setState({
             check: "비밀번호를 확인해 주세요!"
@@ -75,7 +75,7 @@ class Login extends Component {
   };
 
   moveSignupPage = () => {
-    Router.push("/signup");
+    Route.push("/signup");
   };
 
   render() {
