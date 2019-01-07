@@ -1,61 +1,122 @@
-import React from 'react'
-import Link from 'next/link'
-import axios from 'axios'
+import React from "react";
+import Link from "next/link";
+import axios from "axios";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class ReviewItem extends React.Component {
-  render () {
-    const review = this.props.review
-    // console.log(`[*] review : ${JSON.stringify(review)}`)
+  render() {
+    const review = this.props.review;
     
     return (
-      <div className='content'>
-        <Link as={`/book/${review.book_id}`} href={`/book?id=${review.book_id}`}>
-          <div className='image'>
-            <img src={review.Book.image} className='oneImage' align='center' />
-            <div className="myRate" align='center'>내가 준 평점 : {review.score}</div>
-            <div className="averageRate" align='center'>평균 평점 : {review.Book.averageScore}</div>
+      <div id="content">
+        <div id="basicContent">
+          <div id="outerContent">
+            <Link
+              as={`/book/${review.book_id}`}
+              href={`/book?id=${review.book_id}`}
+            >
+              <div className="imageContainer">
+                <img
+                  src={this.getBookImage()}
+                  className="oneImage"
+                  align="center"
+                />
+              </div>
+            </Link>
+            <div className="myRate" align="center">
+              내가 준 평점 : {review.score}
+            </div>
+            <div className="averageRate" align="center">
+              평균 평점 : {review.Book.averageScore}
+            </div>
+            <div>
+              <button
+                className="deleteBtn"
+                onClick={this.deleteBtn_handler}
+              >
+                삭제
+              </button>
+            </div>
           </div>
-        </Link>
-        <div className='innerContent'>
-          <div className='name'>{review.Book.title}</div>
-          <div className='date'>작성시간 :  {review.createdAt}</div>
-          <div className='summary'>{review.text}</div>
-          <div>
-            <button className="deleteBtn" onClick={this.deleteBtn_handler} align="center">삭제</button>
+
+          <div id="innerContent">
+            <div className="name" type="text">
+              {review.Book.title}
+            </div>
+            <div className="date" type="text">
+              작성시간 : {this.getDate()}
+            </div>
+            <div className="summary" type="text	7">
+              {review.text}
+            </div>
+            <div>
+              <button className="editReviewBtn">수정하기</button>
+            </div>
           </div>
-          {/* <div className='summary'>{review.Book.summary.replace(/<[/]?p>/g, '')}</div> */}
         </div>
-        
+
+        <div className="hideContent">
+          <div className="editContainer">
+            <input className="editReview" placeholder="내용을 작성해 주세요"></input>
+          </div>
+          <div>
+            <button className="editReviewBtn">수정하기</button>
+          </div>
+        </div>
+
         <style jsx>{`
-          .content {
+          #content {
             display: flex;
+            flex-direction: column;
             background: #fff3e8;
             width: 100%;
             margin-bottom: 20px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            box-shadow: 0px 0px 0px 1px red;
           }
-          .content, .image, .name, .date, .summary, .innerContent, .deleteBtn{
-            border: solid 1px #ced4da;
+          #basicContent {
+            display: flex;
           }
-
-          .image {
+          #content,
+          #outerContent,
+          .imageContainer,
+          .deleteBtn,
+          .myRate,
+          .averageRate,
+          #innerContent,
+          .name,
+          .date,
+          .summary,
+          .hideContent {
+            box-shadow: 0px 0px 0px 1px red;
+          }
+          #outerContent {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             background: #fcfbf9;
           }
-          .myRate {
-            margin : 15px 0px 10px 0px;
-            border: solid 1px #ced4da;
-          }
-          .averageRate {
-            margin : 0px 0px 10px 0px;
-            border: solid 1px #ced4da;
+          .imageContainer {
+            width: 150px;
+            margin: auto;
           }
           .oneImage {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            width: 100%;
           }
-
-          .innerContent {
+          .myRate {
+            margin: 15px 0px 10px 0px;
+          }
+          .averageRate {
+            margin: 0px 0px 10px 0px;
+          }
+          .deleteBtn {
+            align="center";
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+          }
+          #innerContent {
             margin-left: 10px;
             margin-right: 10px;
           }
@@ -79,36 +140,51 @@ class ReviewItem extends React.Component {
             height: 50%;
             overflow: scroll;
           }
-          .deleteBtn {
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 5px;
-            text-align: center;
-            height: 10%;
+          .editReviewBtn {
+            align="center";
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
           }
-
+          #hideContent {
+            width: 100%;
+          }
+          .editContainer {
+            width: 100%;
+            height: 150px;
+          }
+          .editReview {
+            width: 100%;
+            height: 100%;
+          }
           @media (max-width: 800px) {
             .container {
               display: flex;
               flex-direction: column;
             }
-            .content {
-              display: flex; 
+            #content {
+              display: flex;
               flex-direction: column;
               background: ;
               margin-bottom: 20px;
             }
-            
-            .content, .imageContainer, .name, .summary {
+            #basicContent {
+              display: flex;
+              flex-direction: column;
+            }
+
+            #content,
+            .imageContainer,
+            .name,
+            .summary {
               border: solid 1px #ced4da;
             }
-            .image {
+            #outerContent {
               background: ;
             }
             .oneImage {
               display: block;
               margin: auto;
-          
             }
             .name {
               background: ;
@@ -121,34 +197,57 @@ class ReviewItem extends React.Component {
           }
         `}</style>
       </div>
-    )
+    );
+  }
+
+  getBookImage = () => {
+    const bareImage = JSON.stringify(this.props.review.Book.image);
+    let bookImageURL;
+    for (var i = 0; i < bareImage.length; i++) {
+      if (bareImage[i] === "?") {
+        bookImageURL = bareImage.slice(1, i);
+      }
+    }
+    return bookImageURL;
+  };
+
+  getDate = () => {
+    const bareDate = JSON.stringify(this.props.review.createdAt)
+    let year = bareDate.slice(1, 5)
+    let month = bareDate.slice(6, 8)
+    let day = bareDate.slice(9, 11)
+    let time = bareDate.slice(12, 14)
+    let minute = bareDate.slice(15, 17)
+    let second = bareDate.slice(18, 20)
+    let newDate = `${year}년 ${month}월 ${day}일  ${time}시 ${minute}분 ${second}초`
+    console.log(`year : ${year}`, `month : ${month}`, `day : ${day}`, `time : ${time}`, `minute : ${minute}`, `second : ${second}`)
+    console.log(`newDate : ${newDate}`)
+
+    return newDate
   }
 
   deleteBtn_handler = async () => {
-    const review = this.props.review
-    // console.log(`ReviewItem review : ${JSON.stringify(review)}`)
-    
-    const deleteReview = this.props.deleteReview
-    // console.log(`deleteReview : ${deleteReview}`);
-    
-    await axios.post('http://3.16.5:5000/reviews/deleteReview', { userId: review.user_id, bookId: review.book_id })
-      .then((res) => {
-        console.log("[*] deleteReview res : ", res)
+    const review = this.props.review;
+    const deleteReview = this.props.deleteReview;
+
+    await axios
+      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
+        userId: review.user_id,
+        bookId: review.book_id
+      })
+      .then(res => {
         if (res.data) {
-          // console.log(`[*] re get Reviews user_id : ${review.user_id}`);
-          
-           axios.post('http://3.16.5:5000/reviews/getMyReviews', { userId: review.user_id })
+          axios
+            .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: review.user_id })
             .then(response => {
-              // console.log(`[*] get new reviews response: ${response}`);
-              
-              const newReviews = response.data
-              deleteReview(newReviews)
+              const newReviews = response.data;
+              deleteReview(newReviews);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
         }
       })
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 }
 
-export default ReviewItem
+export default ReviewItem;

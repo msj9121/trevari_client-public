@@ -1,5 +1,5 @@
 const next = require("next");
-const app = next({ dev: process.env.NODE_ENV !== "production" });
+const app = next({ dev: process.env.NODE_ENV === "production" });
 const express = require("express");
 const handle = app.getRequestHandler();
 
