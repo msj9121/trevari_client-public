@@ -16,6 +16,9 @@ class Bookmarks extends React.Component {
             />
           ))}
         </div>
+        <div>
+          <button className="viewMore" onClick={this.clickHandler}>더보기</button>
+        </div>
         <style jsx>{`
           .imageContainer {
             display: flex;
@@ -24,9 +27,20 @@ class Bookmarks extends React.Component {
             background: ;
             border: solid 1px #ced4da;
           }
+          .viewMore {
+            align="center";
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+          }
         `}</style>
       </div>
     );
+  }
+
+  clickHandler = () => {
+    this.props.getMoreBookmarks()
   }
 }
 

@@ -12,6 +12,7 @@ class MypageContents extends React.Component {
         <Reviews
           reviews={this.props.reviews}
           deleteReview={this.props.deleteReview}
+          getMoreReviews={this.props.getMoreReviews}
         />
       );
     } else if (
@@ -22,6 +23,7 @@ class MypageContents extends React.Component {
         <Bookmarks
           books={this.props.books}
           deleteBookmark={this.props.deleteBookmark}
+          getMoreBookmarks={this.props.getMoreBookmarks}
         />
       );
     }

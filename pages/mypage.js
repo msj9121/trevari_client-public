@@ -12,7 +12,7 @@ class Mypage extends React.Component {
       const res1 = await axios
         .post(`${URL}/bookmarks/getMyBookmarks`, { userId })
         .catch(err => console.log(err));
-      const books = await res1.data;
+      const books = await res1.data.slice(0, 10);
 
       const res2 = await axios
         .post(`${URL}/reviews/getMyReviews`, { userId })
@@ -36,7 +36,8 @@ class Mypage extends React.Component {
       reviews: this.props.reviews,
       showReviews: true,
       showBookmarks: false,
-      count: 10
+      reviewsCount: 10,
+      bookmarksCount: 10
     };
     console.log("[*] mypage this.state.id : ", this.state.id);
   }
@@ -78,10 +79,9 @@ class Mypage extends React.Component {
               showBookmarks={this.state.showBookmarks}
               deleteReview={this.deleteReview}
               deleteBookmark={this.deleteBookmark}
+              getMoreBookmarks={this.getMoreBookmarks}
+              getMoreReviews={this.getMoreReviews}
             />
-            <div id="addBooks_btn" onClick={this.getMoreReviews} align="center">
-              더 보기
-            </div>
           </div>
           <style jsx>{`
               #test {
@@ -193,15 +193,31 @@ class Mypage extends React.Component {
 
   getMoreReviews = async () => {
     this.setState({
-      count: this.state.count + 10
+      reviewsCount: this.state.reviewsCount + 10
     });
 
     await axios
       .post(`${URL}/reviews/getMyReviews`, { userId: this.state.id })
       .then(res => {
         this.setState({
-          reviews: res.data.slice(0, this.state.count)
+          reviews: res.data.slice(0, this.state.reviewsCount)
         });
+      })
+      .catch(err => console.log(err));
+  };
+
+  getMoreBookmarks = async () => {
+    this.setState({
+      bookmarksCount: this.state.bookmarksCount + 10
+    });
+
+    await axios
+      .post(`${URL}/bookmarks/getMyBookmarks`, { userId: this.state.id })
+      .then(res => {
+        this.setState({
+          books: res.data.slice(0, this.state.bookmarksCount)
+        });
+        console.log(`this.state.book : ${this.state.books}`)
       })
       .catch(err => console.log(err));
   };

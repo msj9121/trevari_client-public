@@ -14,6 +14,9 @@ class Reviews extends React.Component {
             />
           ))}
         </div>
+        <div>
+          <button className="viewMore" onClick={this.clickHandler}>더보기</button>
+        </div>
         <style jsx>{`
           #ratedBooks {
             border: solid 1px #ced4da;
@@ -22,9 +25,20 @@ class Reviews extends React.Component {
             display: flex;
             flex-direction: column;
           }
+          .viewMore {
+            align="center";
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+          }
         `}</style>
       </div>
     );
+  }
+
+  clickHandler = () => {
+    this.props.getMoreReviews()
   }
 }
 

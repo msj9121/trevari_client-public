@@ -8,59 +8,77 @@ const URL = "http://3.16.58.104:5000";
 class ReviewItem extends React.Component {
   render() {
     const review = this.props.review;
-
+    
     return (
       <div id="content">
-        <div id="outerContent">
-          <Link
-            as={`/book/${review.book_id}`}
-            href={`/book?id=${review.book_id}`}
-          >
-            <div className="imageContainer">
-              <img
-                src={this.getBookImage()}
-                className="oneImage"
-                align="center"
-              />
-            </div>
-          </Link>
-          <div className="myRate" align="center">
-            내가 준 평점 : {review.score}
-          </div>
-          <div className="averageRate" align="center">
-            평균 평점 : {review.Book.averageScore}
-          </div>
-          <div>
-            <button
-              className="deleteBtn"
-              align="center"
-              onClick={this.deleteBtn_handler}
+        <div id="basicContent">
+          <div id="outerContent">
+            <Link
+              as={`/book/${review.book_id}`}
+              href={`/book?id=${review.book_id}`}
             >
-              삭제
-            </button>
+              <div className="imageContainer">
+                <img
+                  src={this.getBookImage()}
+                  className="oneImage"
+                  align="center"
+                />
+              </div>
+            </Link>
+            <div className="myRate" align="center">
+              내가 준 평점 : {review.score}
+            </div>
+            <div className="averageRate" align="center">
+              평균 평점 : {review.Book.averageScore}
+            </div>
+            <div>
+              <button
+                className="deleteBtn"
+                onClick={this.deleteBtn_handler}
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+
+          <div id="innerContent">
+            <div className="name" type="text">
+              {review.Book.title}
+            </div>
+            <div className="date" type="text">
+              작성시간 : {this.getDate()}
+            </div>
+            <div className="summary" type="text	7">
+              {review.text}
+            </div>
+            <div>
+              <button className="editReviewBtn">수정하기</button>
+            </div>
           </div>
         </div>
 
-        <div id="innerContent">
-          <div className="name" type="text">
-            {review.Book.title}
+        <div className="hideContent">
+          <div className="editContainer">
+            <input className="editReview" placeholder="내용을 작성해 주세요"></input>
           </div>
-          <div className="date" type="text">
-            작성시간 : {review.createdAt}
-          </div>
-          <div className="summary" type="text	7">
-            {review.text}
+          <div>
+            <button className="editReviewBtn">수정하기</button>
           </div>
         </div>
 
         <style jsx>{`
           #content {
             display: flex;
+            flex-direction: column;
             background: #fff3e8;
             width: 100%;
             margin-bottom: 20px;
             box-shadow: 0px 0px 0px 1px red;
           }
+          #basicContent {
+            display: flex;
+          }
+          #content,
           #outerContent,
           .imageContainer,
           .deleteBtn,
@@ -69,7 +87,8 @@ class ReviewItem extends React.Component {
           #innerContent,
           .name,
           .date,
-          .summary {
+          .summary,
+          .hideContent {
             box-shadow: 0px 0px 0px 1px red;
           }
           #outerContent {
@@ -94,6 +113,7 @@ class ReviewItem extends React.Component {
             margin: 0px 0px 10px 0px;
           }
           .deleteBtn {
+            align="center";
             font-size: 15px;
             cursor: pointer;
             width: 100%;
@@ -122,6 +142,23 @@ class ReviewItem extends React.Component {
             height: 50%;
             overflow: scroll;
           }
+          .editReviewBtn {
+            align="center";
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+          }
+          #hideContent {
+            width: 100%;
+          }
+          .editContainer {
+            width: 100%;
+            height: 150px;
+          }
+          .editReview {
+            width: 100%;
+            height: 100%;
+          }
           @media (max-width: 800px) {
             .container {
               display: flex;
@@ -132,6 +169,10 @@ class ReviewItem extends React.Component {
               flex-direction: column;
               background: ;
               margin-bottom: 20px;
+            }
+            #basicContent {
+              display: flex;
+              flex-direction: column;
             }
 
             #content,
@@ -171,6 +212,21 @@ class ReviewItem extends React.Component {
     }
     return bookImageURL;
   };
+
+  getDate = () => {
+    const bareDate = JSON.stringify(this.props.review.createdAt)
+    let year = bareDate.slice(1, 5)
+    let month = bareDate.slice(6, 8)
+    let day = bareDate.slice(9, 11)
+    let time = bareDate.slice(12, 14)
+    let minute = bareDate.slice(15, 17)
+    let second = bareDate.slice(18, 20)
+    let newDate = `${year}년 ${month}월 ${day}일  ${time}시 ${minute}분 ${second}초`
+    console.log(`year : ${year}`, `month : ${month}`, `day : ${day}`, `time : ${time}`, `minute : ${minute}`, `second : ${second}`)
+    console.log(`newDate : ${newDate}`)
+
+    return newDate
+  }
 
   deleteBtn_handler = async () => {
     const review = this.props.review;
