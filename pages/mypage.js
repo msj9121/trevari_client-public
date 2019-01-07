@@ -9,7 +9,7 @@ class Mypage extends React.Component {
     const { userId } = context.query
 
     if (userId) {
-      console.log("[*] mypage props.ID : ", { userId })
+      // console.log("[*] mypage props.ID : ", { userId })
   
       const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
       const realAPI1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
@@ -51,6 +51,8 @@ class Mypage extends React.Component {
     this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
     this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
     this.getBooks = this.getBooks.bind(this)
+    this.deleteBookmark = this.deleteBookmark.bind(this)
+    this.deleteReview = this.deleteReview.bind(this)
   }
 
   render () {
@@ -88,6 +90,8 @@ class Mypage extends React.Component {
               reviews={this.state.reviews}
               wantToReadBooksShow={this.state.wantToReadBooksShow}
               ratedBooksShow={this.state.ratedBooksShow}
+              deleteBookmark={this.deleteBookmark}
+              deleteReview={this.deleteReview}
             />
             <div id="addBooks_btn" onClick={this.getBooks} align="center">
               더 보기
@@ -219,6 +223,18 @@ class Mypage extends React.Component {
       };
     });
   };
+
+  deleteBookmark = (books) => {
+    this.setState({
+      books: books
+    })
+  }
+  
+  deleteReview = (reviews) => {
+    this.setState({
+      reviews: reviews
+    })
+  }
 }
 
 export default Mypage;
