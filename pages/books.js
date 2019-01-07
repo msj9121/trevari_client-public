@@ -36,7 +36,7 @@ const Books = props => {
 };
 
 Books.getInitialProps = async function () {
-  const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "수학"});
+  const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "한글"});
   const data = await res.data.slice(0, 4);
 
   return {

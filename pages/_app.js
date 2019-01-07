@@ -1,4 +1,3 @@
-import React from "react";
 import App, { Container } from "next/app";
 import Header from "../containers/Header";
 import Footer from "../containers/Footer";
@@ -78,7 +77,6 @@ export default class MyApp extends App {
           ID={this.state.id}
           saveId={this.saveId}
           changeCondition={this.changeCondition}
-          isSearching={this.state.isSearching}
         />
         <Footer />
       </Container>
