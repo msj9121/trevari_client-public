@@ -1,26 +1,17 @@
-import React from 'react';
-import ReviewItem from './ReviewItem';
+import React from "react";
+import ReviewItem from "./ReviewItem";
 
 class Reviews extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     reviews: this.props.reviews
-  //   }
-  // }
-
-  render () {
-    // const temp = [this.state.books, this.state.reviews];
+  render() {
     return (
       <div id="ratedBooks">
-        <h2>Rated Books!!</h2>
-        <div id='ratedCardContainer'>
+        <div id="ratedCardContainer">
           {this.props.reviews.map((review, id) => (
-            <ReviewItem 
-              review={review} 
+            <ReviewItem
+              review={review}
               key={id}
               deleteReview={this.props.deleteReview}
-            /> 
+            />
           ))}
         </div>
         <style jsx>{`
@@ -33,7 +24,7 @@ class Reviews extends React.Component {
           }
         `}</style>
       </div>
-    )
+    );
   }
 }
 

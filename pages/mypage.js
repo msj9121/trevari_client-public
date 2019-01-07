@@ -1,41 +1,32 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
 
-
+const URL = "http://3.16.58.104:5000";
+// const URL = "http://localhost:5000";
 
 class Mypage extends React.Component {
-  
-  static getInitialProps = async function (context) {
-    const { userId } = context.query
+  static getInitialProps = async function(context) {
+    const { userId } = context.query;
 
     if (userId) {
-      // console.log("[*] mypage props.ID : ", { userId })
-  
-      const url1 = 'http://localhost:5000/bookmarks/getMyBookmarks'
-      const realAPI1 = 'http://3.16.58.104:5000/bookmarks/getMyBookmarks'
-      // app.state.bookmark의 데이터를 가져오도록 수정하야야 한다.
-      
-      const res1 = await axios.post(realAPI1, { userId })
-        .catch(err => console.log(err))
+      const res1 = await axios
+        .post(`${URL}/bookmarks/getMyBookmarks`, { userId })
+        .catch(err => console.log(err));
       const books = await res1.data;
-      // console.log("[*] books : ", books);
-  
-      const url2 = 'http://localhost:5000/reviews/getMyReviews'
-      const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
-      
-      const res2 = await axios.post(realAPI2, { userId })
-        .catch(err => console.log(err))
-      const reviews = await res2.data;
-      // console.log("[*] reviews : ", reviews);
-  
+
+      const res2 = await axios
+        .post(`${URL}/reviews/getMyReviews`, { userId })
+        .catch(err => console.log(err));
+      const reviews = await res2.data.slice(0, 10);
+
       return {
         books: books,
         reviews: reviews
-      }
+      };
     } else if (userId === "") {
       return;
     }
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -43,19 +34,14 @@ class Mypage extends React.Component {
       id: this.props.ID,
       books: this.props.books,
       reviews: this.props.reviews,
-      ratedBooksShow: true,
-      wantToReadBooksShow: false,
-    }
+      showReviews: true,
+      showBookmarks: false,
+      count: 10
+    };
     console.log("[*] mypage this.state.id : ", this.state.id);
-    
-    this.ratedBooks_clickHandler = this.ratedBooks_clickHandler.bind(this)
-    this.wantToReadBooks_clickHandler = this.wantToReadBooks_clickHandler.bind(this)
-    this.getBooks = this.getBooks.bind(this)
-    this.deleteBookmark = this.deleteBookmark.bind(this)
-    this.deleteReview = this.deleteReview.bind(this)
   }
 
-  render () {
+  render() {
     if (!this.state.id) {
       return (
         <div id="notLogin" align="center">
@@ -69,18 +55,18 @@ class Mypage extends React.Component {
               height: 350px;
           `}</style>
         </div>
-      )
-    } else {
+      );
+    } else if (this.state.id) {
       return (
         <div id="mypage">
           <div id="mypage_box">
             <h1>마이페이지</h1>
           </div>
           <div id="Mypage_nav">
-            <button id="ratedBooks_btn" onClick={this.ratedBooks_clickHandler}>
+            <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
               내가 평가한 책
             </button>
-            <button id='wantToReadBooks_btn' onClick={this.wantToReadBooks_clickHandler}>
+            <button id="bookmarks_btn" onClick={this.bookmarksBtn_clickHandler}>
               내가 읽고싶은 책
             </button>
           </div>
@@ -88,12 +74,12 @@ class Mypage extends React.Component {
             <MypageContents
               books={this.state.books}
               reviews={this.state.reviews}
-              wantToReadBooksShow={this.state.wantToReadBooksShow}
-              ratedBooksShow={this.state.ratedBooksShow}
-              deleteBookmark={this.deleteBookmark}
+              showReviews={this.state.showReviews}
+              showBookmarks={this.state.showBookmarks}
               deleteReview={this.deleteReview}
+              deleteBookmark={this.deleteBookmark}
             />
-            <div id="addBooks_btn" onClick={this.getBooks} align="center">
+            <div id="addBooks_btn" onClick={this.getMoreReviews} align="center">
               더 보기
             </div>
           </div>
@@ -119,7 +105,10 @@ class Mypage extends React.Component {
               #Mypage_nav {
       
                 border: solid 1px #ced4da;
-                margin: 0 auto;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 5px;
+                margin-bottom: 5px;
                 width: 60%;
               }
               #contents_box {
@@ -128,30 +117,30 @@ class Mypage extends React.Component {
                 width: 60%;
               }
 
-              #ratedBooks_btn {
+              #reviews_btn {
                 display=block;
                 margin-right: 10px;
                 padding: 5px 10px 5px 10px;
                 border-radius: 0px 3px 3px 0px;
                 font-size: 15px;
               }
-              #ratedBooks_btn:hover {
+              #reviews_btn:hover {
                 font-weight: bold;
               }
-              #ratedBooks_btn:focus {
+              #reviews_btn:focus {
                 border-bottom: 3px solid #ff8906;
                 font-weight: bold;
               }
 
-              #wantToReadBooks_btn {
+              #bookmarks_btn {
                 padding: 5px 10px 5px 10px;
                 border-radius: 0px 3px 3px 0px;
                 font-size: 15px;
               }
-              #wantToReadBooks_btn:hover {
+              #bookmarks_btn:hover {
                 font-weight: bold;
               }
-              #wantToReadBooks_btn:focus {
+              #bookmarks_btn:focus {
                 border-bottom: 3px solid #ff8906;
                 font-weight: bold;
               }
@@ -172,69 +161,50 @@ class Mypage extends React.Component {
     }
   }
 
-  wantToReadBooks_clickHandler = () => {
-    if (
-      this.state.wantToReadBooksShow === false &&
-      this.state.ratedBooksShow === true
-    ) {
+  bookmarksBtn_clickHandler = () => {
+    if (this.state.showBookmarks === false && this.state.showReviews === true) {
       this.setState({
-        ratedBooksShow: !this.state.ratedBooksShow,
-        wantToReadBooksShow: !this.state.wantToReadBooksShow
+        showReviews: !this.state.showReviews,
+        showBookmarks: !this.state.showBookmarks
       });
     }
   };
 
-  ratedBooks_clickHandler = () => {
-    if (
-      this.state.wantToReadBooksShow === true &&
-      this.state.ratedBooksShow === false
-    ) {
+  reviewsBtn_clickHandler = () => {
+    if (this.state.showBookmarks === true && this.state.showReviews === false) {
       this.setState({
-        ratedBooksShow: !this.state.ratedBooksShow,
-        wantToReadBooksShow: !this.state.wantToReadBooksShow
+        showReviews: !this.state.showReviews,
+        showBookmarks: !this.state.showBookmarks
       });
     }
   };
 
-  scrollHandler = event => {
-    if (this.state.scrollY > 1000) {
-      // arbitrary amount
-      this.setState({
-        scrollY: window.scrollY
-      });
-    }
-  };
-
-  getBooks = async () => {
-    const userId = { userId: 1 }
-    // const userId = { userId: this.props.ID } 
-
-    const url2 = 'http://localhost:5000/reviews/getMyReviews'
-    const realAPI2 = 'http://3.16.58.104:5000/reviews/getMyReviews'
-    
-    const res2 = await axios.post(realAPI2, userId)
-      .catch(err => console.log(err))
-    const reviews = await res2.data;
-    // console.log("[*] reviews : ", reviews);
-
-    this.setState(state => {
-      return {
-        reviews: Object.assign(state.reviews, reviews)
-      };
+  deleteBookmark = books => {
+    this.setState({
+      books: books
     });
   };
 
-  deleteBookmark = (books) => {
-    this.setState({
-      books: books
-    })
-  }
-  
-  deleteReview = (reviews) => {
+  deleteReview = reviews => {
     this.setState({
       reviews: reviews
-    })
-  }
+    });
+  };
+
+  getMoreReviews = async () => {
+    this.setState({
+      count: this.state.count + 10
+    });
+
+    await axios
+      .post(`${URL}/reviews/getMyReviews`, { userId: this.state.id })
+      .then(res => {
+        this.setState({
+          reviews: res.data.slice(0, this.state.count)
+        });
+      })
+      .catch(err => console.log(err));
+  };
 }
 
 export default Mypage;
