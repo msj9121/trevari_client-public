@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
-import { BACKEND_ENDPOINT } from "../constant";
+import { BACKEND_ENDPOINT } from "../../constant";
 
 class BookmarkItem extends React.Component {
   render() {

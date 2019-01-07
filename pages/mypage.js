@@ -1,9 +1,6 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
-import { BACKEND_ENDPOINT } from "../constant";
-
-const URL = "http://3.16.58.104:5000";
-// const URL = "http://localhost:5000";
+import { BACKEND_ENDPOINT } from "../../constant";
 
 class Mypage extends React.Component {
   static getInitialProps = async function(context) {
