@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
-
-const URL = "http://3.16.58.104:5000";
-// const URL = "http://localhost:5000";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class BookmarkItem extends React.Component {
   render() {
@@ -74,14 +72,14 @@ class BookmarkItem extends React.Component {
     const deleteBookmark = this.props.deleteBookmark;
 
     await axios
-      .post(`${URL}/bookmarks/deleteBookmark`, {
+      .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
         userId: book.user_id,
         bookmarkId: book.id
       })
       .then(async res => {
         if (res.data) {
           await axios
-            .post(`${URL}/bookmarks/getMyBookmarks`, { userId: book.user_id })
+            .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId: book.user_id })
             .then(response => {
               const newBooks = response.data;
               deleteBookmark(newBooks);

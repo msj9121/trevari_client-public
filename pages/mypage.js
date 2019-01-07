@@ -1,5 +1,6 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
+import { BACKEND_ENDPOINT } from "../constant";
 
 const URL = "http://3.16.58.104:5000";
 // const URL = "http://localhost:5000";
@@ -10,12 +11,12 @@ class Mypage extends React.Component {
 
     if (userId) {
       const res1 = await axios
-        .post(`${URL}/bookmarks/getMyBookmarks`, { userId })
+        .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
         .catch(err => console.log(err));
       const books = await res1.data.slice(0, 10);
 
       const res2 = await axios
-        .post(`${URL}/reviews/getMyReviews`, { userId })
+        .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
         .catch(err => console.log(err));
       const reviews = await res2.data.slice(0, 10);
 
@@ -197,7 +198,7 @@ class Mypage extends React.Component {
     });
 
     await axios
-      .post(`${URL}/reviews/getMyReviews`, { userId: this.state.id })
+      .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: this.state.id })
       .then(res => {
         this.setState({
           reviews: res.data.slice(0, this.state.reviewsCount)
@@ -212,7 +213,7 @@ class Mypage extends React.Component {
     });
 
     await axios
-      .post(`${URL}/bookmarks/getMyBookmarks`, { userId: this.state.id })
+      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId: this.state.id })
       .then(res => {
         this.setState({
           books: res.data.slice(0, this.state.bookmarksCount)

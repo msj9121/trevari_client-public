@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
-
-const URL = "http://3.16.58.104:5000";
-// const URL = "http://localhost:5000";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class ReviewItem extends React.Component {
   render() {
@@ -233,14 +231,14 @@ class ReviewItem extends React.Component {
     const deleteReview = this.props.deleteReview;
 
     await axios
-      .post(`${URL}/reviews/deleteReview`, {
+      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
         userId: review.user_id,
         bookId: review.book_id
       })
       .then(res => {
         if (res.data) {
           axios
-            .post(`${URL}/reviews/getMyReviews`, { userId: review.user_id })
+            .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: review.user_id })
             .then(response => {
               const newReviews = response.data;
               deleteReview(newReviews);
