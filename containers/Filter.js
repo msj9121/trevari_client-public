@@ -52,6 +52,7 @@ class Filter extends Component {
             display: block;
             border: 1px solid #ced4da;
             border-radius: 3px 0px 0px 3px;
+            outline-style: none;
           }
           .filter_xbox {
             border: solid 1px;

@@ -46,7 +46,7 @@ class Search extends Component {
         <div id="search_box">
           {this.props.books.map((book, index) => {
             return (
-              <SearchBooks book={book} key={index} />
+              <SearchBooks book={book} key={index} ID={this.props.ID}/>
             )
           })}
           <style jsx>{`
@@ -70,7 +70,6 @@ class Search extends Component {
   }
 
   render() {
-    console.log(this.props.books)
     return (
       <div id="search">
 

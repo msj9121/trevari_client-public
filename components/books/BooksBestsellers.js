@@ -13,7 +13,7 @@ const BooksBestsellers = (props) => {
       <div className="books_bestsellers_imgs">
 
         {props.bestsellers.map((bestseller, index) => (
-          <BooksBestseller bestseller={bestseller} key={index}/>
+          <BooksBestseller bestseller={bestseller} key={index} ID={props.ID}/>
         ))}
 
       </div>
