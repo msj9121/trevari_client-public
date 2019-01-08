@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { BACKEND_ENDPOINT } from "../../../constant";
 
 class BookReviewInput extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class BookReviewInput extends Component {
   _addReview = async () => {
     if (this.props.ID) {
       await axios
-        .post(`http://3.16.58.104:5000/reviews/addReview`, {
+        .post(`${BACKEND_ENDPOINT}/reviews/addReview`, {
           userId: this.props.ID,
           bookId: this.props.bookId,
           text: this.state.reviewText

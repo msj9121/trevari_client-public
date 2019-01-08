@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import BestsellersBooks from '../components/bestsellers/BestsellersBooks';
+import React, { Component } from "react";
+import axios from "axios";
+import BestsellersBooks from "../components/bestsellers/BestsellersBooks";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class Bestsellers extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   static async getInitialProps() {
-    const res = await axios.post("http://3.16.58.104:5000/books/searchByTitle", { input: "한글" });
+    const res = await axios.post(
+      `${BACKEND_ENDPOINT}/books/searchByTitle`,
+      { input: "대한" }
+    );
     const data = await res.data.slice(0, 30);
 
     return {
@@ -19,31 +23,34 @@ class Bestsellers extends Component {
   render() {
     return (
       <div id="bestsellers">
-
         <div id="bestsellers_box">
           {this.props.bestsellers.map((book, index) => {
             return (
-              <BestsellersBooks book={book} key={index} ID={this.props.ID}/>
-            )
+              <BestsellersBooks book={book} key={index} ID={this.props.ID} />
+            );
           })}
         </div>
 
         <style jsx>{`
+          #bestsellers {
+            background: rgba(0, 0, 0, 0.03);
+          }
+          #bestsellers_box {
+            margin: 0 auto;
+            width: 60%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: white;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+          }
+          @media screen and (max-width: 600px) {
             #bestsellers_box {
-              border: 1px solid #DDD;
-              margin: 0 auto;
-              width: 60%;
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
+              width: 100%;
             }
-            @media screen and (max-width: 600px) {
-              #bestsellers_box {
-                width: 100%;
-              }
-            }
-          `}</style>
-
+          }
+        `}</style>
       </div>
     );
   }
