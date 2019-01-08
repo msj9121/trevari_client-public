@@ -38,9 +38,11 @@ class Mypage extends React.Component {
       showBookmarks: false,
       reviewsCount: 10,
       bookmarksCount: 10,
-      userDataModal:false  
+      userDataModal: false  
     };
+    console.log(this.state.userDataModal)
     console.log("[*] mypage this.state.id : ", this.state.id);
+    this.closeUserDataModal = this.closeUserDataModal.bind(this);
   }
 
   render() {
@@ -87,6 +89,8 @@ class Mypage extends React.Component {
               deleteBookmark={this.deleteBookmark}
               getMoreBookmarks={this.getMoreBookmarks}
               getMoreReviews={this.getMoreReviews}
+              reviewsCount={this.state.reviewsCount}
+              bookmarksCount={this.state.bookmarksCount}
             />
           </div>
           <style jsx>{`
@@ -200,9 +204,22 @@ class Mypage extends React.Component {
   };
 
   deleteReview = reviews => {
+    const reviewIndex = this.state.reviews.indexOf(reviews);
+    const newFrontReviews = this.state.reviews.slice(0, reviewIndex);
+    const newBehindReviews = this.state.reviews.slice(reviewIndex+1)
+    const reviewsCount = this.state.reviewsCount
+    const newCount = reviewsCount - 1;
+    console.log(`newCount ${newCount}`)
+
+    console.log(`바뀌기 전 reviewsCount : ${this.state.reviewsCount}`)
+
     this.setState({
-      reviews: reviews
-    });
+      reviews: newFrontReviews.concat(newBehindReviews),
+      reviewsCount: newCount
+    })
+    
+    console.log(`바뀐 후 reviewsCount : ${this.state.reviewsCount}`)
+
   };
 
   getMoreReviews = async () => {

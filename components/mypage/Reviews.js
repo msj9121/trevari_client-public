@@ -11,6 +11,7 @@ class Reviews extends React.Component {
               review={review}
               key={id}
               deleteReview={this.props.deleteReview}
+              reviewsCount={this.props.reviewsCount}
             />
           ))}
         </div>
