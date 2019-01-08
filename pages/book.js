@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import axios from "axios";
 import BookTitlebox from "../components/book/BookTitlebox";
 import BookReviewbox from "../components/book/BookReviewbox";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class Book extends Component {
   static async getInitialProps(context) {
     const { id, ID } = context.query;
 
     const book = await axios
-      .post(`http://3.16.58.104:5000/books/getBookById`, { id })
+      .post(`${BACKEND_ENDPOINT}/books/getBookById`, { id })
       .then(res => res.data)
       .catch(err => {
         console.log(err);
       });
 
     const bookReviewData = await axios
-      .post(`http://3.16.58.104:5000/reviews/getReviewsForBookId`, {
+      .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
         bookId: id
       })
       .then(res => res.data)
@@ -25,7 +26,7 @@ class Book extends Component {
 
     if (ID) {
       const bookMarkData = await axios
-        .post(`http://3.16.58.104:5000/bookmarks/getMyBookmarks`, {
+        .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
           userId: ID
         })
         .then(response => response.data)
@@ -45,8 +46,6 @@ class Book extends Component {
       bookMarkData: this.props.bookMarkData,
       review: false
     };
-    this._renderBookmarkBtn = this._renderBookmarkBtn.bind(this);
-    this._renderReviewBtn = this._renderReviewBtn.bind(this);
   }
 
   _startReview = () => {
@@ -112,7 +111,7 @@ class Book extends Component {
 
   _changeBookMarkData = async () => {
     const res = await axios.post(
-      `http://3.16.58.104:5000/bookmarks/getMyBookmarks`,
+      `${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`,
       {
         userId: this.props.ID
       }
@@ -196,7 +195,7 @@ class Book extends Component {
   _addBookmark = async () => {
     if (this.props.ID) {
       const res = await axios.post(
-        `http://3.16.58.104:5000/bookmarks/addBookmark`,
+        `${BACKEND_ENDPOINT}/bookmarks/addBookmark`,
         {
           userId: this.props.ID,
           bookId: this.props.book.id
@@ -204,10 +203,7 @@ class Book extends Component {
       );
       const data = await res.data;
       console.log("POST-addBookmark response : ", data);
-      alert("addBookmark POST 요청");
-
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
-
       this._changeBookMarkData();
     } else {
       alert("로그인 해주세요!");
@@ -218,7 +214,7 @@ class Book extends Component {
     if (this.props.ID) {
       const bookmark_Id = this._filterBookmarkId();
       const res = await axios.post(
-        `http://3.16.58.104:5000/bookmarks/deleteBookmark`,
+        `${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`,
         {
           userId: this.props.ID,
           bookmarkId: bookmark_Id
@@ -226,10 +222,7 @@ class Book extends Component {
       );
       const data = await res.data;
       console.log("POST-deleteBookmark response : ", data);
-      alert("deleteBookmark POST 요청");
-
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
-
       this._changeBookMarkData();
     } else {
       alert("로그인 해주세요!");
@@ -264,11 +257,14 @@ class Book extends Component {
 
         <style jsx>{`
           #book {
+            background: rgba(0, 0, 0, 0.03);
           }
           #book_box {
-            border: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
             margin: 0 auto;
             width: 60%;
+            background: white;
           }
           @media screen and (max-width: 600px) {
             #book_box {

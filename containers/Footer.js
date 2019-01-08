@@ -30,7 +30,7 @@ const Footer = () => (
 
     <style jsx>{`
       #footer {
-        background: rgba(0, 0, 0, 0.03);
+        background-color: #2C343F;
       }
       #footer_box {
         margin: 0 auto;
@@ -50,11 +50,11 @@ const Footer = () => (
       }
       .footer-four {
         font-size: 12px;
-        color: #adb5bd;
+        color: white;
         padding: 10px;
       }
       .footer_slogan {
-        color: #4e4e4e;
+        color: white;
         font-weight: bold;
       }
       .footer_button {
@@ -67,7 +67,7 @@ const Footer = () => (
       }
       .footer_list {
         margin: 20px 0px;
-        color: #6c757d;
+        color: white;
         font-size: 14px;
       }
       p {

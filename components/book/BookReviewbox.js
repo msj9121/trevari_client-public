@@ -3,6 +3,7 @@ import BookReviewScore from "./BookReview/BookReviewScore";
 import BookReviewInput from "./BookReview/BookReviewInput";
 import BookReviewInner from "./BookReview/BookReviewInner";
 import axios from "axios";
+import { BACKEND_ENDPOINT } from "../../constant";
 
 class BookReviewbox extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class BookReviewbox extends Component {
   _getReviewChange = async chack => {
     if (chack) {
       const changeBookReviews = await axios
-        .post(`http://3.16.58.104:5000/reviews/getReviewsForBookId`, {
+        .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
           bookId: this.props.bookId
         })
         .then(res => {
