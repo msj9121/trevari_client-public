@@ -5,12 +5,13 @@ import Bookmarks from "./Bookmarks";
 class MypageContents extends React.Component {
   render() {
     if (
-      this.props.showBookmarks === false &&
+      this.props.showBookmarks === false && 
       this.props.showReviews === true
     ) {
       return (
         <Reviews
           reviews={this.props.reviews}
+          reviewsCount={this.props.reviewsCount}
           deleteReview={this.props.deleteReview}
           getMoreReviews={this.props.getMoreReviews}
         />
@@ -22,6 +23,7 @@ class MypageContents extends React.Component {
       return (
         <Bookmarks
           books={this.props.books}
+          bookmarksCount={this.props.bookmarksCount}
           deleteBookmark={this.props.deleteBookmark}
           getMoreBookmarks={this.props.getMoreBookmarks}
         />

@@ -2,6 +2,10 @@ import React from "react";
 import ReviewItem from "./ReviewItem";
 
 class Reviews extends React.Component {
+  clickHandler = () => {
+    this.props.getMoreReviews();
+  };
+
   render() {
     return (
       <div id="ratedBooks">
@@ -11,11 +15,14 @@ class Reviews extends React.Component {
               review={review}
               key={id}
               deleteReview={this.props.deleteReview}
+              reviewsCount={this.props.reviewsCount}
             />
           ))}
         </div>
         <div>
-          <button className="viewMore" onClick={this.clickHandler}>더보기</button>
+          <button className="viewMore" onClick={this.clickHandler}>
+            더보기
+          </button>
         </div>
         <style jsx>{`
           #ratedBooks {
@@ -35,10 +42,6 @@ class Reviews extends React.Component {
         `}</style>
       </div>
     );
-  }
-
-  clickHandler = () => {
-    this.props.getMoreReviews()
   }
 }
 

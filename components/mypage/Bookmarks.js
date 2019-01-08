@@ -2,6 +2,10 @@ import React from "react";
 import BookmarkItem from "./BookmarkItem";
 
 class Bookmarks extends React.Component {
+  clickHandler = () => {
+    this.props.getMoreBookmarks();
+  };
+
   render() {
     const books = this.props.books;
 
@@ -17,7 +21,9 @@ class Bookmarks extends React.Component {
           ))}
         </div>
         <div>
-          <button className="viewMore" onClick={this.clickHandler}>더보기</button>
+          <button className="viewMore" onClick={this.clickHandler}>
+            더보기
+          </button>
         </div>
         <style jsx>{`
           .imageContainer {
@@ -37,10 +43,6 @@ class Bookmarks extends React.Component {
         `}</style>
       </div>
     );
-  }
-
-  clickHandler = () => {
-    this.props.getMoreBookmarks()
   }
 }
 

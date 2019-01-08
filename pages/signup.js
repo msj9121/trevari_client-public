@@ -60,7 +60,6 @@ class Signup extends Component {
     if (!this.passwordCheck(this.state.password, this.state.repassword)) {
       return;
     }
-
     this.checkRegisteredEmail();
   };
 
@@ -92,10 +91,6 @@ class Signup extends Component {
       .then(res => {
         if (res.data) {
           Router.push("/login");
-        } else {
-          this.setState({
-            check: "전화번호는 숫자만 입력!"
-          });
         }
       })
       .catch(err => console.log(err));

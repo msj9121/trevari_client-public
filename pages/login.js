@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Route from "next/router";
+import Router from "next/router";
 import { BACKEND_ENDPOINT } from "../constant";
-
-// const URL = "http://3.16.58.104:5000";
-// const URL = "http://localhost:5000";
 
 class Login extends Component {
   constructor(props) {
@@ -64,7 +61,7 @@ class Login extends Component {
           });
           this.props.saveId(this.state.id);
           this.props.changeCondition();
-          Route.push("/index");
+          Router.push("/index");
         } else {
           this.setState({
             check: "비밀번호를 확인해 주세요!"
@@ -75,7 +72,7 @@ class Login extends Component {
   };
 
   moveSignupPage = () => {
-    Route.push("/signup");
+    Router.push("/signup");
   };
 
   render() {
@@ -102,13 +99,17 @@ class Login extends Component {
             onChange={this.handleChange}
           />
         </div>
+
         <div className="wanning-div">{this.state.check}</div>
+
         <button className="login-btn" onClick={this.loginButtonClick}>
           로그인
         </button>
+
         <div className="login-a-div" onClick={this.moveSignupPage}>
           트레바리 가입하기!
         </div>
+
         <style jsx>{`
           #login {
             text-align: center;
