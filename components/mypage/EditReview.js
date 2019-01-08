@@ -6,15 +6,31 @@ class EditReview extends React.Component {
   }
 
   render() {
-    console.log(`modalStatus : ${this.props.modalStatus}`)
+  
     return (
       <div id="myModal" className="modal" display={this.props.modalStatus}>
         <div className="modal-content">
           <span className="close-modal" onClick={this.props.closeModal}>
             &times;
           </span>
-          <textarea className="edit-textarea" placeholder="내용을 수정해 주세요" />
-          <button className="submit-btn" onClick={this.props.closeModal}>수정내용 등록하기</button>
+          <textarea
+            className={this.props.review.book_id}
+            placeholder="내용을 수정해 주세요"
+          />
+          <button 
+            className="submit-btn" 
+            onClick={() => {
+              const review = this.props.review
+              let userId = review.user_id
+              let bookId = review.book_id
+              let reviewId = review.id
+              let editedReview = document.getElementsByClassName(bookId)[0].value
+              
+              this.props.editReview(editedReview, userId, bookId, reviewId);
+              this.props.closeModal();
+            }}>
+            수정내용 등록하기
+          </button>
         </div>
         <style jsx>{`
           .modal {
@@ -36,7 +52,7 @@ class EditReview extends React.Component {
             border: 1px solid #888;
             width: 80%;
           }
-          .edit-textarea {
+          textarea {
             width: 100%;
             height: 200px;
             font-size: 14px;
@@ -62,6 +78,6 @@ class EditReview extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default EditReview;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
 import UpdateUserData from "../components/mypage/UpdateUserData";
-
 import { BACKEND_ENDPOINT } from "../constant";
+
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
@@ -37,7 +37,8 @@ class Mypage extends React.Component {
       showBookmarks: false,
       reviewsCount: 10,
       bookmarksCount: 10,
-      userDataModal: false
+      userDataModal: false,
+      editedReview: ""
     };
   }
 
@@ -123,10 +124,38 @@ class Mypage extends React.Component {
       userDataModal: true
     });
   };
+
   closeUserDataModal = () => {
     this.setState({
       userDataModal: false
     });
+  };
+
+  editReview = (editedReview, userId, bookId, reviewId) => {
+    var newReviews = this.state.reviews;
+
+    for (var i = 0; i < newReviews.length; i++) {
+      if (newReviews[i]["id"] === reviewId) {
+        newReviews[i]["text"] = editedReview;
+      }
+    }
+
+    axios
+      .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
+        userId: userId,
+        bookId: bookId,
+        score: "4",
+        text: editedReview
+      })
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            review: newReviews
+          });
+          console.log(`수정된 리뷰 : ${editedReview}`);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -187,6 +216,8 @@ class Mypage extends React.Component {
               getMoreReviews={this.getMoreReviews}
               reviewsCount={this.state.reviewsCount}
               bookmarksCount={this.state.bookmarksCount}
+              editedReview={this.state.editedReview}
+              editReview={this.editReview}
             />
           </div>
           <style jsx>{`
