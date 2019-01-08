@@ -5,7 +5,7 @@ import Bookmarks from "./Bookmarks";
 class MypageContents extends React.Component {
   render() {
     if (
-      this.props.showBookmarks === false &&
+      this.props.showBookmarks === false && 
       this.props.showReviews === true
     ) {
       return (

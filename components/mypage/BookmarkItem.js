@@ -4,6 +4,36 @@ import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
 class BookmarkItem extends React.Component {
+  getBookImage = () => {
+    const bareImage = JSON.stringify(this.props.book.Book.image);
+    let bookImageURL;
+    for (var i = 0; i < bareImage.length; i++) {
+      if (bareImage[i] === "?") {
+        bookImageURL = bareImage.slice(1, i);
+      }
+    }
+    return bookImageURL;
+  };
+
+  deleteBtn_handler = () => {
+    const book = this.props.book;
+    const deleteBookmark = this.props.deleteBookmark;
+
+    deleteBookmark(book);
+
+    axios
+      .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
+        userId: book.user_id,
+        bookmarkId: book.id
+      })
+      .then(res => {
+        if (res.data) {
+          console.log(`삭제된 북마크 : ${book.Book.title}`);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     const book = this.props.book;
 
@@ -21,7 +51,9 @@ class BookmarkItem extends React.Component {
           </div>
         </Link>
         <div className="btnContainer">
-          <button className="deleteBtn" onClick={this.deleteBtn_handler}>삭제</button>
+          <button className="deleteBtn" onClick={this.deleteBtn_handler}>
+            삭제
+          </button>
         </div>
         <style jsx>{`
           #bookmarkContent, .imageContainer, .image, .deleteBtn {
@@ -55,40 +87,6 @@ class BookmarkItem extends React.Component {
       </div>
     );
   }
-
-  getBookImage = () => {
-    const bareImage = JSON.stringify(this.props.book.Book.image);
-    let bookImageURL;
-    for (var i = 0; i < bareImage.length; i++) {
-      if (bareImage[i] === "?") {
-        bookImageURL = bareImage.slice(1, i);
-      }
-    }
-    return bookImageURL;
-  };
-
-  deleteBtn_handler = async () => {
-    const book = this.props.book;
-    const deleteBookmark = this.props.deleteBookmark;
-
-    await axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
-        userId: book.user_id,
-        bookmarkId: book.id
-      })
-      .then(async res => {
-        if (res.data) {
-          await axios
-            .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId: book.user_id })
-            .then(response => {
-              const newBooks = response.data;
-              deleteBookmark(newBooks);
-            })
-            .catch(err => console.log(err));
-        }
-      })
-      .catch(err => console.log(err));
-  };
 }
 
 export default BookmarkItem;

@@ -1,49 +1,133 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
-import UpdateUserData from '../components/mypage/UpdateUserData';
+import UpdateUserData from "../components/mypage/UpdateUserData";
 
 import { BACKEND_ENDPOINT } from "../constant";
 class Mypage extends React.Component {
-  static getInitialProps = async function(context) {
+  static async getInitialProps(context) {
     const { userId } = context.query;
 
     if (userId) {
-      const res1 = await axios
+      const books = await axios
         .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
+        .then(res => res.data.slice(0, 10))
         .catch(err => console.log(err));
-      const books = await res1.data.slice(0, 10);
 
-      const res2 = await axios
+      const reviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
+        .then(res => res.data.slice(0, 10))
         .catch(err => console.log(err));
-      const reviews = await res2.data.slice(0, 10);
-
 
       return {
         books: books,
         reviews: reviews
       };
-    } else if (userId === "") {
+    } else {
       return;
     }
-  };
+  }
 
   constructor(props) {
     super(props);
     this.state = {
       id: this.props.ID,
-      books: this.props.books,
       reviews: this.props.reviews,
+      books: this.props.books,
       showReviews: true,
       showBookmarks: false,
       reviewsCount: 10,
       bookmarksCount: 10,
-      userDataModal: false  
+      userDataModal: false
     };
-    console.log(this.state.userDataModal)
-    console.log("[*] mypage this.state.id : ", this.state.id);
-    this.closeUserDataModal = this.closeUserDataModal.bind(this);
   }
+
+  reviewsBtn_clickHandler = () => {
+    if (this.state.showBookmarks === true && this.state.showReviews === false) {
+      this.setState({
+        showReviews: !this.state.showReviews,
+        showBookmarks: !this.state.showBookmarks
+      });
+    }
+  };
+
+  bookmarksBtn_clickHandler = () => {
+    if (this.state.showBookmarks === false && this.state.showReviews === true) {
+      this.setState({
+        showReviews: !this.state.showReviews,
+        showBookmarks: !this.state.showBookmarks
+      });
+    }
+  };
+
+  deleteReview = reviews => {
+    const reviewIndex = this.state.reviews.indexOf(reviews);
+    const newFrontReviews = this.state.reviews.slice(0, reviewIndex);
+    const newBehindReviews = this.state.reviews.slice(reviewIndex + 1);
+    const reviewsCount = this.state.reviewsCount;
+    const newCount = reviewsCount - 1;
+
+    this.setState({
+      reviews: newFrontReviews.concat(newBehindReviews),
+      reviewsCount: newCount
+    });
+  };
+
+  deleteBookmark = books => {
+    const bookmarkIndex = this.state.books.indexOf(books);
+    const newFrontBookmarks = this.state.books.slice(0, bookmarkIndex);
+    const newBehindBookmarks = this.state.books.slice(bookmarkIndex + 1);
+    const bookmarksCount = this.state.bookmarksCount;
+    const newCount = bookmarksCount - 1;
+
+    this.setState({
+      books: newFrontBookmarks.concat(newBehindBookmarks),
+      bookmarksCount: newCount
+    });
+  };
+
+  getMoreReviews = async () => {
+    this.setState({
+      reviewsCount: this.state.reviewsCount + 10
+    });
+    await axios
+      .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
+        userId: this.state.id
+      })
+      .then(res => {
+        this.setState({
+          reviews: res.data.slice(0, this.state.reviewsCount)
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  getMoreBookmarks = async () => {
+    this.setState({
+      bookmarksCount: this.state.bookmarksCount + 10
+    });
+
+    await axios
+      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
+        userId: this.state.id
+      })
+      .then(res => {
+        this.setState({
+          books: res.data.slice(0, this.state.bookmarksCount)
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  openUserDataModal = () => {
+    this.setState({
+      userDataModal: true
+    });
+  };
+  closeUserDataModal = () => {
+    this.setState({
+      userDataModal: false
+    });
+  };
 
   render() {
     if (!this.state.id) {
@@ -63,12 +147,24 @@ class Mypage extends React.Component {
     } else if (this.state.id) {
       return (
         <div id="mypage">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-                  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-                  crossOrigin="anonymous"></link>
-            {this.state.userDataModal ? <UpdateUserData userId ={this.props.ID} onclose={this.closeUserDataModal}/> : undefined}
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+            integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+            crossOrigin="anonymous"
+          />
+          {this.state.userDataModal ? (
+            <UpdateUserData
+              userId={this.props.ID}
+              onclose={this.closeUserDataModal}
+            />
+          ) : (
+            undefined
+          )}
           <div id="mypage_box">
-              <button id={'userSettingsButton'} onClick={this.openUserDataModal}><i className="fas fa-cog"></i></button>
+            <button id={"userSettingsButton"} onClick={this.openUserDataModal}>
+              <i className="fas fa-cog" />
+            </button>
             <h1>마이페이지</h1>
           </div>
           <div id="Mypage_nav">
@@ -177,90 +273,6 @@ class Mypage extends React.Component {
         </div>
       );
     }
-  }
-
-  bookmarksBtn_clickHandler = () => {
-    if (this.state.showBookmarks === false && this.state.showReviews === true) {
-      this.setState({
-        showReviews: !this.state.showReviews,
-        showBookmarks: !this.state.showBookmarks
-      });
-    }
-  };
-
-  reviewsBtn_clickHandler = () => {
-    if (this.state.showBookmarks === true && this.state.showReviews === false) {
-      this.setState({
-        showReviews: !this.state.showReviews,
-        showBookmarks: !this.state.showBookmarks
-      });
-    }
-  };
-
-  deleteBookmark = books => {
-    this.setState({
-      books: books
-    });
-  };
-
-  deleteReview = reviews => {
-    const reviewIndex = this.state.reviews.indexOf(reviews);
-    const newFrontReviews = this.state.reviews.slice(0, reviewIndex);
-    const newBehindReviews = this.state.reviews.slice(reviewIndex+1)
-    const reviewsCount = this.state.reviewsCount
-    const newCount = reviewsCount - 1;
-    console.log(`newCount ${newCount}`)
-
-    console.log(`바뀌기 전 reviewsCount : ${this.state.reviewsCount}`)
-
-    this.setState({
-      reviews: newFrontReviews.concat(newBehindReviews),
-      reviewsCount: newCount
-    })
-    
-    console.log(`바뀐 후 reviewsCount : ${this.state.reviewsCount}`)
-
-  };
-
-  getMoreReviews = async () => {
-    this.setState({
-      reviewsCount: this.state.reviewsCount + 10
-    });
-    await axios
-      .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: this.state.id })
-      .then(res => {
-        this.setState({
-          reviews: res.data.slice(0, this.state.reviewsCount)
-        });
-      })
-      .catch(err => console.log(err));
-  };
-
-  getMoreBookmarks = async () => {
-    this.setState({
-      bookmarksCount: this.state.bookmarksCount + 10
-    });
-
-    await axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId: this.state.id })
-      .then(res => {
-        this.setState({
-          books: res.data.slice(0, this.state.bookmarksCount)
-        });
-        console.log(`this.state.book : ${this.state.books}`)
-      })
-      .catch(err => console.log(err));
-  };
-
-  openUserDataModal = () => {
-    this.setState({
-        userDataModal:true
-    })
-  }
-  closeUserDataModal = () => {
-    this.setState({
-        userDataModal:false
-    })
   }
 }
 
