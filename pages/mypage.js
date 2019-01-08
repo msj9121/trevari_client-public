@@ -1,6 +1,6 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
-import { BACKEND_ENDPOINT } from "../../constant";
+import { BACKEND_ENDPOINT } from "../constant";
 
 class Mypage extends React.Component {
   static getInitialProps = async function(context) {
@@ -79,6 +79,8 @@ class Mypage extends React.Component {
               deleteBookmark={this.deleteBookmark}
               getMoreBookmarks={this.getMoreBookmarks}
               getMoreReviews={this.getMoreReviews}
+              reviewsCount={this.state.reviewsCount}
+              bookmarksCount={this.state.bookmarksCount}
             />
           </div>
           <style jsx>{`
@@ -184,9 +186,22 @@ class Mypage extends React.Component {
   };
 
   deleteReview = reviews => {
+    const reviewIndex = this.state.reviews.indexOf(reviews);
+    const newFrontReviews = this.state.reviews.slice(0, reviewIndex);
+    const newBehindReviews = this.state.reviews.slice(reviewIndex+1)
+    const reviewsCount = this.state.reviewsCount
+    const newCount = reviewsCount - 1;
+    console.log(`newCount ${newCount}`)
+
+    console.log(`바뀌기 전 reviewsCount : ${this.state.reviewsCount}`)
+
     this.setState({
-      reviews: reviews
-    });
+      reviews: newFrontReviews.concat(newBehindReviews),
+      reviewsCount: newCount
+    })
+    
+    console.log(`바뀐 후 reviewsCount : ${this.state.reviewsCount}`)
+
   };
 
   getMoreReviews = async () => {

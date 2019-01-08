@@ -213,6 +213,7 @@ class ReviewItem extends React.Component {
 
   getDate = () => {
     const bareDate = JSON.stringify(this.props.review.createdAt)
+    
     let year = bareDate.slice(1, 5)
     let month = bareDate.slice(6, 8)
     let day = bareDate.slice(9, 11)
@@ -220,16 +221,17 @@ class ReviewItem extends React.Component {
     let minute = bareDate.slice(15, 17)
     let second = bareDate.slice(18, 20)
     let newDate = `${year}년 ${month}월 ${day}일  ${time}시 ${minute}분 ${second}초`
-    console.log(`year : ${year}`, `month : ${month}`, `day : ${day}`, `time : ${time}`, `minute : ${minute}`, `second : ${second}`)
-    console.log(`newDate : ${newDate}`)
-
+    
     return newDate
   }
 
   deleteBtn_handler = async () => {
     const review = this.props.review;
+    console.log(`deleteBtn review : ${JSON.stringify(review)}`)
     const deleteReview = this.props.deleteReview;
-
+    const reviewsCount = this.props.reviewsCount
+    console.log(`[*] ReviewItiem reviewsCount : ${reviewsCount}`)
+    deleteReview(review)
     await axios
       .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
         userId: review.user_id,
@@ -237,16 +239,21 @@ class ReviewItem extends React.Component {
       })
       .then(res => {
         if (res.data) {
-          axios
-            .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: review.user_id })
-            .then(response => {
-              const newReviews = response.data;
-              deleteReview(newReviews);
-            })
-            .catch(err => console.log(err));
+          console.log(`삭제된 리뷰: ${review.Book.title}`)
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+
+    //     if (res.data) {
+    //       axios
+    //         .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: review.user_id })
+    //         .then(response => {
+    //           const newReviews = response.data.slice(0, reviewsCount);
+    //           deleteReview(newReviews);
+    //         })
+    //         .catch(err => console.log(err));
+    //     }
+    //   })
   };
 }
 
