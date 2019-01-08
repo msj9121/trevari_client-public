@@ -1,7 +1,8 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
-import { BACKEND_ENDPOINT } from "../constant";
+import UpdateUserData from '../components/mypage/UpdateUserData';
 
+import { BACKEND_ENDPOINT } from "../constant";
 class Mypage extends React.Component {
   static getInitialProps = async function(context) {
     const { userId } = context.query;
@@ -16,6 +17,7 @@ class Mypage extends React.Component {
         .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
         .catch(err => console.log(err));
       const reviews = await res2.data.slice(0, 10);
+
 
       return {
         books: books,
@@ -35,9 +37,12 @@ class Mypage extends React.Component {
       showReviews: true,
       showBookmarks: false,
       reviewsCount: 10,
-      bookmarksCount: 10
+      bookmarksCount: 10,
+      userDataModal: false  
     };
+    console.log(this.state.userDataModal)
     console.log("[*] mypage this.state.id : ", this.state.id);
+    this.closeUserDataModal = this.closeUserDataModal.bind(this);
   }
 
   render() {
@@ -58,7 +63,12 @@ class Mypage extends React.Component {
     } else if (this.state.id) {
       return (
         <div id="mypage">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+                  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+                  crossOrigin="anonymous"></link>
+            {this.state.userDataModal ? <UpdateUserData userId ={this.props.ID} onclose={this.closeUserDataModal}/> : undefined}
           <div id="mypage_box">
+              <button id={'userSettingsButton'} onClick={this.openUserDataModal}><i className="fas fa-cog"></i></button>
             <h1>마이페이지</h1>
           </div>
           <div id="Mypage_nav">
@@ -84,6 +94,14 @@ class Mypage extends React.Component {
             />
           </div>
           <style jsx>{`
+              #userSettingsButton{
+                float:right;
+                margin-top:30px;
+                margin-right:10px;
+                font-size:16px;
+                color:grey;
+                border-radius:10%;
+              }
               #test {
                 border: solid 2px;
               }
@@ -103,7 +121,7 @@ class Mypage extends React.Component {
                 }
               }
               #Mypage_nav {
-      
+
                 border: solid 1px #ced4da;
                 margin-left: auto;
                 margin-right: auto;
@@ -208,7 +226,6 @@ class Mypage extends React.Component {
     this.setState({
       reviewsCount: this.state.reviewsCount + 10
     });
-
     await axios
       .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId: this.state.id })
       .then(res => {
@@ -234,6 +251,17 @@ class Mypage extends React.Component {
       })
       .catch(err => console.log(err));
   };
+
+  openUserDataModal = () => {
+    this.setState({
+        userDataModal:true
+    })
+  }
+  closeUserDataModal = () => {
+    this.setState({
+        userDataModal:false
+    })
+  }
 }
 
 export default Mypage;
