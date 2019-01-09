@@ -57,31 +57,47 @@ class BookmarkItem extends React.Component {
         </div>
         <style jsx>{`
           #bookmarkContent, .imageContainer, .image, .deleteBtn {
-            box-shadow: 0px 0px 1px black;
+            box-shadow: 0px 0px 0px black;
           }
           #bookmarkContent {
-            display: flex;
-            flex-direction: column;
             margin: 15px;
+            width: 150px;
           }
           .imageContainer {
-            margin: 10px;
-            height: ;
+            width: 150px;
           }
           .image {
             background: ;
-            height: ;
-            width: 100px;
-            margin: 10px 10px 5px 10px;
+            width: 100%;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          }
+          .image:hover {
+            cursor: pointer;
           }
           .btnContainer {
+        
           }
           .deleteBtn {
-            align="center";
-            font-size: 15px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+            background-color: white;
+            color: black;
+            font-weight: 500;
+            padding: 5px 30px 5px 30px;
             cursor: pointer;
+            font-size: 15px;
             width: 100%;
-            bottom: 0px;
+             
+          }
+          .deleteBtn:hover {
+            color: black;
+            background-color: white;
+            font-weight: 500;
+            box-shadow: 0px 0px 0px 1px #ff8906
+            
+
           }
         `}</style>
       </div>

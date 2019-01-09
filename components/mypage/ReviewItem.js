@@ -8,7 +8,10 @@ class ReviewItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalStatus: "none"
+      modalStatus: "none",
+      reviewStatus: "none",
+      openBtnStatus: "none",
+      openBtnName: "펼치기",
     };
   }
 
@@ -68,12 +71,36 @@ class ReviewItem extends React.Component {
       .catch(err => console.log(err));
   };
 
+  openReviewBtn_clickHandler = () => {
+    if (this.state.reviewStatus === "block") {
+      this.props.showReview(this.state.reviewStatus)
+      this.setState({
+        reviewStatus: "none"
+      })
+    } else if (this.state.reviewStatus === "none") {
+      this.props.showReview(this.state.reviewStatus)
+      this.setState({
+        reviewStatus: "block"
+      })
+    }
+  }
+
+  openAndShowBtnHandler = () => {
+    if (this.state.reviewStatus === "block") {
+      document.getElementsByClassName(openReviewBtn).innerHTML = "닫기"
+    } else if (this.state.reviewStatus === "none") {
+      document.getElementsByClassName(openReviewBtn).innerHTML = "펼치기"
+    }
+  }
+
   render() {
     const review = this.props.review;
 
     return (
-      <div id="content">
+      <div id="reviewCard">
+
         <div id="basicContent">
+
           <div id="outerContent">
             <Link
               as={`/book/${review.book_id}`}
@@ -98,6 +125,16 @@ class ReviewItem extends React.Component {
                 삭제
               </button>
             </div>
+            <div>
+              <button className="openReviewBtn" onClick={this.openReviewBtn_clickHandler}>
+                {this.props.openBtnName}
+              </button>
+            </div>
+            <div>
+              <button className="editReviewBtn" onClick={this.showModal}>
+                수정하기
+              </button>
+            </div>
           </div>
 
           <div id="innerContent">
@@ -111,11 +148,12 @@ class ReviewItem extends React.Component {
               {review.text}
             </div>
             <div>
-              <button className="editReviewBtn" onClick={this.showModal}>
+              <button className="editReviewBtn2" onClick={this.showModal}>
                 수정하기
               </button>
             </div>
           </div>
+          
           <EditReview
             closeModal={this.closeModal}
             modalStatus={this.state.modalStatus}
@@ -125,76 +163,90 @@ class ReviewItem extends React.Component {
           />
         </div>
         <style jsx>{`
-          #content {
+          #reviewCard {
             display: flex;
             flex-direction: column;
-            background: #fff3e8;
-            width: 100%;
-            margin-bottom: 20px;
-            box-shadow: 0px 0px 0px 1px red;
+            background: #fcfbf9;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            
           }
           #basicContent {
             display: flex;
           }
-          #content,
           #outerContent,
           .imageContainer,
-          .deleteBtn,
           .myRate,
           .averageRate {
-            box-shadow: 0px 0px 0px 1px black;
+            box-shadow: 0px 0px 0px 0px black;
           }
           #innerContent,
           .name,
           .date,
           .review-box {
-            box-shadow: 0px 0px 0px 1px red;
-          }
-          #hideContent, 
-          .editContainer, 
-          .editReview, 
-          .editReviewBtn {
-            box-shadow: 0px 0px 0px 1px blue;
+            box-shadow: 0px 0px 0px 0px red;
           }
           #outerContent {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             background: #fcfbf9;
-            margin-left: 10px;
           }
           .imageContainer {
             width: 150px;
-            margin: auto;
           }
           .oneImage {
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
             width: 100%;
           }
+          .oneImage:hover {
+            cursor: pointer;
+          }
           .myRate {
             margin: 15px 0px 10px 0px;
-          }
-          .averageRate {
-            margin: 0px 0px 10px 0px;
-          }
-          .deleteBtn {
-            align="center";
-            font-size: 15px;
-            cursor: pointer;
+            background: white;
             width: 100%;
           }
+          .averageRate {
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 0px;
+            background: white;
+            width: 100%;
+          }
+          .deleteBtn {
+            margin-top: 10px;
+            display: inline-block;
+            background-color: #ff8906;
+            color: white;
+            font-weight: 500;
+            padding: 5px 30px 5px 30px;
+            cursor: pointer;
+            font-size: 15px;
+            width: 100%;
+            border: none;
+          }
+          .deleteBtn:hover {
+            color: black;
+            background-color: white;
+            font-weight: 500;
+            box-shadow: 0px 0px 0px 2px #ff8906; 
+
+          }
           #innerContent {
-            margin-left: 10px;
-            margin-right: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
             width: 100%;
           }
           .name {
-            background: ;
             margin-top: 10px;
-            font-size: 25px;
+            font-size: 20px;
             width: 100%;
-            height: 15%;
             font-weight: bold;
             text-align: center;
           }
@@ -202,59 +254,95 @@ class ReviewItem extends React.Component {
             margin-top: 5px;
             font-size: 12px;
             width: 100%;
-            height: 5%;
             color: grey;
           }
           .review-box {
-            background: ;
+            background: white;
             margin-top: 15px;
-            height: 50%;
+            height: 250px;
             width: 100%;
             overflow: scroll;
+            font-size: 13px;
           }
           .editReviewBtn {
-            align="center";
-            font-size: 15px;
+            display: inline-block;
+            background-color: #ff8906;
+            color: white;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            padding: 5px 30px 5px 30px;
             cursor: pointer;
+            font-size: 15px;
             width: 100%;
+            border: none;
           }
-  
+          .editReviewBtn:hover {
+            color: black;
+            background-color: white;
+            font-weight: 500;
+            box-shadow: 0px 0px 0px 2px #ff8906; 
+          }
+          .openReviewBtn {
+            display: none;
+          }
+          .editReviewBtn2 {
+            display: none;
+          }
           @media (max-width: 800px) {
-            .container {
-              display: flex;
-              flex-direction: column;
+            .openReviewBtn {
+              display: inline-block;
+              background-color: #ffadff;
+              color: white;
+              margin-top: 10px;
+              margin-bottom: ;
+              font-weight: 500;
+              padding: 5px 30px 5px 30px;
+              cursor: pointer;
+              font-size: 15px;
+              width: 100%;
+              border: none;
             }
-            #content {
-              display: flex;
-              flex-direction: column;
-              background: ;
-              margin-bottom: 20px;
+            .openReviewBtn:hover {
+              color: black;
+              background-color: white;
+              font-weight: 500;
+              box-shadow: 0px 0px 0px 2px #ffadff; 
             }
             #basicContent {
-              display: flex;
-              flex-direction: column;
+              display: flex;    
+              flex-direction: column; 
             }
-
-            #content,
-            .imageContainer,
-            .name,
-            .summary {
-              border: solid 1px #ced4da;
+            .imageContainer {
+              width: 150px;
+              margin-left: auto;
+              margin-right: auto;
             }
-            #outerContent {
-              background: ;
+            #innerContent {
+              display: ${this.state.reviewStatus};
             }
-            .oneImage {
+            .editReviewBtn {
+              display: none;
+            }
+            .editReviewBtn2 {
               display: block;
-              margin: auto;
+              display: inline-block;
+              background-color: #ff8906;
+              color: white;
+              margin-top: 10px;
+              margin-bottom: ;
+              font-weight: 500;
+              padding: 5px 30px 5px 30px;
+              cursor: pointer;
+              font-size: 15px;
+              width: 100%;
+              border: none;
             }
-            .name {
-              background: ;
-            }
-            .summary {
-              background: ;
-              height: 50%;
-              overflow: scroll;
+            .editReviewBtn2:hover {
+              color: black;
+              background-color: white;
+              font-weight: 500;
+              box-shadow: 0px 0px 0px 2px #ff8906; 
             }
           }
         `}</style>

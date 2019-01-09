@@ -18,6 +18,8 @@ class Reviews extends React.Component {
               reviewsCount={this.props.reviewsCount}
               editedReview={this.props.editedReview}
               editReview={this.props.editReview}
+              showReview={this.props.showReview}
+              openBtnName={this.props.openBtnName}
             />
           ))}
         </div>
@@ -27,19 +29,33 @@ class Reviews extends React.Component {
           </button>
         </div>
         <style jsx>{`
-          #reviews {
-            border: solid 1px #ced4da;
+          #reviews { 
           }
           #reviews-container {
             display: flex;
             flex-direction: column;
           }
           .more-btn {
-            align="center";
-            font-size: 15px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+            background-color: white;
+            color: black;
+            font-weight: 500;
+            padding: 5px 30px 5px 30px;
             cursor: pointer;
+            font-size: 15px;
             width: 100%;
-            margin-top: 15px;
+            border: solid 2px #ff8906; 
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          }
+          .more-btn:hover {
+            color: black;
+            background-color: white;
+            font-weight: 500;
+            box-shadow: 0px 0px 0px 2px #ff8906; 
+
           }
         `}</style>
       </div>

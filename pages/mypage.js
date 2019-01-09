@@ -2,11 +2,12 @@ import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
 import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
+import { networkInterfaces } from "os";
 
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
-
+    
     if (userId) {
       const books = await axios
         .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
@@ -38,7 +39,8 @@ class Mypage extends React.Component {
       reviewsCount: 10,
       bookmarksCount: 10,
       userDataModal: false,
-      editedReview: ""
+      editedReview: "",
+      openBtnName: "펼치기"
     };
   }
 
@@ -131,13 +133,13 @@ class Mypage extends React.Component {
     });
   };
 
-  editReview = (editedReview, userId, bookId, reviewId, score) => {
+  editReview = (editedReview, userId, bookId, reviewId, rating) => {
     let newReviews = this.state.reviews;
     
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
-        newReviews[i]["score"] = score;
+        newReviews[i]["score"] = rating;
       }
     }
 
@@ -145,7 +147,7 @@ class Mypage extends React.Component {
       .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
         userId: userId,
         bookId: bookId,
-        score: score,
+        score: rating,
         text: editedReview
       })
       .then(res => {
@@ -153,11 +155,23 @@ class Mypage extends React.Component {
           this.setState({
             review: newReviews
           });
-          console.log(`수정된 리뷰: ${editedReview}, 수정된 평가점수: ${score}`);
+          console.log(`수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`);
         }
       })
       .catch(err => console.log(err));
   };
+
+  showReview = (reviewStatus) => {
+    if (reviewStatus === "none") {
+      this.setState({
+        openBtnName: "닫기"
+      })
+    } else if (reviewStatus === "block") {
+      this.setState({
+        openBtnName: "펼치기"
+      })
+    }
+  }
 
   render() {
     if (!this.state.id) {
@@ -195,7 +209,7 @@ class Mypage extends React.Component {
             <button id={"userSettingsButton"} onClick={this.openUserDataModal}>
               <i className="fas fa-cog" />
             </button>
-            <h1>마이페이지</h1>
+            <h1 id="mypageTitle">마이페이지</h1>
           </div>
           <div id="Mypage_nav">
             <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
@@ -219,6 +233,8 @@ class Mypage extends React.Component {
               bookmarksCount={this.state.bookmarksCount}
               editedReview={this.state.editedReview}
               editReview={this.editReview}
+              showReview={this.showReview}
+              openBtnName={this.state.openBtnName}
             />
           </div>
           <style jsx>{`
@@ -230,27 +246,15 @@ class Mypage extends React.Component {
                 color:grey;
                 border-radius:10%;
               }
-              #test {
-                border: solid 2px;
-              }
-              #test: focus {
-                border-bottom: solid 3px;
-              }
               #mypage {
               }
               #mypage_box {
-                border: 1px solid #ddd;
-                margin: 0 auto;
+                margin-left: auto;
+                margin-right: auto;
                 width: 60%;
               }
-              @media screen and (max-width: 600px) {
-                #mypage_box {
-                  width: 100%;
-                }
-              }
+             
               #Mypage_nav {
-
-                border: solid 1px #ced4da;
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: 5px;
@@ -258,7 +262,6 @@ class Mypage extends React.Component {
                 width: 60%;
               }
               #contents_box {
-                border: solid 1px #ced4da;
                 margin: 0 auto;
                 width: 60%;
               }
@@ -300,6 +303,11 @@ class Mypage extends React.Component {
               #addBooks_btn:focus {
                 font-weight: bold;
                 border: solid 2px #ced4da;
+              }
+              @media screen and (max-width: 600px) {
+                #mypage_box {
+                  width: 60%;
+                }
               }
             `}</style>
         </div>

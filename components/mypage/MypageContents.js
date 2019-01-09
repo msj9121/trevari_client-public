@@ -16,6 +16,8 @@ class MypageContents extends React.Component {
           getMoreReviews={this.props.getMoreReviews}
           editedReview={this.props.editedReview}
           editReview={this.props.editReview}
+          showReview={this.props.showReview}
+          openBtnName={this.props.openBtnName}
         />
       );
     } else if (
