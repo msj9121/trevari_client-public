@@ -25,7 +25,8 @@ class BookReviewInput extends Component {
   };
 
   _addReview = async () => {
-    if (this.props.ID) {
+    if (this.props.ID && this.props.isReviewed === false) {
+      console.log("평점을 올릴 수 있습니다.")
       await axios
         .post(`${BACKEND_ENDPOINT}/reviews/addReview`, {
           userId: this.props.ID,
@@ -42,13 +43,15 @@ class BookReviewInput extends Component {
           }
         })
         .catch(err => console.log(err));
+    } else if (this.props.ID && this.props.isReviewed === true) {
+      alert("이미 평점이 있습니다.")
     } else {
       alert("로그인 해주세요!");
     }
   };
 
   render() {
-    console.log("BookReviewInput---ratingValue", this.props.ratingValue)
+    console.log("BookReviewInput---isReviewed", this.props.isReviewed)
     return (
       <div id="bookReviewInput">
         <textarea
@@ -73,7 +76,6 @@ class BookReviewInput extends Component {
 
         <style jsx>{`
           #bookReviewInput {
-            border: 1px solid #ddd;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -101,7 +103,9 @@ class BookReviewInput extends Component {
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            border-top: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
           }
           .bookReviewInput_btnbox_count {
             padding: 10px 20px 10px 20px;

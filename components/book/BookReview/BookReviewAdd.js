@@ -120,6 +120,10 @@ class BookReviewAdd extends Component {
     }
   };
 
+  // _deleteReview = () => {
+
+  // }
+
   _renderRevieweEditDelete = () => {
     if (this.props.ID === this.props.user_id) {
       return (

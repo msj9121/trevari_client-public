@@ -11,9 +11,32 @@ class BookReviewbox extends Component {
     this.state = {
       bookReviewData: this.props.bookReviewData,
       rating: 0,
-      ratingValue: 0
+      ratingValue: 0,
+      isReviewed: false
     };
   }
+
+  componentDidMount() {
+    this._chackUserReview()
+  }
+
+  _chackUserReview = () => {
+    if (this.props.ID) {
+      const userId = this.props.ID;
+      const reviewData = this.state.bookReviewData;
+      for (let i = 0; i < reviewData.length; i++) {
+        if (reviewData[i].user_id === userId) {
+          console.log("_chackUserReview", "평점이 있습니다.")
+          this.setState({
+            isReviewed: true
+          });
+          console.log("_chackUserReview---isReviewed : ", true)
+        }
+      }
+    } else {
+      console.log("평점이 없습니다.")
+    }
+  };
 
   _onStarClick = (nextValue, preValue, name) => {
     this.setState({
@@ -44,7 +67,8 @@ class BookReviewbox extends Component {
         });
 
       this.setState({
-        bookReviewData: changeBookReviews
+        bookReviewData: changeBookReviews,
+        isReviewed: true
       });
     } else {
       console.log("get 실패");
@@ -52,6 +76,7 @@ class BookReviewbox extends Component {
   };
 
   render() {
+    console.log("reviewData", this.state.bookReviewData);
     return (
       <div className="book_reviewbox">
         <BookReviewScore
@@ -65,6 +90,7 @@ class BookReviewbox extends Component {
           bookId={this.props.bookId}
           _getReviewChange={this._getReviewChange}
           ratingValue={this.state.ratingValue}
+          isReviewed={this.state.isReviewed}
         />
         <BookReviewInner
           ID={this.props.ID}
