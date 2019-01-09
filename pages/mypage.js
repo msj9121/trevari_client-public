@@ -131,12 +131,13 @@ class Mypage extends React.Component {
     });
   };
 
-  editReview = (editedReview, userId, bookId, reviewId) => {
-    var newReviews = this.state.reviews;
-
+  editReview = (editedReview, userId, bookId, reviewId, score) => {
+    let newReviews = this.state.reviews;
+    
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
+        newReviews[i]["score"] = score;
       }
     }
 
@@ -144,7 +145,7 @@ class Mypage extends React.Component {
       .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
         userId: userId,
         bookId: bookId,
-        score: "4",
+        score: score,
         text: editedReview
       })
       .then(res => {
@@ -152,7 +153,7 @@ class Mypage extends React.Component {
           this.setState({
             review: newReviews
           });
-          console.log(`수정된 리뷰 : ${editedReview}`);
+          console.log(`수정된 리뷰: ${editedReview}, 수정된 평가점수: ${score}`);
         }
       })
       .catch(err => console.log(err));
