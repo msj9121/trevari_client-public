@@ -1,8 +1,9 @@
 import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
 import UpdateUserData from "../components/mypage/UpdateUserData";
-
 import { BACKEND_ENDPOINT } from "../constant";
+
+
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
