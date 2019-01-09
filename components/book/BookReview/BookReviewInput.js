@@ -30,7 +30,8 @@ class BookReviewInput extends Component {
         .post(`${BACKEND_ENDPOINT}/reviews/addReview`, {
           userId: this.props.ID,
           bookId: this.props.bookId,
-          text: this.state.reviewText
+          text: this.state.reviewText,
+          score: this.props.ratingValue
         })
         .then(res => {
           if (res.data) {
@@ -47,6 +48,7 @@ class BookReviewInput extends Component {
   };
 
   render() {
+    console.log("BookReviewInput---ratingValue", this.props.ratingValue)
     return (
       <div id="bookReviewInput">
         <textarea

@@ -9,9 +9,25 @@ class BookReviewbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookReviewData: this.props.bookReviewData
+      bookReviewData: this.props.bookReviewData,
+      rating: 0,
+      ratingValue: 0
     };
   }
+
+  _onStarClick = (nextValue, preValue, name) => {
+    this.setState({
+      rating: nextValue,
+      ratingValue: nextValue * 2
+    });
+  };
+
+  _onStarHover = (nextValue, prevValue, name) => {
+    this.setState({
+      rating: nextValue,
+      ratingValue: nextValue * 2
+    });
+  };
 
   _getReviewChange = async chack => {
     if (chack) {
@@ -38,13 +54,20 @@ class BookReviewbox extends Component {
   render() {
     return (
       <div className="book_reviewbox">
-        <BookReviewScore />
+        <BookReviewScore
+          _onStarClick={this._onStarClick}
+          _onStarHover={this._onStarHover}
+          rating={this.state.rating}
+          ratingValue={this.state.ratingValue}
+        />
         <BookReviewInput
           ID={this.props.ID}
           bookId={this.props.bookId}
           _getReviewChange={this._getReviewChange}
+          ratingValue={this.state.ratingValue}
         />
         <BookReviewInner
+          ID={this.props.ID}
           bookId={this.props.bookId}
           bookReviewData={this.state.bookReviewData}
         />
