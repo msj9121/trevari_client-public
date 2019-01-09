@@ -52,8 +52,8 @@ class BookReviewbox extends Component {
     });
   };
 
-  _getReviewChange = async chack => {
-    if (chack) {
+  _getReviewChange = async check => {
+    if (check) {
       const changeBookReviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
           bookId: this.props.bookId
