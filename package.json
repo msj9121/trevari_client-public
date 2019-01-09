@@ -8,15 +8,13 @@
     "module": "^1.2.5",
     "next": "^7.0.2",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-star-rating-component": "^1.4.1"
   },
   "scripts": {
     "dev": "node server.js",
     "test": "next build && node server.js",
     "build": "next build",
     "start": "pm2 start server.js"
-  },
-  "browser": {
-    "joi": "joi-browser"
   }
 }
