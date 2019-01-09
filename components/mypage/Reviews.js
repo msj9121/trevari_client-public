@@ -8,31 +8,33 @@ class Reviews extends React.Component {
 
   render() {
     return (
-      <div id="ratedBooks">
-        <div id="ratedCardContainer">
+      <div id="reviews">
+        <div id="reviews-container">
           {this.props.reviews.map((review, id) => (
             <ReviewItem
               review={review}
               key={id}
               deleteReview={this.props.deleteReview}
               reviewsCount={this.props.reviewsCount}
+              editedReview={this.props.editedReview}
+              editReview={this.props.editReview}
             />
           ))}
         </div>
         <div>
-          <button className="viewMore" onClick={this.clickHandler}>
+          <button className="more-btn" onClick={this.clickHandler}>
             더보기
           </button>
         </div>
         <style jsx>{`
-          #ratedBooks {
+          #reviews {
             border: solid 1px #ced4da;
           }
-          #ratedCardContainer {
+          #reviews-container {
             display: flex;
             flex-direction: column;
           }
-          .viewMore {
+          .more-btn {
             align="center";
             font-size: 15px;
             cursor: pointer;

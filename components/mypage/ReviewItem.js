@@ -6,24 +6,23 @@ import EditReview from "./EditReview";
 
 class ReviewItem extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       modalStatus: "none"
-    }
+    };
   }
-  
 
   showModal = () => {
     this.setState({
       modalStatus: "block"
-    })
-  }
+    });
+  };
 
   closeModal = () => {
     this.setState({
       modalStatus: "none"
-    })
-  }
+    });
+  };
 
   getBookImage = () => {
     const bareImage = JSON.stringify(this.props.review.Book.image);
@@ -108,14 +107,22 @@ class ReviewItem extends React.Component {
             <div className="date" type="text">
               작성시간 : {this.getDate()}
             </div>
-            <div className="summary" type="text	7">
+            <div className="review-box" type="text">
               {review.text}
             </div>
             <div>
-              <button className="editReviewBtn" onClick={this.showModal} >수정하기</button>
+              <button className="editReviewBtn" onClick={this.showModal}>
+                수정하기
+              </button>
             </div>
           </div>
-          <EditReview closeModal={this.closeModal} modalStatus={this.state.modalStatus}/>
+          <EditReview
+            closeModal={this.closeModal}
+            modalStatus={this.state.modalStatus}
+            editedReview={this.props.editedReview}
+            editReview={this.props.editReview}
+            review={this.props.review}
+          />
         </div>
         <style jsx>{`
           #content {
@@ -140,7 +147,7 @@ class ReviewItem extends React.Component {
           #innerContent,
           .name,
           .date,
-          .summary {
+          .review-box {
             box-shadow: 0px 0px 0px 1px red;
           }
           #hideContent, 
@@ -180,11 +187,13 @@ class ReviewItem extends React.Component {
           #innerContent {
             margin-left: 10px;
             margin-right: 10px;
+            width: 100%;
           }
           .name {
             background: ;
             margin-top: 10px;
             font-size: 25px;
+            width: 100%;
             height: 15%;
             font-weight: bold;
             text-align: center;
@@ -192,13 +201,15 @@ class ReviewItem extends React.Component {
           .date {
             margin-top: 5px;
             font-size: 12px;
+            width: 100%;
             height: 5%;
             color: grey;
           }
-          .summary {
+          .review-box {
             background: ;
             margin-top: 15px;
             height: 50%;
+            width: 100%;
             overflow: scroll;
           }
           .editReviewBtn {
@@ -206,21 +217,6 @@ class ReviewItem extends React.Component {
             font-size: 15px;
             cursor: pointer;
             width: 100%;
-          }
-          #hideContent {
-            display: flex;
-            flex-direction: column;
-          }
-          .editContainer {
-            margin: 10px;
-            height: 150px;
-          }
-          .editReview {
-            align="center";
-            font-size: 15px;
-            cursor: pointer;
-            width: 100%;
-            height: 100px;
           }
   
           @media (max-width: 800px) {

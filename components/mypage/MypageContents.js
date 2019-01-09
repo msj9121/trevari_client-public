@@ -14,6 +14,8 @@ class MypageContents extends React.Component {
           reviewsCount={this.props.reviewsCount}
           deleteReview={this.props.deleteReview}
           getMoreReviews={this.props.getMoreReviews}
+          editedReview={this.props.editedReview}
+          editReview={this.props.editReview}
         />
       );
     } else if (

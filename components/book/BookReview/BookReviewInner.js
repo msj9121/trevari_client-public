@@ -7,12 +7,13 @@ class BookReviewInner extends Component {
   }
 
   render() {
-    console.log("BookReviewInner", this.props.bookReviewData);
     return (
       <div id="bookReviewInner">
-        {this.props.bookReviewData.reverse().map((review, index) => {
+        {this.props.bookReviewData.sort((a, b)=>(b.id-a.id)).map((review, index) => {
           return (
             <BookReviewAdd
+              ID={this.props.ID}
+              user_id={review.user_id}
               score={review.score}
               text={review.text}
               email={review.User.email}
