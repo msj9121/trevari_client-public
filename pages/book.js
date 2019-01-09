@@ -43,7 +43,6 @@ class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookMarkData: this.props.bookMarkData,
       review: false
     };
   }
@@ -109,138 +108,6 @@ class Book extends Component {
     }
   };
 
-  _changeBookMarkData = async () => {
-    const res = await axios.post(
-      `${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`,
-      {
-        userId: this.props.ID
-      }
-    );
-    const changeBookmark = await res.data;
-    console.log("GET-changeBookmarkDatas response : ", changeBookmark);
-    this.setState({
-      bookMarkData: changeBookmark
-    });
-  };
-
-  _filterBookmarkId = () => {
-    if (this.props.ID && this.state.bookMarkData) {
-      const bookId = this.props.book.id;
-      const bookmarkData = this.state.bookMarkData;
-      for (let i = 0; i < bookmarkData.length; i++) {
-        if (bookmarkData[i].book_id === bookId) {
-          return bookmarkData[i].id;
-        }
-      }
-    } else {
-      console.log("유저정보가 없습니다.");
-    }
-  };
-
-  _renderBookmarkBtn = () => {
-    const bookmark_Id = this._filterBookmarkId();
-    if (this.props.ID && bookmark_Id) {
-      return (
-        <span
-          className="book_titlebox_deleteBookmarkBtn"
-          onClick={this._deleteBookmark}
-        >
-          - 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_deleteBookmarkBtn {
-              background-color: #246db7;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_deleteBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    } else {
-      return (
-        <span
-          className="book_titlebox_addBookmarkBtn"
-          onClick={this._addBookmark}
-        >
-          + 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_addBookmarkBtn {
-              background-color: #ff8906;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_addBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    }
-  };
-
-  _addBookmark = async () => {
-    if (this.props.ID) {
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/addBookmark`,
-        {
-          userId: this.props.ID,
-          bookId: this.props.book.id
-        }
-      );
-      const data = await res.data;
-      console.log("POST-addBookmark response : ", data);
-      /* --------------------------------------BookMark state change--------------------------------------------------------- */
-      this._changeBookMarkData();
-    } else {
-      alert("로그인 해주세요!");
-    }
-  };
-
-  _deleteBookmark = async () => {
-    if (this.props.ID) {
-      const bookmark_Id = this._filterBookmarkId();
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`,
-        {
-          userId: this.props.ID,
-          bookmarkId: bookmark_Id
-        }
-      );
-      const data = await res.data;
-      console.log("POST-deleteBookmark response : ", data);
-      /* --------------------------------------BookMark state change--------------------------------------------------------- */
-      this._changeBookMarkData();
-    } else {
-      alert("로그인 해주세요!");
-    }
-  };
-
-  _renderBookReviewbox = () => {
-    if (this.state.review) {
-      return (
-        <BookReviewbox
-          ID={this.props.ID}
-          bookId={this.props.book.id}
-          bookReviewData={this.props.bookReviewData}
-        />
-      );
-    }
-  };
-
   render() {
     // console.log("Book.js--bookMarkData : ", this.state.bookMarkData);
     // console.log("Book.js--bookReviewData : ", this.props.bookReviewData);
@@ -249,10 +116,20 @@ class Book extends Component {
         <div id="book_box">
           <BookTitlebox
             book={this.props.book}
-            _renderBookmarkBtn={this._renderBookmarkBtn}
+            // _renderBookmarkBtn={this._renderBookmarkBtn}
             _renderReviewBtn={this._renderReviewBtn}
+            bookMarkData={this.props.bookMarkData}
+            ID={this.props.ID}
           />
-          {this._renderBookReviewbox()}
+          {this.state.review ? (
+            <BookReviewbox
+              ID={this.props.ID}
+              bookId={this.props.book.id}
+              bookReviewData={this.props.bookReviewData}
+            />
+          ) : (
+            console.log("review---hide")
+          )}
         </div>
 
         <style jsx>{`
