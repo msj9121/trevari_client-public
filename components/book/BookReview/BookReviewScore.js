@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 
 class BookReviewScore extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <div id="bookReviewScore">
         <div className="bookReviewScore_text">별점을 선택해주세요.</div>
         <div className="bookReviewScore_scorebox">
-          <span className="bookReviewScore_scorebox_star"><i className="fas fa-star"></i></span>
-          <span className="bookReviewScore_scorebox_star"><i className="fas fa-star"></i></span>
-          <span className="bookReviewScore_scorebox_star"><i className="fas fa-star"></i></span>
-          <span className="bookReviewScore_scorebox_star"><i className="far fa-star"></i></span>
-          <span className="bookReviewScore_scorebox_star"><i className="far fa-star"></i></span>
-          <span className="bookReviewScore_scorebox_score">6</span>
+          <StarRatingComponent
+            name="rating" 
+            starCount={5}
+            starColor={"red"}
+            value={this.props.rating}
+            onStarClick={this.props._onStarClick}
+            onStarHover={this.props._onStarHover}
+          />
+          <div className="bookReviewScore_scorebox_score">{this.props.ratingValue}</div>
         </div>
 
 
@@ -27,6 +35,7 @@ class BookReviewScore extends Component {
           .bookReviewScore_scorebox {
             font-size: 50px;
             margin-bottom: 20px;
+            display: flex;
           }
           .bookReviewScore_scorebox_star {
             color: red;
@@ -34,7 +43,7 @@ class BookReviewScore extends Component {
             font-size: 50px;
           }
           .bookReviewScore_scorebox_score {
-            margin-left: 10px;
+            margin-left: 15px;
             color: red;
           }
         `}</style>

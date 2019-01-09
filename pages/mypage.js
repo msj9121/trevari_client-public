@@ -3,6 +3,10 @@ import MypageContents from "../components/mypage/MypageContents";
 import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 53e839786c0f293d4369de022096ff0df91df901
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
