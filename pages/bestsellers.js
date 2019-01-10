@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import BestsellersBooks from "../components/bestsellers/BestsellersBooks";
+import Bookcollection from "../components/bookcollection/Bookcollection";
 import { BACKEND_ENDPOINT } from "../constant";
 
 class Bestsellers extends Component {
@@ -26,7 +26,7 @@ class Bestsellers extends Component {
         <div id="bestsellers_box">
           {this.props.bestsellers.map((book, index) => {
             return (
-              <BestsellersBooks book={book} key={index} ID={this.props.ID} />
+              <Bookcollection book={book} key={index} ID={this.props.ID} />
             );
           })}
         </div>
