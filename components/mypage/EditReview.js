@@ -79,6 +79,9 @@ class EditReview extends React.Component {
           </div>
         </div>
         <style jsx>{`
+          #myModal {
+            
+          }
           .modal {
             display: ${this.props.modalStatus};
             position: fixed;
@@ -90,6 +93,7 @@ class EditReview extends React.Component {
             overflow: auto;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
+            
           }
           .modal-content {
             background-color: #fefefe;
@@ -97,6 +101,7 @@ class EditReview extends React.Component {
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
+            border-radius: 12px;
           }
           textarea {
             width: 100%;

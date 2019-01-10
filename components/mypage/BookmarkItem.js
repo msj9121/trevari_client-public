@@ -56,7 +56,10 @@ class BookmarkItem extends React.Component {
           </button>
         </div>
         <style jsx>{`
-          #bookmarkContent, .imageContainer, .image, .deleteBtn {
+          #bookmarkContent,
+          .imageContainer,
+          .image,
+          .deleteBtn {
             box-shadow: 0px 0px 0px black;
           }
           #bookmarkContent {
@@ -76,7 +79,6 @@ class BookmarkItem extends React.Component {
             cursor: pointer;
           }
           .btnContainer {
-        
           }
           .deleteBtn {
             margin-top: 10px;
@@ -89,15 +91,12 @@ class BookmarkItem extends React.Component {
             cursor: pointer;
             font-size: 15px;
             width: 100%;
-             
           }
           .deleteBtn:hover {
             color: black;
             background-color: white;
             font-weight: 500;
-            box-shadow: 0px 0px 0px 1px #ff8906
-            
-
+            box-shadow: 0px 0px 0px 1px #ff8906;
           }
         `}</style>
       </div>
