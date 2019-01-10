@@ -9,7 +9,7 @@ class Books extends Component {
     const res = await axios.post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
       input: "대한"
     });
-    const data = await res.data.slice(0, 6);
+    const data = res.data.slice(0, 6);
     
     return {
       bestsellers: data

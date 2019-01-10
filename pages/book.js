@@ -116,7 +116,6 @@ class Book extends Component {
         <div id="book_box">
           <BookTitlebox
             book={this.props.book}
-            // _renderBookmarkBtn={this._renderBookmarkBtn}
             _renderReviewBtn={this._renderReviewBtn}
             bookMarkData={this.props.bookMarkData}
             ID={this.props.ID}

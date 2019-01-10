@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import BookReviewScore from "./BookReview/BookReviewScore";
-import BookReviewInput from "./BookReview/BookReviewInput";
-import BookReviewInner from "./BookReview/BookReviewInner";
+import BookReviewScore from "./BookReviewbox/BookReviewScore";
+import BookReviewInput from "./BookReviewbox/BookReviewInput";
+import BookReviewInner from "./BookReviewbox/BookReviewInner";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
@@ -10,9 +10,9 @@ class BookReviewbox extends Component {
     super(props);
     this.state = {
       bookReviewData: this.props.bookReviewData,
+      isReviewed: false,
       rating: 0,
-      ratingValue: 0,
-      isReviewed: false
+      ratingValue: 0
     };
   }
 
@@ -89,8 +89,8 @@ class BookReviewbox extends Component {
           ID={this.props.ID}
           bookId={this.props.bookId}
           _getReviewChange={this._getReviewChange}
-          ratingValue={this.state.ratingValue}
           isReviewed={this.state.isReviewed}
+          ratingValue={this.state.ratingValue}
         />
         <BookReviewInner
           ID={this.props.ID}

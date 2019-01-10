@@ -13,7 +13,7 @@ class Bestsellers extends Component {
       `${BACKEND_ENDPOINT}/books/searchByTitle`,
       { input: "대한" }
     );
-    const data = await res.data.slice(0, 30);
+    const data = res.data.slice(0, 30);
 
     return {
       bestsellers: data
