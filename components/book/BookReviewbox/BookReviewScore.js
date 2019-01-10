@@ -16,8 +16,8 @@ class BookReviewScore extends Component {
             starCount={5}
             starColor={"red"}
             value={this.props.rating}
-            onStarClick={this.props._onStarClick}
-            onStarHover={this.props._onStarHover}
+            onStarClick={this.props._onStarClickHover}
+            onStarHover={this.props._onStarClickHover}
           />
           <div className="bookReviewScore_scorebox_score">{this.props.ratingValue}</div>
         </div>

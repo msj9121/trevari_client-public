@@ -9,10 +9,11 @@ class Bestsellers extends Component {
   }
 
   static async getInitialProps() {
-    const res = await axios.post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-      input: "대한"
-    });
-    const data = await res.data.slice(0, 30);
+    const res = await axios.post(
+      `${BACKEND_ENDPOINT}/books/searchByTitle`,
+      { input: "대한" }
+    );
+    const data = res.data.slice(0, 30);
 
     return {
       bestsellers: data
