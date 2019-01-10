@@ -20,7 +20,7 @@ class Login extends Component {
     });
   };
 
-  loginButtonClick = () => {
+  clickLoginButton = () => {
     for (let key in this.state) {
       if (this.state[key] === null) {
         this.setState({
@@ -32,12 +32,12 @@ class Login extends Component {
     this.checkRegisteredEmail();
   };
 
-  checkRegisteredEmail = async () => {
+  checkRegisteredEmail = () => {
     const data = {
       email: this.state.email,
       password: this.state.password
     };
-    await axios
+    axios
       .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
       .then(res => {
         if (res.data) {
@@ -51,8 +51,8 @@ class Login extends Component {
       .catch(err => console.log(err));
   };
 
-  requestLogin = async data => {
-    await axios
+  requestLogin = data => {
+    axios
       .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
@@ -84,7 +84,7 @@ class Login extends Component {
           <input
             className="input-box"
             type="email"
-            placeholder=" 이메일"
+            placeholder="이메일"
             name="email"
             onChange={this.handleChange}
           />
@@ -93,7 +93,7 @@ class Login extends Component {
         <div className="login-input">
           <input
             className="input-box"
-            placeholder=" 비밀번호"
+            placeholder="비밀번호"
             type="password"
             name="password"
             onChange={this.handleChange}
@@ -102,7 +102,7 @@ class Login extends Component {
 
         <div className="wanning-div">{this.state.check}</div>
 
-        <button className="login-btn" onClick={this.loginButtonClick}>
+        <button className="login-btn" onClick={this.clickLoginButton}>
           로그인
         </button>
 
@@ -125,6 +125,7 @@ class Login extends Component {
             width: 300px;
             height: 40px;
             font-size: 15px;
+            padding: 5px;
           }
           .wanning-div {
             color: red;
