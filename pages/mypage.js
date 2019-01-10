@@ -6,20 +6,14 @@ import { BACKEND_ENDPOINT } from "../constant";
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
-    
-    if (userId) {
-      const books = await axios
-        .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
-        .then(res => res.data.slice(0, 10))
-        .catch(err => console.log(err));
 
+    if (userId) {
       const reviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
         .then(res => res.data.slice(0, 10))
         .catch(err => console.log(err));
 
       return {
-        books: books,
         reviews: reviews
       };
     } else {
@@ -32,7 +26,7 @@ class Mypage extends React.Component {
     this.state = {
       id: this.props.ID,
       reviews: this.props.reviews,
-      books: this.props.books,
+      books: [],
       showReviews: true,
       showBookmarks: false,
       reviewsCount: 10,
@@ -42,6 +36,19 @@ class Mypage extends React.Component {
       openBtnName: "펼치기"
     };
   }
+
+  getBookmarks = () => {
+    const userId = this.state.id;
+
+    axios
+      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
+      .then(res => {
+        this.setState({
+          books: this.state.books.concat(res.data.slice(0, 10))
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
   reviewsBtn_clickHandler = () => {
     if (this.state.showBookmarks === true && this.state.showReviews === false) {
@@ -134,7 +141,7 @@ class Mypage extends React.Component {
 
   editReview = (editedReview, userId, bookId, reviewId, rating) => {
     let newReviews = this.state.reviews;
-    
+
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
@@ -154,23 +161,25 @@ class Mypage extends React.Component {
           this.setState({
             review: newReviews
           });
-          console.log(`수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`);
+          console.log(
+            `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
+          );
         }
       })
       .catch(err => console.log(err));
   };
 
-  showReview = (reviewStatus) => {
+  showReview = reviewStatus => {
     if (reviewStatus === "none") {
       this.setState({
         openBtnName: "닫기"
-      })
+      });
     } else if (reviewStatus === "block") {
       this.setState({
         openBtnName: "펼치기"
-      })
+      });
     }
-  }
+  };
 
   render() {
     if (!this.state.id) {
@@ -214,7 +223,13 @@ class Mypage extends React.Component {
             <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
               내가 평가한 책
             </button>
-            <button id="bookmarks_btn" onClick={this.bookmarksBtn_clickHandler}>
+            <button
+              id="bookmarks_btn"
+              onClick={() => {
+                this.bookmarksBtn_clickHandler();
+                this.getBookmarks();
+              }}
+            >
               내가 읽고싶은 책
             </button>
           </div>

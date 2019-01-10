@@ -11,7 +11,7 @@ class ReviewItem extends React.Component {
       modalStatus: "none",
       reviewStatus: "none",
       openBtnStatus: "none",
-      openBtnName: "펼치기",
+      openBtnName: "펼치기"
     };
   }
 
@@ -73,34 +73,32 @@ class ReviewItem extends React.Component {
 
   openReviewBtn_clickHandler = () => {
     if (this.state.reviewStatus === "block") {
-      this.props.showReview(this.state.reviewStatus)
+      this.props.showReview(this.state.reviewStatus);
       this.setState({
         reviewStatus: "none"
-      })
+      });
     } else if (this.state.reviewStatus === "none") {
-      this.props.showReview(this.state.reviewStatus)
+      this.props.showReview(this.state.reviewStatus);
       this.setState({
         reviewStatus: "block"
-      })
+      });
     }
-  }
+  };
 
   openAndShowBtnHandler = () => {
     if (this.state.reviewStatus === "block") {
-      document.getElementsByClassName(openReviewBtn).innerHTML = "닫기"
+      document.getElementsByClassName(openReviewBtn).innerHTML = "닫기";
     } else if (this.state.reviewStatus === "none") {
-      document.getElementsByClassName(openReviewBtn).innerHTML = "펼치기"
+      document.getElementsByClassName(openReviewBtn).innerHTML = "펼치기";
     }
-  }
+  };
 
   render() {
     const review = this.props.review;
 
     return (
       <div id="reviewCard">
-
         <div id="basicContent">
-
           <div id="outerContent">
             <Link
               as={`/book/${review.book_id}`}
@@ -126,7 +124,10 @@ class ReviewItem extends React.Component {
               </button>
             </div>
             <div>
-              <button className="openReviewBtn" onClick={this.openReviewBtn_clickHandler}>
+              <button
+                className="openReviewBtn"
+                onClick={this.openReviewBtn_clickHandler}
+              >
                 {this.props.openBtnName}
               </button>
             </div>
@@ -153,7 +154,7 @@ class ReviewItem extends React.Component {
               </button>
             </div>
           </div>
-          
+
           <EditReview
             closeModal={this.closeModal}
             modalStatus={this.state.modalStatus}
@@ -176,7 +177,6 @@ class ReviewItem extends React.Component {
             padding: 20px;
             border-radius: 12px;
             width: 90%;
-            
           }
           #basicContent {
             display: flex;
@@ -235,8 +235,7 @@ class ReviewItem extends React.Component {
             color: black;
             background-color: white;
             font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906; 
-
+            box-shadow: 0px 0px 0px 2px #ff8906;
           }
           #innerContent {
             padding-left: 10px;
@@ -281,7 +280,7 @@ class ReviewItem extends React.Component {
             color: black;
             background-color: white;
             font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906; 
+            box-shadow: 0px 0px 0px 2px #ff8906;
           }
           .openReviewBtn {
             display: none;
@@ -307,11 +306,11 @@ class ReviewItem extends React.Component {
               color: black;
               background-color: white;
               font-weight: 500;
-              box-shadow: 0px 0px 0px 2px #ffadff; 
+              box-shadow: 0px 0px 0px 2px #ffadff;
             }
             #basicContent {
-              display: flex;    
-              flex-direction: column; 
+              display: flex;
+              flex-direction: column;
             }
             .imageContainer {
               width: 150px;
@@ -342,7 +341,7 @@ class ReviewItem extends React.Component {
               color: black;
               background-color: white;
               font-weight: 500;
-              box-shadow: 0px 0px 0px 2px #ff8906; 
+              box-shadow: 0px 0px 0px 2px #ff8906;
             }
           }
         `}</style>

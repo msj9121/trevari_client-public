@@ -42,7 +42,7 @@ class Bookmarks extends React.Component {
             cursor: pointer;
             font-size: 15px;
             width: 100%;
-            border: solid 2px #ff8906; 
+            border: solid 2px #ff8906;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
           }
@@ -50,8 +50,7 @@ class Bookmarks extends React.Component {
             color: black;
             background-color: white;
             font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906; 
-
+            box-shadow: 0px 0px 0px 2px #ff8906;
           }
         `}</style>
       </div>
