@@ -15,16 +15,36 @@ class Search extends Component {
       .catch(err => {
         console.log(err);
       });
+    console.log("-----------------------------------");
+    console.log("getinitialprops", books);
 
     return { books, title };
   }
 
   constructor(props) {
     super(props);
+    console.log("constructor--props", this.props.books);
+    this.state = {
+      books: this.props.books
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate--nextProps", nextProps.books);
+    console.log("shouldComponentUpdate--nextState", nextState.books);
+    console.log("shouldComponentUpdate--thisState", this.state.books);
+    if (nextProps.books !== this.state.books) {
+      this.setState({
+        books: nextProps.books
+      });
+      return true;
+    } else {
+      return false;
+    }
   }
 
   _renderSearch = () => {
-    if (this.props.title === "" || this.props.books.length === 0) {
+    if (this.props.title === "" || this.state.books.length === 0) {
       alert("책정보가 없습니다.");
       return (
         <div id="search_initbox">
@@ -46,7 +66,9 @@ class Search extends Component {
     } else {
       return (
         <div className="searchBooks">
-          {this.props.books.map((book, index) => {
+          {console.log("render--thisState", this.state.books)}
+          {console.log("-----------------------------------")}
+          {this.state.books.map((book, index) => {
             return <SearchBooks book={book} key={index} ID={this.props.ID} />;
           })}
           <style jsx>{`

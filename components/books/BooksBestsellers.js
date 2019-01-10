@@ -31,11 +31,11 @@ const BooksBestsellers = (props) => {
         }
         .books_bestsellers_imgs {
           display: flex;
-          flex-wrap: wrap;
           justify-content: space-around;
         }
         @media screen and (max-width: 600px) {
           .books_bestsellers_imgs {
+            flex-wrap: wrap;
             justify-content: center;
           }
         }
