@@ -32,25 +32,18 @@ class Bookmarks extends React.Component {
             justify-content: center;
           }
           .viewMore {
-            margin-top: 10px;
-            margin-bottom: 5px;
-            display: inline-block;
-            background-color: white;
-            color: black;
-            font-weight: 500;
-            padding: 5px 30px 5px 30px;
-            cursor: pointer;
             font-size: 15px;
             width: 100%;
-            border: solid 2px #ff8906;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
           }
           .viewMore:hover {
-            color: black;
-            background-color: white;
-            font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906;
+            cursor: pointer;
+            background-color: #ff7f00;
           }
         `}</style>
       </div>

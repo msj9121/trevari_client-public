@@ -213,25 +213,24 @@ class Mypage extends React.Component {
           ) : (
             undefined
           )}
-          <div id="mypage_box">
-            <button id={"userSettingsButton"} onClick={this.openUserDataModal}>
-              <i className="fas fa-cog" />
-            </button>
-            <h1 id="mypageTitle">마이페이지</h1>
-          </div>
-          <div id="Mypage_nav">
-            <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
-              내가 평가한 책
-            </button>
-            <button
-              id="bookmarks_btn"
-              onClick={() => {
-                this.bookmarksBtn_clickHandler();
-                this.getBookmarks();
-              }}
-            >
-              내가 읽고싶은 책
-            </button>
+          <div id="mypage_navBox">
+            <div id="Mypage_nav">
+              <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
+                마이 리뷰
+              </button>
+              <button
+                id="bookmarks_btn"
+                onClick={() => {
+                  this.bookmarksBtn_clickHandler();
+                  this.getBookmarks();
+                }}
+              >
+                마이 북마크
+              </button>
+              <button id={"userSettingsButton"} onClick={this.openUserDataModal}>
+                <i className="fas fa-cog" />
+              </button>
+            </div>
           </div>
           <div id="contents_box">
             <MypageContents
@@ -254,41 +253,49 @@ class Mypage extends React.Component {
           <style jsx>{`
               #userSettingsButton{
                 float:right;
-                margin-top:30px;
-                margin-right:10px;
+                
                 font-size:16px;
                 color:grey;
                 border-radius:10%;
               }
-              #mypage {
+              #mypageTitle {
+                height: 10px;
               }
               #mypage_box {
                 margin-left: auto;
                 margin-right: auto;
                 width: 60%;
               }
-             
+              #mypage_navBox {
+                padding-bottom: 10px;
+                border-bottom: solid 1px #DDD;
+                padding-top: 10px;
+                
+              }
               #Mypage_nav {
                 margin-left: auto;
                 margin-right: auto;
-                margin-top: 5px;
-                margin-bottom: 5px;
                 width: 60%;
               }
               #contents_box {
-                margin: 0 auto;
+                margin-left: auto;
+                margin-right: auto;
                 width: 60%;
               }
 
               #reviews_btn {
-                display=block;
-                margin-right: 10px;
-                padding: 5px 10px 5px 10px;
-                border-radius: 0px 3px 3px 0px;
                 font-size: 15px;
+                width: 120px;
+                height: 30px;
+                padding: 5px;
+                margin-right: 10px;
+                color: whitesmoke;
+                border: orange solid 1px;
+                background-color: orange;
               }
               #reviews_btn:hover {
-                font-weight: bold;
+                cursor: pointer;
+                background-color: #ff7f00;
               }
               #reviews_btn:focus {
                 border-bottom: 3px solid #ff8906;
@@ -296,12 +303,18 @@ class Mypage extends React.Component {
               }
 
               #bookmarks_btn {
-                padding: 5px 10px 5px 10px;
-                border-radius: 0px 3px 3px 0px;
                 font-size: 15px;
+                width: 120px;
+                height: 30px;
+                padding: 5px;
+                margin-right: 10px;
+                color: whitesmoke;
+                border: orange solid 1px;
+                background-color: orange;
               }
               #bookmarks_btn:hover {
-                font-weight: bold;
+                cursor: pointer;
+                background-color: #ff7f00;
               }
               #bookmarks_btn:focus {
                 border-bottom: 3px solid #ff8906;

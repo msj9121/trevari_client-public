@@ -74,7 +74,7 @@ class EditReview extends React.Component {
                 this.props.closeModal();
               }}
             >
-              수정내용 등록하기
+              수정내용 등록
             </button>
           </div>
         </div>
@@ -100,8 +100,7 @@ class EditReview extends React.Component {
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
-            border-radius: 12px;
+            width: 60%;
           }
           textarea {
             width: 100%;
@@ -119,15 +118,18 @@ class EditReview extends React.Component {
             display: flex;
           }
           .submit-btn {
-            background-color: #ff8906;
-            color: white;
-            font-weight: 500;
-            padding: 10px 30px 10px 30px;
-            cursor: pointer;
-            font-size: 18px;
+            font-size: 15px;
+            width: 40%;
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
           }
           .submit-btn:hover {
-            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            cursor: pointer;
+            background-color: #ff7f00;
           }
           .close-modal {
             color: #aaa;

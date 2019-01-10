@@ -133,7 +133,7 @@ class ReviewItem extends React.Component {
             </div>
             <div>
               <button className="editReviewBtn" onClick={this.showModal}>
-                수정하기
+                수정
               </button>
             </div>
           </div>
@@ -150,7 +150,7 @@ class ReviewItem extends React.Component {
             </div>
             <div>
               <button className="editReviewBtn2" onClick={this.showModal}>
-                수정하기
+                수정
               </button>
             </div>
           </div>
@@ -168,14 +168,13 @@ class ReviewItem extends React.Component {
             display: flex;
             flex-direction: column;
             background: #fcfbf9;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+              0 3px 10px 0 rgba(0, 0, 0, 0.09);
             margin-top: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             margin-left: auto;
             margin-right: auto;
             padding: 20px;
-            border-radius: 12px;
             width: 90%;
           }
           #basicContent {
@@ -211,6 +210,7 @@ class ReviewItem extends React.Component {
             margin: 15px 0px 10px 0px;
             background: white;
             width: 100%;
+            text-align: start;
           }
           .averageRate {
             margin-left: 0px;
@@ -218,24 +218,21 @@ class ReviewItem extends React.Component {
             margin-top: 0px;
             background: white;
             width: 100%;
+            text-align: start;
           }
           .deleteBtn {
-            margin-top: 10px;
-            display: inline-block;
-            background-color: #ff8906;
-            color: white;
-            font-weight: 500;
-            padding: 5px 30px 5px 30px;
-            cursor: pointer;
             font-size: 15px;
             width: 100%;
-            border: none;
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
           }
           .deleteBtn:hover {
-            color: black;
-            background-color: white;
-            font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906;
+            cursor: pointer;
+            background-color: #ff7f00;
           }
           #innerContent {
             padding-left: 10px;
@@ -248,12 +245,14 @@ class ReviewItem extends React.Component {
             width: 100%;
             font-weight: bold;
             text-align: center;
+            float: end;
           }
           .date {
             margin-top: 5px;
             font-size: 12px;
             width: 100%;
             color: grey;
+            text-align: end;
           }
           .review-box {
             background: white;
@@ -264,23 +263,18 @@ class ReviewItem extends React.Component {
             font-size: 13px;
           }
           .editReviewBtn {
-            display: inline-block;
-            background-color: #ff8906;
-            color: white;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            font-weight: 500;
-            padding: 5px 30px 5px 30px;
-            cursor: pointer;
             font-size: 15px;
             width: 100%;
-            border: none;
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
           }
           .editReviewBtn:hover {
-            color: black;
-            background-color: white;
-            font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906;
+            cursor: pointer;
+            background-color: #ff7f00;
           }
           .openReviewBtn {
             display: none;
@@ -290,23 +284,19 @@ class ReviewItem extends React.Component {
           }
           @media (max-width: 800px) {
             .openReviewBtn {
-              display: inline-block;
-              background-color: #ffadff;
-              color: white;
-              margin-top: 10px;
-              margin-bottom: ;
-              font-weight: 500;
-              padding: 5px 30px 5px 30px;
-              cursor: pointer;
+              display: block;
               font-size: 15px;
               width: 100%;
-              border: none;
+              height: 30px;
+              padding: 5px;
+              margin-top: 10px;
+              color: whitesmoke;
+              border: orange solid 1px;
+              background-color: orange;
             }
             .openReviewBtn:hover {
-              color: black;
-              background-color: white;
-              font-weight: 500;
-              box-shadow: 0px 0px 0px 2px #ffadff;
+              cursor: pointer;
+              background-color: #ff7f00;
             }
             #basicContent {
               display: flex;
@@ -325,23 +315,18 @@ class ReviewItem extends React.Component {
             }
             .editReviewBtn2 {
               display: block;
-              display: inline-block;
-              background-color: #ff8906;
-              color: white;
-              margin-top: 10px;
-              margin-bottom: ;
-              font-weight: 500;
-              padding: 5px 30px 5px 30px;
-              cursor: pointer;
               font-size: 15px;
               width: 100%;
-              border: none;
+              height: 30px;
+              padding: 5px;
+              margin-top: 10px;
+              color: whitesmoke;
+              border: orange solid 1px;
+              background-color: orange;
             }
             .editReviewBtn2:hover {
-              color: black;
-              background-color: white;
-              font-weight: 500;
-              box-shadow: 0px 0px 0px 2px #ff8906;
+              cursor: pointer;
+              background-color: #ff7f00;
             }
           }
         `}</style>
