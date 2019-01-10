@@ -1,21 +1,20 @@
-import BooksBestseller from './BooksBestseller';
-import Link from 'next/link';
+import Bookcollection from "../bookcollection/Bookcollection";
+import Link from "next/link";
 
-const BooksBestsellers = (props) => {
+const BooksBestsellers = props => {
   return (
     <div className="books_bestsellers">
-
       <div className="books_bestsellers_name">
-        <div>베스트 셀러 TOP 30</div>
-        <Link href="/bestsellers"><div className="books_bestsellers_allViewBtn">모두 보기 ></div></Link>
+        <div>{props.title}</div>
+        <Link href="/bestsellers">
+          <div className="books_bestsellers_allViewBtn">모두 보기 ></div>
+        </Link>
       </div>
 
       <div className="books_bestsellers_imgs">
-
         {props.bestsellers.map((bestseller, index) => (
-          <BooksBestseller bestseller={bestseller} key={index} ID={props.ID}/>
+          <Bookcollection book={bestseller} key={index} ID={props.ID} />
         ))}
-
       </div>
 
       <style jsx>{`
@@ -40,7 +39,6 @@ const BooksBestsellers = (props) => {
           }
         }
       `}</style>
-
     </div>
   );
 };
