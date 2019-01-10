@@ -43,80 +43,67 @@ class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      review: false
+      review: false,
+      isReviewed: false,
+      bookReviewData: this.props.bookReviewData
     };
   }
 
-  _startReview = () => {
-    this.setState({
-      review: true
-    });
-  };
-
-  _endReview = () => {
-    this.setState({
-      review: false
-    });
-  };
-
-  _renderReviewBtn = () => {
-    if (this.state.review) {
-      return (
-        <span className="book_titlebox_endReviewBtn" onClick={this._endReview}>
-          - 평점보기
-          <style jsx>{`
-            .book_titlebox_endReviewBtn {
-              color: white;
-              background-color: #246db7;
-              font-size: 20px;
-              padding: 5px 25px 5px 25px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_endReviewBtn {
-                font-size: 15px;
-                padding: 5px 20px 5px 20px;
-              }
-            }
-          `}</style>
-        </span>
-      );
+  _chackUserReview = () => {
+    if (this.props.ID) {
+      const userId = this.props.ID;
+      const reviewData = this.state.bookReviewData;
+      for (let i = 0; i < reviewData.length; i++) {
+        if (reviewData[i].user_id === userId) {
+          console.log("_chackUserReview", "평점이 있습니다.")
+          this.setState({
+            isReviewed: true
+          });
+          console.log("_chackUserReview---isReviewed : ", true)
+        }
+      }
     } else {
-      return (
-        <span
-          className="book_titlebox_startReviewBtn"
-          onClick={this._startReview}
-        >
-          + 평점보기
-          <style jsx>{`
-            .book_titlebox_startReviewBtn {
-              background-color: #ff8906;
-              color: white;
-              font-size: 20px;
-              padding: 5px 25px 5px 25px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_startReviewBtn {
-                font-size: 15px;
-                padding: 5px 20px 5px 20px;
-              }
-            }
-          `}</style>
-        </span>
-      );
+      console.log("평점이 없습니다.")
+    }
+  };
+
+  _toggle = () => {
+		this.setState({
+			review: !this.state.review
+		});
+	}
+
+  _getReviewChange = async check => {
+    if (check) {
+      const changeBookReviews = await axios
+        .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
+          bookId: this.props.book.id
+        })
+        .then(res => {
+          console.log("get 성공", res.data);
+          return res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      console.log("getReviewChange", changeBookReviews)
+      this.setState({
+        bookReviewData: changeBookReviews,
+        isReviewed: true
+      });
+    } else {
+      console.log("get 실패");
     }
   };
 
   render() {
-    // console.log("Book.js--bookMarkData : ", this.state.bookMarkData);
-    // console.log("Book.js--bookReviewData : ", this.props.bookReviewData);
     return (
       <div id="book">
         <div id="book_box">
           <BookTitlebox
             book={this.props.book}
-            _renderReviewBtn={this._renderReviewBtn}
+            review={this.state.review}
+            _toggle={this._toggle}
             bookMarkData={this.props.bookMarkData}
             ID={this.props.ID}
           />
@@ -124,10 +111,14 @@ class Book extends Component {
             <BookReviewbox
               ID={this.props.ID}
               bookId={this.props.book.id}
-              bookReviewData={this.props.bookReviewData}
+              // bookReviewData={this.props.bookReviewData}
+              bookReviewData={this.state.bookReviewData}
+              _getReviewChange={this._getReviewChange} //
+              isReviewed={this.state.isReviewed} //
+              _chackUserReview={this._chackUserReview} //
             />
           ) : (
-            console.log("review---hide")
+            console.log("reviewbox---hide")
           )}
         </div>
 

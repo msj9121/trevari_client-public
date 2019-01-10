@@ -87,63 +87,6 @@ class BookTitlebox extends Component {
     }
   };
 
-  _renderBookmarkBtn = () => {
-    const bookmarkId = this._filterBookmarkId();
-    if (this.props.ID && bookmarkId) {
-      return (
-        <span
-          className="book_titlebox_deleteBookmarkBtn"
-          onClick={this._deleteBookmark}
-        >
-          - 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_deleteBookmarkBtn {
-              background-color: #246db7;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_deleteBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    } else {
-      return (
-        <span
-          className="book_titlebox_addBookmarkBtn"
-          onClick={this._addBookmark}
-        >
-          + 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_addBookmarkBtn {
-              background-color: #ff8906;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_addBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    }
-  };
-
-  ////////////////////////////////////////
-
   render() {
     return (
       <div className="book_titlebox">
@@ -167,8 +110,36 @@ class BookTitlebox extends Component {
           <div className="book_titlebox_review">
             평점 ★★★★☆ {this.props.book.averageScore}(0명)
           </div>
-          {this._renderBookmarkBtn()}
-          {this.props._renderReviewBtn()}
+          {this.props.ID && this._filterBookmarkId() ? (
+            <span
+              className="book_titlebox_deleteBookmarkBtn"
+              onClick={this._deleteBookmark}
+            >
+              - 읽고싶어요
+            </span>
+          ) : (
+            <span
+              className="book_titlebox_addBookmarkBtn"
+              onClick={this._addBookmark}
+            >
+              + 읽고싶어요
+            </span>
+          )}
+          {this.props.review ? (
+            <span
+              className="book_titlebox_endReviewBtn"
+              onClick={this.props._toggle}
+            >
+              - 평점보기
+            </span>
+          ) : (
+            <span
+              className="book_titlebox_startReviewBtn"
+              onClick={this.props._toggle}
+            >
+              + 평점보기
+            </span>
+          )}
         </div>
 
         <style jsx>{`
@@ -210,6 +181,38 @@ class BookTitlebox extends Component {
             margin-top: 10px;
             margin-bottom: 20px;
           }
+          .book_titlebox_startReviewBtn {
+            background-color: #ff8906;
+            color: white;
+            font-size: 20px;
+            padding: 5px 25px 5px 25px;
+            cursor: pointer;
+          }
+          .book_titlebox_endReviewBtn {
+            color: white;
+            background-color: #246db7;
+            font-size: 20px;
+            padding: 5px 25px 5px 25px;
+            cursor: pointer;
+          }
+          .book_titlebox_addBookmarkBtn {
+            background-color: #ff8906;
+            color: white;
+            font-size: 20px;
+            padding: 5px 15px 5px 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+          }
+          .book_titlebox_deleteBookmarkBtn {
+            background-color: #246db7;
+            color: white;
+            font-size: 20px;
+            padding: 5px 15px 5px 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+          }
           @media screen and (max-width: 600px) {
             .book_titlebox {
               width: 100%;
@@ -239,6 +242,20 @@ class BookTitlebox extends Component {
             }
             .book_titlebox_description {
               display: none;
+            }
+            .book_titlebox_startReviewBtn {
+              font-size: 15px;
+              padding: 5px 20px 5px 20px;
+            }
+            .book_titlebox_endReviewBtn {
+              font-size: 15px;
+              padding: 5px 20px 5px 20px;
+            }
+            .book_titlebox_addBookmarkBtn {
+              font-size: 15px;
+            }
+            .book_titlebox_deleteBookmarkBtn {
+              font-size: 15px;
             }
           }
         `}</style>

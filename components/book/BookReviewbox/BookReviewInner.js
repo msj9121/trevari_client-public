@@ -6,6 +6,10 @@ class BookReviewInner extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props._chackUserReview()
+  }
+
   render() {
     return (
       <div id="bookReviewInner">
