@@ -5,9 +5,6 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookTitlebox extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      bookMarkData: this.props.bookMarkData
-    };
   }
 
   _getBookImage = () => {
@@ -19,35 +16,6 @@ class BookTitlebox extends Component {
       }
     }
     return getBookImage;
-  };
-
-  _filterBookmarkId = () => {
-    if (this.props.ID && this.state.bookMarkData) {
-      const bookId = this.props.book.id;
-      const bookmarkData = this.state.bookMarkData;
-      for (let i = 0; i < bookmarkData.length; i++) {
-        if (bookmarkData[i].book_id === bookId) {
-          const bookmarkId = bookmarkData[i].id;
-          return bookmarkId;
-        }
-      }
-    } else {
-      console.log("유저정보가 없습니다.");
-    }
-  };
-
-  _changeBookMarkData = async () => {
-    const res = await axios.post(
-      `${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`,
-      {
-        userId: this.props.ID
-      }
-    );
-    const changeBookmark = await res.data;
-    console.log("GET-changeBookmarkDatas response : ", changeBookmark);
-    this.setState({
-      bookMarkData: changeBookmark
-    });
   };
 
   _addBookmark = async () => {
@@ -62,7 +30,7 @@ class BookTitlebox extends Component {
       const data = await res.data;
       console.log("POST-addBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
-      this._changeBookMarkData();
+      this.props._changeBookMarkData();
     } else {
       alert("로그인 해주세요!");
     }
@@ -70,7 +38,7 @@ class BookTitlebox extends Component {
 
   _deleteBookmark = async () => {
     if (this.props.ID) {
-      const bookmarkId = this._filterBookmarkId();
+      const bookmarkId = this.props._filterBookmarkId();
       const res = await axios.post(
         `${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`,
         {
@@ -81,70 +49,16 @@ class BookTitlebox extends Component {
       const data = await res.data;
       console.log("POST-deleteBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
-      this._changeBookMarkData();
+      this.props._changeBookMarkData();
     } else {
       alert("로그인 해주세요!");
     }
   };
 
-  _renderBookmarkBtn = () => {
-    const bookmarkId = this._filterBookmarkId();
-    if (this.props.ID && bookmarkId) {
-      return (
-        <span
-          className="book_titlebox_deleteBookmarkBtn"
-          onClick={this._deleteBookmark}
-        >
-          - 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_deleteBookmarkBtn {
-              background-color: #246db7;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_deleteBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    } else {
-      return (
-        <span
-          className="book_titlebox_addBookmarkBtn"
-          onClick={this._addBookmark}
-        >
-          + 읽고싶어요
-          <style jsx>{`
-            .book_titlebox_addBookmarkBtn {
-              background-color: #ff8906;
-              color: white;
-              font-size: 20px;
-              padding: 5px 15px 5px 15px;
-              margin-top: 10px;
-              margin-right: 15px;
-              cursor: pointer;
-            }
-            @media screen and (max-width: 600px) {
-              .book_titlebox_addBookmarkBtn {
-                font-size: 15px;
-              }
-            }
-          `}</style>
-        </span>
-      );
-    }
-  };
-
-  ////////////////////////////////////////
 
   render() {
+    const Author = this.props.book.author.replace(/<[^>]*>/g, "");
+    const Description = this.props.book.description.replace(/<[^>]*>/g, "");
     return (
       <div className="book_titlebox">
         <div className="book_titlebox_img">
@@ -153,7 +67,7 @@ class BookTitlebox extends Component {
         <div className="book_titlebox_title">
           <div className="book_titlebox_titleName">{this.props.book.title}</div>
           <div className="book_titlebox_author">
-            저자 : {this.props.book.author}
+            저자 : {Author}
           </div>
           <div className="book_titlebox_author">
             {this.props.book.publishedAt}
@@ -162,13 +76,41 @@ class BookTitlebox extends Component {
             ISBN : {this.props.book.isbn}
           </div>
           <div className="book_titlebox_description">
-            {this.props.book.description}
+            {Description}
           </div>
           <div className="book_titlebox_review">
             평점 ★★★★☆ {this.props.book.averageScore}(0명)
           </div>
-          {this._renderBookmarkBtn()}
-          {this.props._renderReviewBtn()}
+          {this.props.ID && this.props._filterBookmarkId() ? (
+            <span
+              className="book_titlebox_deleteBookmarkBtn"
+              onClick={this._deleteBookmark}
+            >
+              - 읽고싶어요
+            </span>
+          ) : (
+            <span
+              className="book_titlebox_addBookmarkBtn"
+              onClick={this._addBookmark}
+            >
+              + 읽고싶어요
+            </span>
+          )}
+          {this.props.review ? (
+            <span
+              className="book_titlebox_endReviewBtn"
+              onClick={this.props._toggle}
+            >
+              - 평점보기
+            </span>
+          ) : (
+            <span
+              className="book_titlebox_startReviewBtn"
+              onClick={this.props._toggle}
+            >
+              + 평점보기
+            </span>
+          )}
         </div>
 
         <style jsx>{`
@@ -210,6 +152,38 @@ class BookTitlebox extends Component {
             margin-top: 10px;
             margin-bottom: 20px;
           }
+          .book_titlebox_startReviewBtn {
+            background-color: #ff8906;
+            color: white;
+            font-size: 20px;
+            padding: 5px 25px 5px 25px;
+            cursor: pointer;
+          }
+          .book_titlebox_endReviewBtn {
+            color: white;
+            background-color: #246db7;
+            font-size: 20px;
+            padding: 5px 25px 5px 25px;
+            cursor: pointer;
+          }
+          .book_titlebox_addBookmarkBtn {
+            background-color: #ff8906;
+            color: white;
+            font-size: 20px;
+            padding: 5px 15px 5px 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+          }
+          .book_titlebox_deleteBookmarkBtn {
+            background-color: #246db7;
+            color: white;
+            font-size: 20px;
+            padding: 5px 15px 5px 15px;
+            margin-top: 10px;
+            margin-right: 15px;
+            cursor: pointer;
+          }
           @media screen and (max-width: 600px) {
             .book_titlebox {
               width: 100%;
@@ -239,6 +213,20 @@ class BookTitlebox extends Component {
             }
             .book_titlebox_description {
               display: none;
+            }
+            .book_titlebox_startReviewBtn {
+              font-size: 15px;
+              padding: 5px 20px 5px 20px;
+            }
+            .book_titlebox_endReviewBtn {
+              font-size: 15px;
+              padding: 5px 20px 5px 20px;
+            }
+            .book_titlebox_addBookmarkBtn {
+              font-size: 15px;
+            }
+            .book_titlebox_deleteBookmarkBtn {
+              font-size: 15px;
             }
           }
         `}</style>

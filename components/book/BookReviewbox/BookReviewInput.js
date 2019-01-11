@@ -27,7 +27,7 @@ class BookReviewInput extends Component {
   _addReview = async () => {
     if (this.props.ID && this.props.isReviewed === false) {
       console.log("평점을 올릴 수 있습니다.")
-      await axios
+      const bookReviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/addReview`, {
           userId: this.props.ID,
           bookId: this.props.bookId,
@@ -37,12 +37,13 @@ class BookReviewInput extends Component {
         .then(res => {
           if (res.data) {
             console.log("Review---POST 요청성공", res.data);
-            this.props._getReviewChange(res.data);
+            return res.data;
           } else {
             console.log("Review---POST 요청실패", res.data);
           }
         })
         .catch(err => console.log(err));
+      this.props._getReviewChange(bookReviews);
     } else if (this.props.ID && this.props.isReviewed === true) {
       alert("이미 평점이 있습니다.")
     } else {

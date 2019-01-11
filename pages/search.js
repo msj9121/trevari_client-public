@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import SearchBooks from "../components/search/SearchBooks";
+import Bookcollection from "../components/books/Bookcollection";
 import { BACKEND_ENDPOINT } from "../constant";
 
 class Search extends Component {
@@ -69,7 +69,9 @@ class Search extends Component {
           {console.log("render--thisState", this.state.books)}
           {console.log("-----------------------------------")}
           {this.state.books.map((book, index) => {
-            return <SearchBooks book={book} key={index} ID={this.props.ID} />;
+            return (
+              <Bookcollection book={book} key={index} ID={this.props.ID} />
+            );
           })}
           <style jsx>{`
             .searchBooks {

@@ -32,7 +32,7 @@ class Login extends Component<Loginprops, Loginstate> {
     });
   };
 
-  loginButtonClick = () => {
+  clickLoginButton = () => {
     for (let key in this.state) {
       if (this.state[key] === null) {
         this.setState({
@@ -44,30 +44,29 @@ class Login extends Component<Loginprops, Loginstate> {
     this.checkRegisteredEmail();
   };
 
-  checkRegisteredEmail = async () => {
+  checkRegisteredEmail = () => {
     const data = {
       email: this.state.email
     };
-    await axios
+    axios
       .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
       .then(res => {
         if (res.data) {
           this.setState({
             check: "가입되지 않은 이메일 입니다!"
           });
-        } else {
-          this.requestLogin();
-        }
+        } 
+        this.requestLogin();
       })
       .catch(err => console.log(err));
   };
 
-  requestLogin = async () => {
+  requestLogin = () => {
     const data = {
       email: this.state.email,
       password: this.state.password
     };
-    await axios
+    axios
       .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
@@ -117,7 +116,7 @@ class Login extends Component<Loginprops, Loginstate> {
 
         <div className="wanning-div">{this.state.check}</div>
 
-        <button className="login-btn" onClick={this.loginButtonClick}>
+        <button className="login-btn" onClick={this.clickLoginButton}>
           로그인
         </button>
 

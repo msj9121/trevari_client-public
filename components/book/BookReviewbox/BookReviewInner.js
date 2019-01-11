@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import BookReviewAdd from "./BookReviewAdd";
+import BookReview from "./BookReview";
 
 class BookReviewInner extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props._chackUserReview()
   }
 
   render() {
@@ -11,7 +15,7 @@ class BookReviewInner extends Component {
       <div id="bookReviewInner">
         {this.props.bookReviewData.sort((a, b)=>(b.id-a.id)).map((review, index) => {
           return (
-            <BookReviewAdd
+            <BookReview
               ID={this.props.ID}
               user_id={review.user_id}
               score={review.score}

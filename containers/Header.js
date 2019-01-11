@@ -14,7 +14,7 @@ class Header extends Component {
             <img src="../static/trevari ci.png" className="header_logo" />
           </Link>
           <ul>
-            <Link href="/books">
+            <Link href="/recommend">
               <li>
                 <span>책추천</span>
               </li>
