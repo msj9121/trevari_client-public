@@ -28,8 +28,8 @@ class Bookcollection extends Component {
             query: { id: this.props.book.id, ID: this.props.ID }
           }}
         >
-          <div className="search_imgbox">
-            <div className="search_img">
+          <div className="bookcollection_imgbox">
+            <div className="bookcollection_img">
               <img src={this._getBookImage()} />
               <span className="tooltiptext">
                 <p>Title : {this.props.book.title}</p>
@@ -40,20 +40,20 @@ class Bookcollection extends Component {
         </Link>
 
         <style jsx>{`
-          .search_imgbox {
+          .bookcollection_imgbox {
             width: 12%;
             border: 1px solid #ddd;
             box-shadow: 0 7px 15px #999;
             margin: 20px;
             cursor: pointer;
           }
-          .search_imgbox:hover {
+          .bookcollection_imgbox:hover {
             transform: scale(1.1);
           }
-          .search_imgbox:hover .tooltiptext {
+          .bookcollection_imgbox:hover .tooltiptext {
             visibility: visible;
           }
-          .search_img {
+          .bookcollection_img {
             border-bottom: 1px solid #ddd;
             height: 170px;
           }
@@ -78,13 +78,13 @@ class Bookcollection extends Component {
             width: 100%;
             height: 170px;
           }
-          .search_name {
+          .bookcollection_name {
             font-size: 14px;
             font-weight: 700;
             color: #246db7;
           }
           @media screen and (max-width: 600px) {
-            .search_imgbox {
+            .bookcollection_imgbox {
               width: 33%;
               margin: 30px;
             }

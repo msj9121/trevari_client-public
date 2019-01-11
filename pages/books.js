@@ -1,75 +1,57 @@
 import React, { Component } from "react";
 import axios from "axios";
-import BooksBanner from "../components/books/BooksBanner";
-import BooksBestsellers from "../components/books/BooksBestsellers";
+import Bookcollection from "../components/books/Bookcollection";
 import { BACKEND_ENDPOINT } from "../constant";
 
 class Books extends Component {
-  static async getInitialProps() {
-    const res = await axios.post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-      input: "대한"
-    });
-
-    const data = await res.data.slice(0, 6);
-    const data1 = await res.data.slice(0, 5);
-    const data2 = await res.data.slice(0, 4);
-
-    return {
-      bestsellers: data,
-      bestsellers1: data1,
-      bestsellers2: data2
-    };
-  }
-
   constructor(props) {
     super(props);
-    this.state = {
-      bestsellers: this.props.bestsellers,
-      bestsellers1: this.props.bestsellers1,
-      bestsellers2: this.props.bestsellers2
+  }
+
+  static async getInitialProps(context) {
+    console.log("Books", context.query.input);
+    const res = await axios.post(
+      `${BACKEND_ENDPOINT}/books/searchByTitle`,
+      { input: context.query.input }
+    );
+    const data = res.data.slice(0, 30);
+
+    return {
+      books: data
     };
   }
 
   render() {
     return (
-      <div>
-        <BooksBanner />
-        <div id="books">
-          <div id="books_box">
-            <BooksBestsellers
-              title={"베스트 셀러 TOP 30"}
-              bestsellers={this.state.bestsellers}
-              ID={this.props.ID}
-            />
-            <BooksBestsellers
-              title={"베스트 셀러 TOP 29"}
-              bestsellers={this.state.bestsellers1}
-              ID={this.props.ID}
-            />
-            <BooksBestsellers
-              title={"베스트 셀러 TOP 28"}
-              bestsellers={this.state.bestsellers2}
-              ID={this.props.ID}
-            />
-          </div>
-
-          <style jsx>{`
-            #books {
-              background: rgba(0, 0, 0, 0.03);
-            }
-            #books_box {
-              border: 1px solid #ddd;
-              margin: 0 auto;
-              width: 60%;
-              background-color: white;
-            }
-            @media screen and (max-width: 600px) {
-              #books_box {
-                width: 100%;
-              }
-            }
-          `}</style>
+      <div id="books">
+        <div id="books_box">
+          {this.props.books.map((book, index) => {
+            return (
+              <Bookcollection book={book} key={index} ID={this.props.ID} />
+            );
+          })}
         </div>
+
+        <style jsx>{`
+          #books {
+            background: rgba(0, 0, 0, 0.03);
+          }
+          #books_box {
+            margin: 0 auto;
+            width: 60%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: white;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+          }
+          @media screen and (max-width: 600px) {
+            #books_box {
+              width: 100%;
+            }
+          }
+        `}</style>
       </div>
     );
   }

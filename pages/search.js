@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Bookcollection from "../components/bookcollection/Bookcollection";
+import Bookcollection from "../components/books/Bookcollection";
 import { BACKEND_ENDPOINT } from "../constant";
 
 class Search extends Component {
