@@ -24,7 +24,7 @@ class Header extends Component {
               href={`/mypage?userId=${this.props.ID}`}
             >
               <li>
-                <span>마이페이지</span>
+                <span id="header_mypage">마이페이지</span>
               </li>
             </Link>
             <Link as={`/login`} href={this.props.loginState.movepage}>
@@ -34,12 +34,36 @@ class Header extends Component {
             </Link>
           </ul>
         </div>
-
+        <div id="hidden_header_box">
+          <div id="hidden-container">
+            <div>
+              <Link href="/">
+                <img src="../static/trevari ci.png" className="header_logo" />
+              </Link>
+            </div>
+            <div className="btn-container">
+              <div id="head-Hamburger">
+                <Hamburger
+                  loginState={this.props.loginState}
+                  rechangeCondition={this.props.rechangeCondition}
+                  ID={this.props.ID}
+                  changeHiddenBoxStatus={this.props.changeHiddenBoxStatus}
+                  hiddenBox_status={this.props.hiddenBox_status}
+                  headerMypage_status={this.props.headerMypage_status}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <style jsx>{`
           #header {
             border-bottom: solid 1px #ddd;
           }
+          #header_mypage {
+            display: ${this.props.headerMypage_status};
+          }
           #header_box {
+            display: block;
             display: flex;
             justify-content: space-between;
             margin: 0 auto;
@@ -64,10 +88,56 @@ class Header extends Component {
             cursor: pointer;
             margin-left: 20px;
           }
-
+          #hidden_header_box {
+            display: none;
+          }
           @media screen and (max-width: 600px) {
             #header_box {
-              width: 100%;
+              display: none;
+            }
+            #hidden-container {
+              display: flex;
+            }
+            #hidden_header_box {
+              display: block;
+            }
+            .btn-container {
+              width: 100px;
+              margin-top: auto;
+              margin-bottom: auto;
+              margin-left: auto;
+            }
+            .openList-btn {
+              height: 30px;
+              padding: 5px;
+              color: whitesmoke;
+              margin-left: auto;
+            }
+            ul {
+              padding-top: 3px;
+            }
+            li {
+              text-align: right;
+              padding-right: 10px;
+              padding-bottom: 3px;
+              border-top: solid 1px #ddd;
+            }
+            .bar {
+              width: 35px;
+              height: 5px;
+              background-color: black;
+              margin-top: 6px;
+              margin-left: auto;
+              margin-right: 3px;
+            }
+            #hidden_list_container {
+              display: ${this.props.hiddenBox_status};
+            }
+            #hidden_list {
+              display: flex;
+              flex-direction: column;
+            }
+            #nav-Hamburger {
             }
           }
         `}</style>
@@ -75,5 +145,91 @@ class Header extends Component {
     );
   }
 }
+
+const Hamburger = function(props) {
+  return (
+    <div className="dropdown" onClick={props.changeHiddenBoxStatus}>
+      <div className="bar_container">
+        <div className="bar" />
+        <div className="bar" />
+        <div className="bar" />
+      </div>
+      <div id="dropdownContent_container">
+        <div className="dropdown_content">
+          <Link href="/books">
+            <div id="link_books" className="link">
+              책추천
+            </div>
+          </Link>
+          <Link as={`/mypage/${props.ID}`} href={`/mypage?userId=${props.ID}`}>
+            <div id="link_mypage" className="link">
+              마이페이지
+            </div>
+          </Link>
+          <Link as={`/login`} href={props.loginState.movepage}>
+            <div
+              id="link_login"
+              className="link"
+              onClick={props.rechangeCondition}
+            >
+              {props.loginState.text}
+            </div>
+          </Link>
+        </div>
+      </div>
+      <style jsx>{`
+        .dropdown {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+        }
+        .dropdown_content {
+          display: ${props.hiddenBox_status};
+          position: absolute;
+          margin-left: -110px;
+          margin-top: 5px;
+          background: white;
+          width: 200px;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          padding-top: 10px;
+          padding-bottom: 10px;
+          z-index: ;
+          text-align: left;
+        }
+        .dropdown:hover {
+          cursor: pointer;
+        }
+        .bar {
+          width: 35px;
+          height: 5px;
+          background-color: orange;
+          margin-top: 6px;
+          margin-left: auto;
+          margin-right: 8px;
+        }
+        .link {
+          border-bottom: solid 1px #ddd;
+          font-size: 17px;
+          font-weight: bold;
+          margin-right: 10px;
+          margin-left: 10px;
+          padding-top: 10px;
+        }
+        .link:hover {
+          color: orange;
+        }
+        #link_mypage {
+          display: ${props.headerMypage_status};
+        }
+        .bar_container {
+          margin-right: 3px;
+          margin-top: auto;
+          margin-bottom: auto;
+          margin-left: auto;
+        }
+      `}</style>
+    </div>
+  );
+};
 
 export default Header;

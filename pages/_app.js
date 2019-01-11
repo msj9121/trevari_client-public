@@ -19,14 +19,17 @@ export default class MyApp extends App {
     this.state = {
       id: "",
       movepage: "/login",
-      text: "로그인"
+      text: "로그인",
+      hiddenBox_status: "none",
+      headerMypage_status: "none"
     };
   }
 
   changeCondition = () => {
     this.setState({
       movepage: "/index",
-      text: "로그아웃"
+      text: "로그아웃",
+      headerMypage_status: "block"
     });
   };
 
@@ -35,7 +38,8 @@ export default class MyApp extends App {
       this.setState({
         id: "",
         movepage: "/login",
-        text: "로그인"
+        text: "로그인",
+        headerMypage_status: "none"
       });
     }
   };
@@ -46,6 +50,18 @@ export default class MyApp extends App {
     });
   };
 
+  changeHiddenBoxStatus = () => {
+    if (this.state.hiddenBox_status === "none") {
+      this.setState({
+        hiddenBox_status: "block"
+      });
+    } else if (this.state.hiddenBox_status === "block") {
+      this.setState({
+        hiddenBox_status: "none"
+      });
+    }
+  };
+
   render() {
     const { Component, pageProps } = this.props;
     return (
@@ -54,6 +70,9 @@ export default class MyApp extends App {
           loginState={this.state}
           rechangeCondition={this.rechangeCondition}
           ID={this.state.id}
+          changeHiddenBoxStatus={this.changeHiddenBoxStatus}
+          hiddenBox_status={this.state.hiddenBox_status}
+          headerMypage_status={this.state.headerMypage_status}
         />
         <Filter />
         <Component

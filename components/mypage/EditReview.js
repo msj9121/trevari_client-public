@@ -8,23 +8,27 @@ class EditReview extends React.Component {
       rating: 1,
       ratingValue: 1
     };
+
+    this._onStarHover = this._onStarHover.bind(this);
+    this._onStarClick = this._onStarClick.bind(this);
+    this._submitBtn_ClickHandler = this._submitBtn_ClickHandler.bind(this);
   }
 
-  _onStarHover = (nextValue, prevValue, name) => {
+  _onStarHover = function(nextValue, prevValue, name) {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = (nextValue, preValue, name) => {
+  _onStarClick = function(nextValue, preValue, name) {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _submitBtnClickHandler = () => {
+  _submitBtn_ClickHandler = function() {
     const review = this.props.review;
 
     let userId = review.user_id;
@@ -38,23 +42,26 @@ class EditReview extends React.Component {
       editedReview = document.getElementsByClassName(bookId)[0].value;
     }
 
-    this.props.editReview(editedReview, userId, bookId, reviewId, rating);
+    this.props._editReview(editedReview, userId, bookId, reviewId, rating);
   };
 
   render() {
     return (
       <div id="myModal" className="modal" display={this.props.modalStatus}>
-        <div className="modal-content">
-          <span className="close-modal" onClick={this.props.closeModal}>
+        <div className="modal_content">
+          <span
+            className="close-modal"
+            onClick={this.props._closeEditModalBtn_clickHandler}
+          >
             &times;
           </span>
           <textarea
             className={this.props.review.book_id}
             placeholder="내용을 수정해 주세요"
           />
-          <div id="bookReviewScore">
-            <div className="bookReviewScore_text">별점을 선택해주세요.</div>
-            <div className="bookReviewScore_scorebox">
+          <div id="reviewScore">
+            <div className="reviewScore_text">별점을 선택해주세요.</div>
+            <div className="reviewScore_scorebox">
               <StarRatingComponent
                 name="rating"
                 starCount={5}
@@ -63,15 +70,13 @@ class EditReview extends React.Component {
                 onStarClick={this._onStarClick}
                 onStarHover={this._onStarHover}
               />
-              <div className="bookReviewScore_scorebox_score">
-                {this.state.ratingValue}
-              </div>
+              <div className="reviewScore_score">{this.state.ratingValue}</div>
             </div>
             <button
               className="submit-btn"
               onClick={() => {
-                this._submitBtnClickHandler();
-                this.props.closeModal();
+                this._submitBtn_ClickHandler();
+                this.props._closeEditModalBtn_clickHandler();
               }}
             >
               수정내용 등록
@@ -79,9 +84,6 @@ class EditReview extends React.Component {
           </div>
         </div>
         <style jsx>{`
-          #myModal {
-            
-          }
           .modal {
             display: ${this.props.modalStatus};
             position: fixed;
@@ -93,9 +95,8 @@ class EditReview extends React.Component {
             overflow: auto;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
-            
           }
-          .modal-content {
+          .modal_content {
             background-color: #fefefe;
             margin: 15% auto;
             padding: 20px;
@@ -107,21 +108,21 @@ class EditReview extends React.Component {
             height: 200px;
             font-size: 15px;
           }
-          #bookReviewScore {
+          #reviewScore {
             display: flex;
             flex-direction: column;
             align-items: center;
           }
-          .bookReviewScore_scorebox {
+          .reviewScore_scorebox {
             font-size: 50px;
             margin-bottom: 20px;
             display: flex;
           }
           .submit-btn {
             font-size: 15px;
-            width: 40%;
+            width: 50%;
             height: 30px;
-            padding: 5px;
+            padding: ;
             margin-top: 10px;
             color: whitesmoke;
             border: orange solid 1px;
@@ -142,6 +143,30 @@ class EditReview extends React.Component {
             color: black;
             text-decoration: none;
             cursor: pointer;
+          }
+          @media screen and (max-width: 800px) {
+            .modal-content {
+              width: 70%;
+            }
+            .close-modal {
+              font-size: 20px;
+            }
+            textarea {
+              font-size: 12px;
+            }
+            .reviewScore_text {
+              font-size: 12px;
+            }
+            .reviewScore_scorebox {
+              font-size: 20px;
+              margin-bottom: 10px;
+            }
+            .submit-btn {
+              font-size: 12px;
+              width: 50%;
+              height: 20px;
+              margin-top: ;
+            }
           }
         `}</style>
       </div>

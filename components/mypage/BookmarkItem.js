@@ -4,7 +4,14 @@ import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
 class BookmarkItem extends React.Component {
-  getBookImage = () => {
+  constructor(props) {
+    super(props);
+
+    this._getBookImage = this._getBookImage.bind(this);
+    this._deleteBtn_handler = this._deleteBtn_handler.bind(this);
+  }
+
+  _getBookImage = function() {
     const bareImage = JSON.stringify(this.props.book.Book.image);
     let bookImageURL;
     for (var i = 0; i < bareImage.length; i++) {
@@ -15,11 +22,11 @@ class BookmarkItem extends React.Component {
     return bookImageURL;
   };
 
-  deleteBtn_handler = () => {
+  _deleteBtn_handler = function() {
     const book = this.props.book;
-    const deleteBookmark = this.props.deleteBookmark;
+    const _deleteBookmark = this.props._deleteBookmark;
 
-    deleteBookmark(book);
+    _deleteBookmark(book);
 
     axios
       .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
@@ -38,36 +45,34 @@ class BookmarkItem extends React.Component {
     const book = this.props.book;
 
     return (
-      <div id="bookmarkContent">
+      <div id="bookmark_content">
         <div>
           <Link as={`/book/${book.Book.id}`} href={`/book?id=${book.Book.id}`}>
-            <div className="imageContainer">
+            <div className="image_container">
               <img
                 className="image"
                 align="center"
-                src={this.getBookImage()}
+                src={this._getBookImage()}
                 book_id={book.Book.id}
                 book_isbn={book.Book.isbn}
               />
             </div>
           </Link>
         </div>
-        <div className="btnContainer">
-          <button className="deleteBtn" onClick={this.deleteBtn_handler}>
+        <div className="btn_container">
+          <button className="deleteBtn" onClick={this._deleteBtn_handler}>
             삭제
           </button>
         </div>
         <style jsx>{`
-          #bookmarkContent {
-            box-shadow: 0px 0px 1px black;
+          #bookmark_content {
             margin: 5px 5px 10px 5px;
             width: 130px;
             height: 225px;
             position: relative;
-            
           }
-          .imageContainer {
-            width: 130px;
+          .image_container {
+            width: 100%;
           }
           .image {
             background: ;
@@ -78,7 +83,7 @@ class BookmarkItem extends React.Component {
           .image:hover {
             cursor: pointer;
           }
-          .btnContainer {
+          .btn_container {
             position: absolute;
             bottom: 0px;
             width: 100%;
@@ -96,6 +101,18 @@ class BookmarkItem extends React.Component {
           .deleteBtn:hover {
             cursor: pointer;
             background-color: #ff7f00;
+          }
+          @media screen and (max-width: 800px) {
+            #bookmark_content {
+              width: 80px;
+              height: 130px;
+              position: relative;
+            }
+            .deleteBtn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+            }
           }
         `}</style>
       </div>

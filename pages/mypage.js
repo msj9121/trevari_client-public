@@ -7,25 +7,21 @@ class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
 
-    if (userId) {
-      const reviews = await axios
-        .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
-        .then(res => res.data.slice(0, 10))
-        .catch(err => console.log(err));
+    const reviews = await axios
+      .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, { userId })
+      .then(res => res.data.slice(0, 10))
+      .catch(err => console.log(err));
 
-      return {
-        reviews: reviews
-      };
-    } else {
-      return;
-    }
+    return {
+      reviews: reviews
+    };
   }
 
   constructor(props) {
     super(props);
     this.state = {
       id: this.props.ID,
-      reviews: this.props.reviews,
+      reviews: props.reviews,
       books: [],
       showReviews: true,
       showBookmarks: false,
@@ -35,9 +31,21 @@ class Mypage extends React.Component {
       editedReview: "",
       openBtnName: "펼치기"
     };
+
+    this._getBookmarks = this._getBookmarks.bind(this);
+    this._reviewsBtn_clickHandler = this._reviewsBtn_clickHandler.bind(this);
+    this._bookmarksBtn_clickHandler = this._bookmarksBtn_clickHandler.bind(this);
+    this._deleteReview = this._deleteReview.bind(this);
+    this._deleteBookmark = this._deleteBookmark.bind(this);
+    this._getMoreReviews = this._getMoreReviews.bind(this);
+    this._getMoreBookmarks = this._getMoreBookmarks.bind(this);
+    this._openUserDataModal = this._openUserDataModal.bind(this);
+    this._closeUserDataModal = this._closeUserDataModal.bind(this);
+    this._editReview = this._editReview.bind(this);
+    this._showReview = this._showReview.bind(this);
   }
 
-  getBookmarks = () => {
+  _getBookmarks = function() {
     const userId = this.state.id;
 
     axios
@@ -50,7 +58,7 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  reviewsBtn_clickHandler = () => {
+  _reviewsBtn_clickHandler = function() {
     if (this.state.showBookmarks === true && this.state.showReviews === false) {
       this.setState({
         showReviews: !this.state.showReviews,
@@ -59,7 +67,7 @@ class Mypage extends React.Component {
     }
   };
 
-  bookmarksBtn_clickHandler = () => {
+  _bookmarksBtn_clickHandler = function() {
     if (this.state.showBookmarks === false && this.state.showReviews === true) {
       this.setState({
         showReviews: !this.state.showReviews,
@@ -68,7 +76,7 @@ class Mypage extends React.Component {
     }
   };
 
-  deleteReview = reviews => {
+  _deleteReview = function(reviews) {
     const reviewIndex = this.state.reviews.indexOf(reviews);
     const newFrontReviews = this.state.reviews.slice(0, reviewIndex);
     const newBehindReviews = this.state.reviews.slice(reviewIndex + 1);
@@ -81,7 +89,7 @@ class Mypage extends React.Component {
     });
   };
 
-  deleteBookmark = books => {
+  _deleteBookmark = function(books) {
     const bookmarkIndex = this.state.books.indexOf(books);
     const newFrontBookmarks = this.state.books.slice(0, bookmarkIndex);
     const newBehindBookmarks = this.state.books.slice(bookmarkIndex + 1);
@@ -94,11 +102,12 @@ class Mypage extends React.Component {
     });
   };
 
-  getMoreReviews = async () => {
+  _getMoreReviews = function() {
     this.setState({
       reviewsCount: this.state.reviewsCount + 10
     });
-    await axios
+
+    axios
       .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
         userId: this.state.id
       })
@@ -110,12 +119,12 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  getMoreBookmarks = async () => {
+  _getMoreBookmarks = function() {
     this.setState({
       bookmarksCount: this.state.bookmarksCount + 10
     });
 
-    await axios
+    axios
       .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
         userId: this.state.id
       })
@@ -127,19 +136,19 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  openUserDataModal = () => {
+  _openUserDataModal = function() {
     this.setState({
       userDataModal: true
     });
   };
 
-  closeUserDataModal = () => {
+  _closeUserDataModal = function() {
     this.setState({
       userDataModal: false
     });
   };
 
-  editReview = (editedReview, userId, bookId, reviewId, rating) => {
+  _editReview = function(editedReview, userId, bookId, reviewId, rating) {
     let newReviews = this.state.reviews;
 
     for (var i = 0; i < newReviews.length; i++) {
@@ -169,7 +178,7 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  showReview = reviewStatus => {
+  _showReview = function(reviewStatus) {
     if (reviewStatus === "none") {
       this.setState({
         openBtnName: "닫기"
@@ -208,26 +217,36 @@ class Mypage extends React.Component {
           {this.state.userDataModal ? (
             <UpdateUserData
               userId={this.props.ID}
-              onclose={this.closeUserDataModal}
+              onclose={this._closeUserDataModal}
             />
           ) : (
             undefined
           )}
           <div id="mypage_navBox">
             <div id="Mypage_nav">
-              <button id="reviews_btn" onClick={this.reviewsBtn_clickHandler}>
-                마이 리뷰
-              </button>
+              <span>
+                <button
+                  id="reviews_btn"
+                  onClick={this._reviewsBtn_clickHandler}
+                >
+                  마이 리뷰
+                </button>
+              </span>
+              <span>
+                <button
+                  id="bookmarks_btn"
+                  onClick={() => {
+                    this._bookmarksBtn_clickHandler();
+                    this._getBookmarks();
+                  }}
+                >
+                  마이 북마크
+                </button>
+              </span>
               <button
-                id="bookmarks_btn"
-                onClick={() => {
-                  this.bookmarksBtn_clickHandler();
-                  this.getBookmarks();
-                }}
+                id={"userSettingsButton"}
+                onClick={this._openUserDataModal}
               >
-                마이 북마크
-              </button>
-              <button id={"userSettingsButton"} onClick={this.openUserDataModal}>
                 <i className="fas fa-cog" />
               </button>
             </div>
@@ -238,105 +257,125 @@ class Mypage extends React.Component {
               reviews={this.state.reviews}
               showReviews={this.state.showReviews}
               showBookmarks={this.state.showBookmarks}
-              deleteReview={this.deleteReview}
-              deleteBookmark={this.deleteBookmark}
-              getMoreBookmarks={this.getMoreBookmarks}
-              getMoreReviews={this.getMoreReviews}
+              _deleteReview={this._deleteReview}
+              _deleteBookmark={this._deleteBookmark}
+              _getMoreReviews={this._getMoreReviews}
+              _getMoreBookmarks={this._getMoreBookmarks}
               reviewsCount={this.state.reviewsCount}
               bookmarksCount={this.state.bookmarksCount}
               editedReview={this.state.editedReview}
-              editReview={this.editReview}
-              showReview={this.showReview}
+              _editReview={this._editReview}
+              _showReview={this._showReview}
               openBtnName={this.state.openBtnName}
             />
           </div>
           <style jsx>{`
-              #userSettingsButton{
-                float:right;
-                
-                font-size:16px;
-                color:grey;
-                border-radius:10%;
-              }
-              #mypageTitle {
-                height: 10px;
-              }
+            #userSettingsButton {
+              float: right;
+              font-size: 16px;
+              color: grey;
+              border-radius: 10%;
+            }
+            #mypageTitle {
+              height: 10px;
+            }
+            #mypage_box {
+              margin-left: auto;
+              margin-right: auto;
+              width: 60%;
+            }
+            #mypage_navBox {
+              padding-bottom: 10px;
+              border-bottom: solid 1px #ddd;
+              padding-top: 10px;
+            }
+            #Mypage_nav {
+              margin-left: auto;
+              margin-right: auto;
+              width: 60%;
+            }
+            #contents_box {
+              margin-left: auto;
+              margin-right: auto;
+              width: 80%;
+            }
+
+            #reviews_btn {
+              font-size: 15px;
+              width: 120px;
+              height: 30px;
+              padding: 5px;
+              margin-right: 10px;
+              color: whitesmoke;
+              border: orange solid 1px;
+              background-color: orange;
+            }
+            #reviews_btn:hover {
+              cursor: pointer;
+              background-color: #ff7f00;
+            }
+            #reviews_btn:focus {
+              border-bottom: 3px solid #ff8906;
+              font-weight: bold;
+            }
+
+            #bookmarks_btn {
+              font-size: 15px;
+              width: 120px;
+              height: 30px;
+              padding: 5px;
+              margin-right: 10px;
+              color: whitesmoke;
+              border: orange solid 1px;
+              background-color: orange;
+            }
+            #bookmarks_btn:hover {
+              cursor: pointer;
+              background-color: #ff7f00;
+            }
+            #bookmarks_btn:focus {
+              border-bottom: 3px solid #ff8906;
+              font-weight: bold;
+            }
+
+            #addBooks_btn {
+              border: solid 1px #ced4da;
+            }
+            #addBooks_btn:hover {
+              font-weight: bold;
+            }
+            #addBooks_btn:focus {
+              font-weight: bold;
+              border: solid 2px #ced4da;
+            }
+            @media screen and (max-width: 800px) {
               #mypage_box {
-                margin-left: auto;
-                margin-right: auto;
-                width: 60%;
-              }
-              #mypage_navBox {
-                padding-bottom: 10px;
-                border-bottom: solid 1px #DDD;
-                padding-top: 10px;
-                
-              }
-              #Mypage_nav {
-                margin-left: auto;
-                margin-right: auto;
                 width: 60%;
               }
               #contents_box {
-                margin-left: auto;
-                margin-right: auto;
-                width: 60%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
               }
-
+              #Mypage_nav {
+                width: 90%;
+              }
               #reviews_btn {
-                font-size: 15px;
-                width: 120px;
-                height: 30px;
-                padding: 5px;
-                margin-right: 10px;
-                color: whitesmoke;
-                border: orange solid 1px;
-                background-color: orange;
+                font-size: 12px;
+                height: 20px;
+                padding: 0px;
+                width: 70px;
+                margin-right: 5px;
               }
-              #reviews_btn:hover {
-                cursor: pointer;
-                background-color: #ff7f00;
-              }
-              #reviews_btn:focus {
-                border-bottom: 3px solid #ff8906;
-                font-weight: bold;
-              }
-
               #bookmarks_btn {
-                font-size: 15px;
-                width: 120px;
-                height: 30px;
-                padding: 5px;
-                margin-right: 10px;
-                color: whitesmoke;
-                border: orange solid 1px;
-                background-color: orange;
+                font-size: 12px;
+                height: 20px;
+                padding: 0px;
+                width: 70px;
+                margin-right: 5px;
               }
-              #bookmarks_btn:hover {
-                cursor: pointer;
-                background-color: #ff7f00;
-              }
-              #bookmarks_btn:focus {
-                border-bottom: 3px solid #ff8906;
-                font-weight: bold;
-              }
-
-              #addBooks_btn {
-                border: solid 1px #ced4da;
-              }
-              #addBooks_btn:hover {
-                font-weight: bold;
-              }
-              #addBooks_btn:focus {
-                font-weight: bold;
-                border: solid 2px #ced4da;
-              }
-              @media screen and (max-width: 600px) {
-                #mypage_box {
-                  width: 60%;
-                }
-              }
-            `}</style>
+            }
+          `}</style>
         </div>
       );
     }

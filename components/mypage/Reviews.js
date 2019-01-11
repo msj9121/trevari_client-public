@@ -2,43 +2,49 @@ import React from "react";
 import ReviewItem from "./ReviewItem";
 
 class Reviews extends React.Component {
-  clickHandler = () => {
-    this.props.getMoreReviews();
+  constructor(props) {
+    super(props);
+
+    this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
+  }
+
+  _moreBtn_clickHandler = function() {
+    this.props._getMoreReviews();
   };
 
   render() {
     return (
       <div id="reviews">
-        <div id="reviews-container">
+        <div id="reviews_container">
           {this.props.reviews.map((review, id) => (
             <ReviewItem
               review={review}
               key={id}
-              deleteReview={this.props.deleteReview}
+              _deleteReview={this.props._deleteReview}
               reviewsCount={this.props.reviewsCount}
               editedReview={this.props.editedReview}
-              editReview={this.props.editReview}
-              showReview={this.props.showReview}
+              _editReview={this.props._editReview}
+              _showReview={this.props._showReview}
               openBtnName={this.props.openBtnName}
             />
           ))}
         </div>
-        <div className="moreBtn-container">
-          <button className="more-btn" onClick={this.clickHandler}>
+        <div className="moreViewBtn_container">
+          <button className="moreViewBtn" onClick={this._moreBtn_clickHandler}>
             더보기
           </button>
         </div>
         <style jsx>{`
           #reviews {
-            
+            width: 80%;
           }
-          #reviews-container {
-            
+          #reviews_container {
+            width: 100%;
           }
-          .moreBtn-container {
+          .moreViewBtn_container {
             display: flex;
           }
-          .more-btn {
+          .moreViewBtn {
             font-size: 15px;
             width: 100%;
             height: 30px;
@@ -48,9 +54,16 @@ class Reviews extends React.Component {
             border: orange solid 1px;
             background-color: orange;
           }
-          .more-btn:hover {
+          .moreViewBtn:hover {
             cursor: pointer;
             background-color: #ff7f00;
+          }
+          @media screen and (max-width: 800px) {
+            .moreViewBtn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+            }
           }
         `}</style>
       </div>
