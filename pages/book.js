@@ -45,9 +45,16 @@ class Book extends Component {
     this.state = {
       review: false,
       isReviewed: false,
-      bookReviewData: this.props.bookReviewData
+      bookReviewData: this.props.bookReviewData,
+      bookMarkData: this.props.bookMarkData
     };
   }
+
+  _toggle = () => {
+    this.setState({
+      review: !this.state.review
+    });
+  };
 
   _chackUserReview = () => {
     if (this.props.ID) {
@@ -55,23 +62,17 @@ class Book extends Component {
       const reviewData = this.state.bookReviewData;
       for (let i = 0; i < reviewData.length; i++) {
         if (reviewData[i].user_id === userId) {
-          console.log("_chackUserReview", "평점이 있습니다.")
+          console.log("_chackUserReview", "평점이 있습니다.");
           this.setState({
             isReviewed: true
           });
-          console.log("_chackUserReview---isReviewed : ", true)
+          console.log("_chackUserReview---isReviewed : ", true);
         }
       }
     } else {
-      console.log("평점이 없습니다.")
+      console.log("평점이 없습니다.");
     }
   };
-
-  _toggle = () => {
-		this.setState({
-			review: !this.state.review
-		});
-	}
 
   _getReviewChange = async check => {
     if (check) {
@@ -86,7 +87,7 @@ class Book extends Component {
         .catch(err => {
           console.log(err);
         });
-      console.log("getReviewChange", changeBookReviews)
+      console.log("getReviewChange", changeBookReviews);
       this.setState({
         bookReviewData: changeBookReviews,
         isReviewed: true
@@ -96,26 +97,58 @@ class Book extends Component {
     }
   };
 
+  //----------------------------------------------//
+
+  _changeBookMarkData = async () => {
+    const res = await axios.post(
+      `${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`,
+      {
+        userId: this.props.ID
+      }
+    );
+    const changeBookmark = res.data;
+    console.log("GET-changeBookmarkDatas response : ", changeBookmark);
+    this.setState({
+      bookMarkData: changeBookmark
+    });
+  };
+
+  _filterBookmarkId = () => {
+    if (this.props.ID && this.state.bookMarkData) {
+      const bookId = this.props.book.id;
+      const bookmarkData = this.state.bookMarkData;
+      for (let i = 0; i < bookmarkData.length; i++) {
+        if (bookmarkData[i].book_id === bookId) {
+          const bookmarkId = bookmarkData[i].id;
+          return bookmarkId;
+        }
+      }
+    } else {
+      console.log("유저정보가 없습니다.");
+    }
+  };
+
   render() {
     return (
       <div id="book">
         <div id="book_box">
           <BookTitlebox
+            ID={this.props.ID}
             book={this.props.book}
             review={this.state.review}
+            bookMarkData={this.state.bookMarkData}
             _toggle={this._toggle}
-            bookMarkData={this.props.bookMarkData}
-            ID={this.props.ID}
+            _changeBookMarkData={this._changeBookMarkData}
+            _filterBookmarkId={this._filterBookmarkId}
           />
           {this.state.review ? (
             <BookReviewbox
               ID={this.props.ID}
               bookId={this.props.book.id}
-              // bookReviewData={this.props.bookReviewData}
+              isReviewed={this.state.isReviewed}
               bookReviewData={this.state.bookReviewData}
-              _getReviewChange={this._getReviewChange} //
-              isReviewed={this.state.isReviewed} //
-              _chackUserReview={this._chackUserReview} //
+              _getReviewChange={this._getReviewChange}
+              _chackUserReview={this._chackUserReview}
             />
           ) : (
             console.log("reviewbox---hide")
