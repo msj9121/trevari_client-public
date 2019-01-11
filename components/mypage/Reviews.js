@@ -2,59 +2,68 @@ import React from "react";
 import ReviewItem from "./ReviewItem";
 
 class Reviews extends React.Component {
-  clickHandler = () => {
-    this.props.getMoreReviews();
+  constructor(props) {
+    super(props);
+
+    this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
+  }
+
+  _moreBtn_clickHandler = function() {
+    this.props._getMoreReviews();
   };
 
   render() {
     return (
       <div id="reviews">
-        <div id="reviews-container">
+        <div id="reviews_container">
           {this.props.reviews.map((review, id) => (
             <ReviewItem
               review={review}
               key={id}
-              deleteReview={this.props.deleteReview}
+              _deleteReview={this.props._deleteReview}
               reviewsCount={this.props.reviewsCount}
               editedReview={this.props.editedReview}
-              editReview={this.props.editReview}
-              showReview={this.props.showReview}
+              _editReview={this.props._editReview}
+              _showReview={this.props._showReview}
               openBtnName={this.props.openBtnName}
             />
           ))}
         </div>
-        <div>
-          <button className="more-btn" onClick={this.clickHandler}>
+        <div className="moreViewBtn_container">
+          <button className="moreViewBtn" onClick={this._moreBtn_clickHandler}>
             더보기
           </button>
         </div>
         <style jsx>{`
           #reviews {
+            width: 80%;
           }
-          #reviews-container {
+          #reviews_container {
+            width: 100%;
+          }
+          .moreViewBtn_container {
             display: flex;
-            flex-direction: column;
           }
-          .more-btn {
-            margin-top: 10px;
-            margin-bottom: 5px;
-            display: inline-block;
-            background-color: white;
-            color: black;
-            font-weight: 500;
-            padding: 5px 30px 5px 30px;
-            cursor: pointer;
+          .moreViewBtn {
             font-size: 15px;
             width: 100%;
-            border: solid 2px #ff8906;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
-              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
           }
-          .more-btn:hover {
-            color: black;
-            background-color: white;
-            font-weight: 500;
-            box-shadow: 0px 0px 0px 2px #ff8906;
+          .moreViewBtn:hover {
+            cursor: pointer;
+            background-color: #ff7f00;
+          }
+          @media screen and (max-width: 800px) {
+            .moreViewBtn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+            }
           }
         `}</style>
       </div>

@@ -10,11 +10,11 @@ class MypageContents extends React.Component {
         <Reviews
           reviews={this.props.reviews}
           reviewsCount={this.props.reviewsCount}
-          deleteReview={this.props.deleteReview}
-          getMoreReviews={this.props.getMoreReviews}
+          _deleteReview={this.props._deleteReview}
+          _getMoreReviews={this.props._getMoreReviews}
           editedReview={this.props.editedReview}
-          editReview={this.props.editReview}
-          showReview={this.props.showReview}
+          _editReview={this.props._editReview}
+          _showReview={this.props._showReview}
           openBtnName={this.props.openBtnName}
         />
       );
@@ -26,8 +26,8 @@ class MypageContents extends React.Component {
         <Bookmarks
           books={this.props.books}
           bookmarksCount={this.props.bookmarksCount}
-          deleteBookmark={this.props.deleteBookmark}
-          getMoreBookmarks={this.props.getMoreBookmarks}
+          _deleteBookmark={this.props._deleteBookmark}
+          _getMoreBookmarks={this.props._getMoreBookmarks}
         />
       );
     }
