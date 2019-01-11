@@ -65,13 +65,14 @@ class Bookcollection extends Component {
             text-align: left;
             border-radius: 6px;
             padding: 5px 5px 5px 5px;
+            margin-left: 10px;
             font-size: 11px;
 
             /* Position the tooltip */
             position: absolute;
             z-index: 1;
             botton: 0%;
-            left: 105%;
+            // left: 105%;
           }
           img {
             width: 100%;
