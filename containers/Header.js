@@ -156,7 +156,7 @@ const Hamburger = function(props) {
       </div>
       <div id="dropdownContent_container">
         <div className="dropdown_content">
-          <Link href="/books">
+          <Link href="/recommend">
             <div id="link_books" className="link">
               책추천
             </div>
