@@ -9,7 +9,7 @@ class Login extends Component {
     this.state = {
       email: null,
       password: null,
-      userid: "",
+      userid: 0,
       check: ""
     };
   }
@@ -34,8 +34,7 @@ class Login extends Component {
 
   checkRegisteredEmail = () => {
     const data = {
-      email: this.state.email,
-      password: this.state.password
+      email: this.state.email
     };
     axios
       .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
@@ -44,22 +43,25 @@ class Login extends Component {
           this.setState({
             check: "가입되지 않은 이메일 입니다!"
           });
-        } else {
-          this.requestLogin(data);
         }
+        this.requestLogin();
       })
       .catch(err => console.log(err));
   };
 
-  requestLogin = data => {
+  requestLogin = () => {
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    };
     axios
       .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
           this.setState({
-            id: res.data.id
+            userid: res.data.id
           });
-          this.props.saveId(this.state.id);
+          this.props.saveId(this.state.userid);
           this.props.changeCondition();
           Router.push("/index");
         } else {
