@@ -31,7 +31,6 @@ class BookReviewbox extends Component {
         <BookReviewInput
           ID={this.props.ID}
           bookId={this.props.bookId}
-          // _getReviewChange={this._getReviewChange}
           _getReviewChange={this.props._getReviewChange}
           isReviewed={this.props.isReviewed}
           ratingValue={this.state.ratingValue}
@@ -41,6 +40,7 @@ class BookReviewbox extends Component {
           bookId={this.props.bookId}
           bookReviewData={this.props.bookReviewData}
           _chackUserReview={this.props._chackUserReview}
+          _getReviewChange={this.props._getReviewChange}
         />
 
         <style jsx>{`

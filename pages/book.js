@@ -45,10 +45,14 @@ class Book extends Component {
     this.state = {
       review: false,
       isReviewed: false,
+      book: this.props.book,
       bookReviewData: this.props.bookReviewData,
+      bookReviewLength: this.props.bookReviewData.length,
       bookMarkData: this.props.bookMarkData
     };
   }
+
+  //------------------BookReview----------------------------//
 
   _toggle = () => {
     this.setState({
@@ -66,7 +70,6 @@ class Book extends Component {
           this.setState({
             isReviewed: true
           });
-          console.log("_chackUserReview---isReviewed : ", true);
         }
       }
     } else {
@@ -74,30 +77,82 @@ class Book extends Component {
     }
   };
 
-  _getReviewChange = async check => {
+  _getReviewChange = async (check, del) => {
     if (check) {
       const changeBookReviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
-          bookId: this.props.book.id
+          bookId: this.state.book.id
         })
         .then(res => {
-          console.log("get 성공", res.data);
+          console.log("GET BookReviews 성공");
           return res.data;
         })
         .catch(err => {
           console.log(err);
         });
-      console.log("getReviewChange", changeBookReviews);
+      const changeBook = await axios
+        .post(`${BACKEND_ENDPOINT}/books/getBookById`, { 
+          id: this.state.book.id
+        })
+        .then(res => {
+          console.log("GET Book 성공");
+          return res.data
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      
       this.setState({
         bookReviewData: changeBookReviews,
-        isReviewed: true
+        bookReviewLength: changeBookReviews.length,
+        book: changeBook,
+        isReviewed: del === false ? false : true
       });
+      console.log("Change BookReviews, Book 성공");
     } else {
-      console.log("get 실패");
+      console.log("GET 실패");
     }
   };
 
-  //----------------------------------------------//
+  // _getReviewChange = (check, del) => {
+  //   if (check) {
+  //     axios
+  //       .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
+  //         bookId: this.state.book.id
+  //       })
+  //       .then(res => {
+  //         console.log("GET BookReviews 성공");
+  //         const changeBookReviews = res.data
+  //         this.setState({
+  //           bookReviewData: changeBookReviews,
+  //           bookReviewLength: changeBookReviews.length,
+  //           isReviewed: del === false ? false : true
+  //         });
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+
+  //     axios
+  //       .post(`${BACKEND_ENDPOINT}/books/getBookById`, { 
+  //         id: this.state.book.id
+  //       })
+  //       .then(res => {
+  //         console.log("GET Book 성공");
+  //         const changeBook = res.data
+  //         this.setState({
+  //           book: changeBook
+  //         });
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     console.log("GET 실패");
+  //   }
+  // };
+
+  //------------------BookMark----------------------------//
 
   _changeBookMarkData = async () => {
     const res = await axios.post(
@@ -134,9 +189,10 @@ class Book extends Component {
         <div id="book_box">
           <BookTitlebox
             ID={this.props.ID}
-            book={this.props.book}
+            book={this.state.book}
             review={this.state.review}
             bookMarkData={this.state.bookMarkData}
+            bookReviewLength={this.state.bookReviewLength}
             _toggle={this._toggle}
             _changeBookMarkData={this._changeBookMarkData}
             _filterBookmarkId={this._filterBookmarkId}

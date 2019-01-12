@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import RecommendBanner from "../components/recommend/RecommendBanner";
 
 class Index extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Index extends Component {
   render() {
     return (
       <div id="index">
+        <RecommendBanner />
         <div id="index_box">
           <h1>Index Page</h1>
           <h2>by SuperSexy!</h2>
