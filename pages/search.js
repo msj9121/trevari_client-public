@@ -15,8 +15,8 @@ class Search extends Component {
       .catch(err => {
         console.log(err);
       });
-    console.log("-----------------------------------");
-    console.log("getinitialprops", books);
+    // console.log("-----------------------------------");
+    // console.log("getinitialprops", books);
 
     return { books, title };
   }
@@ -30,9 +30,9 @@ class Search extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log("shouldComponentUpdate--nextProps", nextProps.books);
-    console.log("shouldComponentUpdate--nextState", nextState.books);
-    console.log("shouldComponentUpdate--thisState", this.state.books);
+    // console.log("shouldComponentUpdate--nextProps", nextProps.books);
+    // console.log("shouldComponentUpdate--nextState", nextState.books);
+    // console.log("shouldComponentUpdate--thisState", this.state.books);
     if (nextProps.books !== this.state.books) {
       this.setState({
         books: nextProps.books
@@ -66,23 +66,36 @@ class Search extends Component {
     } else {
       return (
         <div className="searchBooks">
-          {console.log("render--thisState", this.state.books)}
-          {console.log("-----------------------------------")}
-          {this.state.books.map((book, index) => {
-            return (
-              <Bookcollection book={book} key={index} ID={this.props.ID} />
-            );
-          })}
+          {/* {console.log("render--thisState", this.state.books)}
+          {console.log("-----------------------------------")} */}
+          <div className="searchBooks_imgbox">
+            <div className="searchBooks_imgs">
+              {this.state.books.map((book, index) => {
+                return (
+                  <Bookcollection book={book} key={index} ID={this.props.ID} />
+                );
+              })}
+            </div>
+          </div>
+
           <style jsx>{`
             .searchBooks {
               margin: 0 auto;
               width: 60%;
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
               background-color: white;
               border-left: 1px solid #ddd;
               border-right: 1px solid #ddd;
+            }
+            .searchBooks_imgbox {
+              margin-left: 40px;
+              margin-right: 40px;
+              display: flex;
+              justify-content: center;
+            }
+            .searchBooks_imgs {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: flex-start;
             }
             @media screen and (max-width: 600px) {
               .searchBooks {

@@ -5,7 +5,160 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookTitlebox extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.book.averageScore);
   }
+
+  _renderStar = () => {
+    if (
+      9 <= this.props.book.averageScore &&
+      this.props.book.averageScore <= 10
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      8 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 9
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      6 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 8
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      4 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 6
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      2 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 4
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      0 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 2
+    ) {
+      return (
+        <div className="star">
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    }
+  };
 
   _getBookImage = () => {
     const getBookImage = this.props.book.image;
@@ -55,7 +208,6 @@ class BookTitlebox extends Component {
     }
   };
 
-
   render() {
     const Author = this.props.book.author.replace(/<[^>]*>/g, "");
     const Description = this.props.book.description.replace(/<[^>]*>/g, "");
@@ -66,20 +218,17 @@ class BookTitlebox extends Component {
         </div>
         <div className="book_titlebox_title">
           <div className="book_titlebox_titleName">{this.props.book.title}</div>
-          <div className="book_titlebox_author">
-            저자 : {Author}
-          </div>
+          <div className="book_titlebox_author">저자 : {Author}</div>
           <div className="book_titlebox_author">
             {this.props.book.publishedAt}
           </div>
           <div className="book_titlebox_author">
             ISBN : {this.props.book.isbn}
           </div>
-          <div className="book_titlebox_description">
-            {Description}
-          </div>
+          <div className="book_titlebox_description">{Description}</div>
           <div className="book_titlebox_review">
-            평점 ★★★★☆ {this.props.book.averageScore}(0명)
+            평점 : {this._renderStar()} {this.props.book.averageScore}(
+            {this.props.bookReviewLength}명)
           </div>
           {this.props.ID && this.props._filterBookmarkId() ? (
             <span
@@ -120,7 +269,8 @@ class BookTitlebox extends Component {
             width: 90%;
           }
           .book_titlebox_img {
-            width: 25%;
+            width: 280px;
+            height: 400px;
             margin: 50px;
             border: 1px solid #ddd;
             box-shadow: 0 7px 15px #999;
@@ -130,7 +280,7 @@ class BookTitlebox extends Component {
             height: 100%;
           }
           .book_titlebox_title {
-            width: 75%;
+            width: 580px;
             margin-top: 50px;
             margin-bottom: 50px;
             margin-right: 50px;
@@ -151,6 +301,7 @@ class BookTitlebox extends Component {
             font-size: 25px;
             margin-top: 10px;
             margin-bottom: 20px;
+            display: flex;
           }
           .book_titlebox_startReviewBtn {
             background-color: #ff8906;
@@ -189,6 +340,8 @@ class BookTitlebox extends Component {
               width: 100%;
             }
             .book_titlebox_img {
+              width: 160px;
+              height: 200px;
               margin: 20px;
             }
             .book_titlebox_title {
@@ -199,16 +352,16 @@ class BookTitlebox extends Component {
               padding-bottom: 15px;
             }
             .book_titlebox_titleName {
-              font-size: 18px;
+              font-size: 16px;
               margin-bottom: 5px;
             }
             .book_titlebox_review {
-              font-size: 18px;
+              font-size: 16px;
               margin-top: 5px;
               margin-bottom: 10px;
             }
             .book_titlebox_author {
-              font-size: 13px;
+              font-size: 12px;
               margin-bottom: 5px;
             }
             .book_titlebox_description {
