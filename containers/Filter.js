@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Link from 'next/link';
+import React, { Component } from "react";
+import Link from "next/link";
 
 class Filter extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       bookTitle : ""
     }
@@ -24,17 +24,26 @@ class Filter extends Component {
   render() {
     return (
       <div id="filter">
-
         <div id="filter_box">
           <div className="filter_group">
-            <input placeholder="책제목 검색" type="search" className="filter_input" value={this.state.bookTitle} onChange={this._changeBookTitle}></input>
-            <div className="filter_xbox" onClick={this._deleteBookTitle}>X</div>
-            <Link href={`/search?title=${this.state.bookTitle}`}><div className="filter_search">검색</div></Link>
+            <input
+              placeholder="책제목 검색"
+              type="search"
+              className="filter_input"
+              value={this.state.bookTitle}
+              onChange={this._changeBookTitle}
+            />
+            <div className="filter_xbox" onClick={this._deleteBookTitle}>
+              X
+            </div>
+            <Link href={`/books?input=${this.state.bookTitle}`}>
+              <div className="filter_search">검색</div>
+            </Link>
           </div>
         </div>
         <style jsx>{`
           #filter {
-            border-bottom: solid 1px #DDD;
+            border-bottom: solid 1px #ddd;
           }
           #filter_box {
             display: flex;

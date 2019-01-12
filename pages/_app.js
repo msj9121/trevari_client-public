@@ -1,7 +1,6 @@
 import App, { Container } from "next/app";
 import Header from "../containers/Header";
 import Footer from "../containers/Footer";
-import Filter from "../containers/Filter";
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -74,7 +73,6 @@ export default class MyApp extends App {
           hiddenBox_status={this.state.hiddenBox_status}
           headerMypage_status={this.state.headerMypage_status}
         />
-        <Filter />
         <Component
           {...pageProps}
           ID={this.state.id}

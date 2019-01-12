@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import RecommendBanner from "../components/recommend/RecommendBanner";
 import RecommendBooks from "../components/recommend/RecommendBooks";
+import Filter from "../containers/Filter";
 import { BACKEND_ENDPOINT } from "../constant";
 
 class Recommend extends Component {
@@ -82,6 +83,7 @@ class Recommend extends Component {
   render() {
     return (
       <div>
+        <Filter />
         <RecommendBanner />
         <div id="recommend">
           <div id="recommend_box">
