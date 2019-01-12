@@ -103,94 +103,86 @@ class ReviewItem extends React.Component {
     const review = this.props.review;
 
     return (
-      <div id="reviewCard_container">
-        <div id="reviewCard">
-          <div id="basic_content">
-            <div id="outer_content">
-              <Link
-                as={`/book/${review.book_id}`}
-                href={`/book?id=${review.book_id}`}
-              >
-                <div className="image_container">
-                  <img
-                    src={this.rr_getBookImage()}
-                    className="oneImage"
-                    align="center"
-                  />
-                </div>
-              </Link>
-              <div id="myRate" align="center">
-                내가 준 평점 : {review.score}
-              </div>
-              <div id="averageRate" align="center">
-                평균 평점 : {review.Book.averageScore}
-              </div>
-              <div className="deleteBtn_container">
-                <button
-                  className="deleteBtn"
-                  onClick={this._deleteReviewBtn_handler}
-                >
-                  삭제
-                </button>
-              </div>
-              <div>
-                <button
-                  className="openReviewBtn"
-                  onClick={this._openReviewBtn_clickHandler}
-                >
-                  {this.state.openBtnName}
-                </button>
-              </div>
-              <div>
-                <button
-                  className="editReviewBtn"
-                  onClick={this._showEditModalBtn_clickHandler}
-                >
-                  수정
-                </button>
-              </div>
+      <div id="reviewCard">
+        <div id="outer_content">
+          <Link
+            as={`/book/${review.book_id}`}
+            href={`/book?id=${review.book_id}`}
+          >
+            <div className="image_container">
+              <img
+                src={this._getBookImage()}
+                className="oneImage"
+                align="center"
+              />
             </div>
-
-            <div id="innerContent">
-              <div className="name" type="text">
-                {review.Book.title}
-              </div>
-              <div className="date" type="text">
-                작성시간 : {this._getDate()}
-              </div>
-              <div className="reviewText_box" type="text">
-                {review.text}
-              </div>
-              <div>
-                <button
-                  className="hidden_editReviewBtn"
-                  onClick={this._showEditModalBtn_clickHandler}
-                >
-                  수정
-                </button>
-              </div>
-            </div>
-
-            <EditReview
-              _closeEditModalBtn_clickHandler={
-                this._closeEditModalBtn_clickHandler
-              }
-              modalStatus={this.state.modalStatus}
-              editedReview={this.props.editedReview}
-              _editReview={this.props._editReview}
-              review={this.props.review}
-              openBtnName={this.props.openBtnName}
-            />
+          </Link>
+          <div id="myRate" align="center">
+            내가 준 평점 : {review.score}
+          </div>
+          <div id="averageRate" align="center">
+            평균 평점 : {review.Book.averageScore}
+          </div>
+          <div className="deleteBtn_container">
+            <button
+              className="deleteBtn"
+              onClick={this._deleteReviewBtn_handler}
+            >
+              삭제
+            </button>
+          </div>
+          <div>
+            <button
+              className="openReviewBtn"
+              onClick={this._openReviewBtn_clickHandler}
+            >
+              {this.state.openBtnName}
+            </button>
+          </div>
+          <div>
+            <button
+              className="editReviewBtn"
+              onClick={this._showEditModalBtn_clickHandler}
+            >
+              수정
+            </button>
           </div>
         </div>
+
+        <div id="innerContent">
+          <div className="name" type="text">
+            {review.Book.title}
+          </div>
+          <div className="date" type="text">
+            작성시간 : {this._getDate()}
+          </div>
+          <div className="reviewText_box" type="text">
+            {review.text}
+          </div>
+          <div>
+            <button
+              className="hidden_editReviewBtn"
+              onClick={this._showEditModalBtn_clickHandler}
+            >
+              수정
+            </button>
+          </div>
+
+          <EditReview
+            _closeEditModalBtn_clickHandler={
+              this._closeEditModalBtn_clickHandler
+            }
+            modalStatus={this.state.modalStatus}
+            editedReview={this.props.editedReview}
+            _editReview={this.props._editReview}
+            review={this.props.review}
+            openBtnName={this.props.openBtnName}
+          />
+        </div>
+
         <style jsx>{`
-          #reviewCard_container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-          }
           #reviewCard {
+            display: flex;
             background: #fcfbf9;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
               0 3px 10px 0 rgba(0, 0, 0, 0.09);
@@ -200,9 +192,6 @@ class ReviewItem extends React.Component {
             margin-right: auto;
             padding: 20px;
             width: 90%;
-          }
-          #basic_content {
-            display: flex;
           }
           #outer_content {
             background: #fcfbf9;
@@ -225,9 +214,6 @@ class ReviewItem extends React.Component {
             text-align: start;
           }
           #averageRate {
-            margin-left: 0px;
-            margin-right: 0px;
-            margin-top: 0px;
             background: white;
             width: 100%;
             text-align: start;
@@ -246,10 +232,24 @@ class ReviewItem extends React.Component {
             cursor: pointer;
             background-color: #ff7f00;
           }
+          .editReviewBtn {
+            font-size: 15px;
+            width: 100%;
+            height: 30px;
+            padding: 5px;
+            margin-top: 10px;
+            color: whitesmoke;
+            border: orange solid 1px;
+            background-color: orange;
+          }
+          .editReviewBtn:hover {
+            cursor: pointer;
+            background-color: #ff7f00;
+          }
           #innerContent {
             padding-left: 10px;
             padding-right: 10px;
-            width: 100%;
+            width: ;
           }
           .name {
             margin-top: 10px;
@@ -274,20 +274,7 @@ class ReviewItem extends React.Component {
             overflow: scroll;
             font-size: 13px;
           }
-          .editReviewBtn {
-            font-size: 15px;
-            width: 100%;
-            height: 30px;
-            padding: 5px;
-            margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
-          }
-          .editReviewBtn:hover {
-            cursor: pointer;
-            background-color: #ff7f00;
-          }
+
           .openReviewBtn {
             display: none;
           }
@@ -296,6 +283,10 @@ class ReviewItem extends React.Component {
           }
           @media (max-width: 800px) {
             #reviewCard {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
               width: 90%;
             }
             .openReviewBtn {
@@ -311,11 +302,6 @@ class ReviewItem extends React.Component {
             .openReviewBtn:hover {
               cursor: pointer;
               background-color: #ff7f00;
-            }
-            #basic_content {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
             }
             #myRate {
               font-size: 12px;

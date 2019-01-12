@@ -37,8 +37,8 @@ class Bookmarks extends React.Component {
           .image_container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
-            align-content: center;
+
+            justify-content: center;
           }
           .viewMoreBtn {
             font-size: 15px;

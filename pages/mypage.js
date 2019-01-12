@@ -323,24 +323,26 @@ class Mypage extends React.Component {
                 width: 100%;
               }
               #contents_box {
-                width: 80%;
+                width: 100%;
               }
               #Mypage_nav {
-                width: 90%;
+                width: 80%;
               }
               #reviews_btn {
                 font-size: 12px;
                 height: 20px;
                 padding: 0px;
-                width: 70px;
-                margin-right: 5px;
+                width: 30%;
+                margin-right: ;
               }
               #bookmarks_btn {
                 font-size: 12px;
                 height: 20px;
                 padding: 0px;
-                width: 70px;
-                margin-right: 5px;
+                width: 35%;
+                margin-right: ;
+              }
+              #userSettingsButton {
               }
             }
           `}</style>

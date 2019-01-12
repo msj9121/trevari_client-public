@@ -37,6 +37,7 @@ class Reviews extends React.Component {
         <style jsx>{`
           .moreViewBtn_container {
             display: flex;
+            justify-content: center;
           }
           .moreViewBtn {
             font-size: 15px;
