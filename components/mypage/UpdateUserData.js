@@ -14,6 +14,8 @@ class UpdateUserData extends React.Component {
     this.onUpdatePhoneSend = this.onUpdatePhoneSend.bind(this);
     this.onUpdatePasswordSend = this.onUpdatePasswordSend.bind(this);
     this.checkPasswordMatch = this.checkPasswordMatch.bind(this);
+    //isShowUserModal
+    //!this.state.isShowUserModal
   }
   onUpdatePhoneSend(e) {
     e && e.preventDefault();
@@ -107,16 +109,17 @@ class UpdateUserData extends React.Component {
     console.log("onclose : ", this.props.onclose);
 
     return (
-        
       <div className={"modal"} id={"userSettingsModal"}>
         <div className={"userSettingsModalHeader"}>
           <button
-            className={'closeButton'}
+            className={"closeButton"}
             onClick={() => {
               console.log("click!");
-              this.props.onclose()
+              this.props.onclose();
             }}
-          >X</button>
+          >
+            X
+          </button>
           <h3 id={"userSettingsLabel"}>User Settings </h3>
         </div>
         <hr />
@@ -201,7 +204,6 @@ class UpdateUserData extends React.Component {
             </button>
           </form>
         </div>
-        
 
         <style jsx>{`
           #userSettingsModal {

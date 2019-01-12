@@ -4,8 +4,7 @@ import Bookmarks from "./Bookmarks";
 
 class MypageContents extends React.Component {
   render() {
-    if (this.props.showBookmarks === false && 
-        this.props.showReviews === true) {
+    if (this.props.tabName === "마이 리뷰") {
       return (
         <Reviews
           reviews={this.props.reviews}
@@ -18,10 +17,7 @@ class MypageContents extends React.Component {
           openBtnName={this.props.openBtnName}
         />
       );
-    } else if (
-      this.props.showBookmarks === true &&
-      this.props.showReviews === false
-    ) {
+    } else if (this.props.tabName === "마이 북마크") {
       return (
         <Bookmarks
           books={this.props.books}

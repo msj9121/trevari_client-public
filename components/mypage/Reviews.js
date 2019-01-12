@@ -35,12 +35,6 @@ class Reviews extends React.Component {
           </button>
         </div>
         <style jsx>{`
-          #reviews {
-            width: 80%;
-          }
-          #reviews_container {
-            width: 100%;
-          }
           .moreViewBtn_container {
             display: flex;
           }
