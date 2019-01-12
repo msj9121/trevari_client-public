@@ -41,11 +41,11 @@ class Bookcollection extends Component {
 
         <style jsx>{`
           .bookcollection_imgbox {
-            width: 12%;
+            width: 130px;
             border: 1px solid #ddd;
             box-shadow: 0 7px 15px #999;
-            margin: 20px;
             cursor: pointer;
+            margin: 20px;
           }
           .bookcollection_imgbox:hover {
             transform: scale(1.1);
@@ -54,7 +54,6 @@ class Bookcollection extends Component {
             visibility: visible;
           }
           .bookcollection_img {
-            border-bottom: 1px solid #ddd;
             height: 170px;
           }
           .tooltiptext {
@@ -76,7 +75,7 @@ class Bookcollection extends Component {
           }
           img {
             width: 100%;
-            height: 170px;
+            height: 100%;
           }
           .bookcollection_name {
             font-size: 14px;

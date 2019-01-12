@@ -18,11 +18,13 @@ class BookReviewInner extends Component {
             <BookReview
               ID={this.props.ID}
               user_id={review.user_id}
+              book_id={review.book_id}
               score={review.score}
               text={review.text}
               email={review.User.email}
               createdAt={review.createdAt}
               key={index}
+              _getReviewChange={this.props._getReviewChange}
             />
           );
         })}

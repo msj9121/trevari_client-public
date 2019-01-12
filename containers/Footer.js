@@ -58,12 +58,12 @@ const Footer = () => (
         font-weight: bold;
       }
       .footer_button {
-        border: 1px solid #ff8906;
         border-radius: 3px;
-        background-color: white;
+        background-color: #ff8906;
         padding: 7px 13px 8px 13px;
         font-size: 14px;
-        color: #ff8906;
+        font-weight: 600;
+        color: white;
       }
       .footer_list {
         margin: 20px 0px;
