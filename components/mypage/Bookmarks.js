@@ -15,7 +15,7 @@ class Bookmarks extends React.Component {
     const books = this.props.books;
 
     return (
-      <div>
+      <div className="allContainer">
         <div className="image_container">
           {books.map((book, id) => (
             <BookmarkItem
@@ -37,6 +37,7 @@ class Bookmarks extends React.Component {
           .image_container {
             display: flex;
             flex-wrap: wrap;
+
             justify-content: center;
           }
           .viewMoreBtn {

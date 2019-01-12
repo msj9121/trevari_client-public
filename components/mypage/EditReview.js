@@ -57,7 +57,7 @@ class EditReview extends React.Component {
           </span>
           <textarea
             className={this.props.review.book_id}
-            placeholder="내용을 수정해 주세요"
+            defaultValue={this.props.review.text}
           />
           <div id="reviewScore">
             <div className="reviewScore_text">별점을 선택해주세요.</div>
