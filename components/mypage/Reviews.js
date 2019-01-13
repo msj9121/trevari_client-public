@@ -4,7 +4,7 @@ import ReviewItem from "./ReviewItem";
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
   }
 
@@ -16,12 +16,11 @@ class Reviews extends React.Component {
     return (
       <div id="reviews">
         <div id="reviews_container">
-          {this.props.reviews.map((review, id) => (
+          {this.props.currentReviews.map((review, id) => (
             <ReviewItem
               review={review}
               key={id}
               _deleteReview={this.props._deleteReview}
-              reviewsCount={this.props.reviewsCount}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
               _showReview={this.props._showReview}

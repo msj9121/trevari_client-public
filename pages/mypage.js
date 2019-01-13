@@ -2,6 +2,8 @@ import axios from "axios";
 import MypageContents from "../components/mypage/MypageContents";
 import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
+import Reviews from "../components/mypage/Reviews";
+import Bookmarks from "../components/mypage/Bookmarks";
 
 class Mypage extends React.Component {
   static async getInitialProps(context) {
@@ -13,8 +15,10 @@ class Mypage extends React.Component {
     );
 
     return {
-      reviews: reviews.data.slice(0, 10)
+      reviews: reviews.data,
+      currentReviews: reviews.data.slice(0, 10)
     };
+
   }
 
   constructor(props) {
@@ -22,7 +26,9 @@ class Mypage extends React.Component {
     this.state = {
       id: this.props.ID,
       reviews: props.reviews,
+      currentReviews: props.currentReviews,
       books: [],
+      currentBookmarks: [],
       tabName: "마이 리뷰",
       userDataModal: false,
       editedReview: "",
@@ -48,7 +54,8 @@ class Mypage extends React.Component {
       .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
       .then(res => {
         this.setState({
-          books: res.data.slice(0, 10)
+          books: res.data,
+          currentBookmarks: res.data.slice(0, 10)
         });
       })
       .catch(err => console.log(err));
@@ -56,62 +63,79 @@ class Mypage extends React.Component {
 
   _changeTabName = function(event) {
     let tabName = event.target.textContent;
-
+    
     this.setState({
       tabName: tabName
     });
   };
 
-  _deleteReview = function(reviews) {
-    const targetIndex = this.state.reviews.indexOf(reviews);
+  _deleteReview = function(review) {
+    const targetIndex1 = this.state.currentReviews.indexOf(review);
+    const copiedCurrentReviews = this.state.currentReviews.slice();
+    copiedCurrentReviews.splice(targetIndex1, 1);
+
+    const targetIndex2 = this.state.reviews.indexOf(review)
     const copiedReviews = this.state.reviews.slice();
-    copiedReviews.splice(targetIndex, 1);
+    copiedReviews.splice(targetIndex2, 1)
 
     this.setState({
-      reviews: copiedReviews
+      reviews: copiedReviews,
+      currentReviews: copiedCurrentReviews
     });
   };
 
-  _deleteBookmark = function(books) {
-    const targetIndex = this.state.books.indexOf(books);
-    const copiedBookmarks = this.state.books.slice();
-    copiedBookmarks.splice(targetIndex, 1);
+  _deleteBookmark = function(book) {
+    const targetIndex1 = this.state.currentBookmarks.indexOf(book);
+    const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
+    copiedCurrentBookmarks.splice(targetIndex1, 1);
+
+    const targetIndex2 = this.state.books.indexOf(book);
+    const copiedBooks = this.state.books.slice();
+    copiedBooks.splice(targetIndex2, 1);
 
     this.setState({
-      books: copiedBookmarks
+      books: copiedBooks,
+      currentBookmarks: copiedCurrentBookmarks
     });
   };
 
   _getMoreReviews = function() {
-    const reviewsLength = this.state.reviews.length;
+    const reviewsLength = this.state.currentReviews.length;
     const newLength = reviewsLength + 10;
 
-    axios
-      .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
-        userId: this.state.id
-      })
-      .then(res => {
-        this.setState({
-          reviews: res.data.slice(0, newLength)
-        });
-      })
-      .catch(err => console.log(err));
+    this.setState({
+      currentReviews: this.state.reviews.slice(0, newLength)
+    })
+    // axios
+    //   .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
+    //     userId: this.state.id
+    //   })
+    //   .then(res => {
+    //     this.setState({
+    //       reviews: res.data.slice(0, newLength)
+    //     });
+    //   })
+    //   .catch(err => console.log(err));
   };
 
   _getMoreBookmarks = function() {
-    const bookmarksLength = this.state.books.length;
+    const bookmarksLength = this.state.currentBookmarks.length;
     const newLength = bookmarksLength + 10;
 
-    axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
-        userId: this.state.id
-      })
-      .then(res => {
-        this.setState({
-          books: res.data.slice(0, newLength)
-        });
-      })
-      .catch(err => console.log(err));
+    this.setState({
+      currentBookmarks: this.state.books.slice(0, newLength)
+    })
+
+    // axios
+    //   .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
+    //     userId: this.state.id
+    //   })
+    //   .then(res => {
+    //     this.setState({
+    //       books: res.data.slice(0, newLength)
+    //     });
+    //   })
+    //   .catch(err => console.log(err));
   };
 
   _openUserDataModal = function() {
@@ -230,19 +254,24 @@ class Mypage extends React.Component {
             </div>
           </div>
           <div id="contents_box">
-            <MypageContents
-              books={this.state.books}
-              reviews={this.state.reviews}
-              _deleteReview={this._deleteReview}
-              _deleteBookmark={this._deleteBookmark}
-              _getMoreReviews={this._getMoreReviews}
-              _getMoreBookmarks={this._getMoreBookmarks}
-              editedReview={this.state.editedReview}
-              _editReview={this._editReview}
-              _showReview={this._showReview}
-              openBtnName={this.state.openBtnName}
-              tabName={this.state.tabName}
-            />
+            {this.state.tabName === "마이 리뷰" ? (
+              <Reviews
+                // reviews={this.state.reviews}
+                currentReviews={this.state.currentReviews}
+                _deleteReview={this._deleteReview}
+                _getMoreReviews={this._getMoreReviews}
+                editedReview={this.state.editedReview}
+                _editReview={this._editReview}
+                _showReview={this._showReview}
+                openBtnName={this.state.openBtnName}
+              />
+            ) : (
+              <Bookmarks
+                currentBookmarks={this.state.currentBookmarks}
+                _deleteBookmark={this._deleteBookmark}
+                _getMoreBookmarks={this._getMoreBookmarks}
+              />
+            )}
           </div>
           <style jsx>{`
             #userSettingsButton {

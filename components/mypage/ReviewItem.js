@@ -42,18 +42,20 @@ class ReviewItem extends React.Component {
 
   _getBookImage = function() {
     const bareImage = JSON.stringify(this.props.review.Book.image);
+    const targetIndex = bareImage.indexOf("?")
     let bookImageURL;
-    for (var i = 0; i < bareImage.length; i++) {
-      if (bareImage[i] === "?") {
-        bookImageURL = bareImage.slice(1, i);
-      }
+
+    if (targetIndex === -1) {
+      bookImageURL = this.props.review.Book.image;
+    } else {
+      bookImageURL = bareImage.slice(1, targetIndex);
     }
     return bookImageURL;
   };
 
   _getDate = function() {
     const bareDate = JSON.stringify(this.props.review.createdAt);
-
+    
     let year = bareDate.slice(1, 5);
     let month = bareDate.slice(6, 8);
     let day = bareDate.slice(9, 11);
@@ -68,16 +70,16 @@ class ReviewItem extends React.Component {
     const review = this.props.review;
     const _deleteReview = this.props._deleteReview;
 
-    _deleteReview(review);
-
+    
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
-        userId: review.user_id,
-        bookId: review.book_id
-      })
-      .then(res => {
-        if (res.data) {
-          console.log(`삭제된 리뷰 : ${review.Book.title}`);
+    .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
+      userId: review.user_id,
+      bookId: review.book_id
+    })
+    .then(res => {
+      if (res.data) {
+        console.log(`삭제된 리뷰 : ${review.Book.title}`);
+        _deleteReview(review);
         }
       })
       .catch(err => console.log(err));
@@ -121,7 +123,7 @@ class ReviewItem extends React.Component {
             내가 준 평점 : {review.score}
           </div>
           <div id="averageRate" align="center">
-            평균 평점 : {review.Book.averageScore}
+            평균 평점 : {Number(review.Book.averageScore).toFixed(1)}
           </div>
           <div className="deleteBtn_container">
             <button
@@ -198,11 +200,13 @@ class ReviewItem extends React.Component {
           }
           .image_container {
             width: 150px;
+            height: 200px;
           }
           .oneImage {
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
             width: 100%;
+            height: 100%;
           }
           .oneImage:hover {
             cursor: pointer;
@@ -249,7 +253,7 @@ class ReviewItem extends React.Component {
           #innerContent {
             padding-left: 10px;
             padding-right: 10px;
-            width: ;
+            width: 100%;
           }
           .name {
             margin-top: 10px;
@@ -330,9 +334,11 @@ class ReviewItem extends React.Component {
             .hidden_editReviewBtn {
               display: block;
               font-size: 12px;
-              width: 100%;
+              width: 140px;
               height: 20px;
               padding: ;
+              margin-left: auto;
+              margin-right: auto;
               margin-top: 10px;
               color: whitesmoke;
               border: orange solid 1px;
