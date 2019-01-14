@@ -4,6 +4,7 @@ import BookmarkItem from "./BookmarkItem";
 class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
+
     this._viewMoreBtn_clickHandler = this._viewMoreBtn_clickHandler.bind(this);
   }
 
@@ -12,7 +13,7 @@ class Bookmarks extends React.Component {
   };
 
   render() {
-    const books = this.props.books;
+    const books = this.props.currentBookmarks;
 
     return (
       <div className="allContainer">
@@ -34,11 +35,14 @@ class Bookmarks extends React.Component {
           </button>
         </div>
         <style jsx>{`
+          .allContainer {
+            
+          }
           .image_container {
             display: flex;
             flex-wrap: wrap;
-
-            justify-content: center;
+            justify-content: flex-start;
+          
           }
           .viewMoreBtn {
             font-size: 15px;

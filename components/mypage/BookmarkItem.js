@@ -13,11 +13,13 @@ class BookmarkItem extends React.Component {
 
   _getBookImage = function() {
     const bareImage = JSON.stringify(this.props.book.Book.image);
+    const targetIndex = bareImage.indexOf("?")
     let bookImageURL;
-    for (var i = 0; i < bareImage.length; i++) {
-      if (bareImage[i] === "?") {
-        bookImageURL = bareImage.slice(1, i);
-      }
+
+    if (targetIndex === -1) {
+      bookImageURL = this.props.book.Book.image;
+    } else {
+      bookImageURL = bareImage.slice(1, targetIndex);
     }
     return bookImageURL;
   };
@@ -68,15 +70,17 @@ class BookmarkItem extends React.Component {
           #bookmark_content {
             margin: 5px 5px 10px 5px;
             width: 130px;
-            height: 225px;
+            height: 205px;
             position: relative;
           }
           .image_container {
-            width: 100%;
+            width: 130px;
+            height: 170px;
           }
           .image {
             background: ;
             width: 100%;
+            height: 100%;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
           }
@@ -107,6 +111,10 @@ class BookmarkItem extends React.Component {
               width: 80px;
               height: 130px;
               position: relative;
+            }
+            .image_container {
+              width: 80px;
+              height: 130px;
             }
             .deleteBtn {
               font-size: 12px;
