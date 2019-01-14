@@ -8,41 +8,27 @@ class ReviewItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalStatus: "none",
-      reviewStatus: "none",
-      openBtnStatus: "none",
+      editModalStatus: "none",
+      hiddenReviewStatus: "none",
       openBtnName: "펼치기"
     };
-
-    this._showEditModalBtn_clickHandler = this._showEditModalBtn_clickHandler.bind(
-      this
-    );
-    this._closeEditModalBtn_clickHandler = this._closeEditModalBtn_clickHandler.bind(
-      this
-    );
-    this._getBookImage = this._getBookImage.bind(this);
-    this._getDate = this._getDate.bind(this);
-    this._deleteReviewBtn_handler = this._deleteReviewBtn_handler.bind(this);
-    this._openReviewBtn_clickHandler = this._openReviewBtn_clickHandler.bind(
-      this
-    );
   }
 
-  _showEditModalBtn_clickHandler = function() {
-    this.setState({
-      modalStatus: "block"
-    });
+  _showEditModalBtn_clickHandler = () => {
+    if (this.state.editModalStatus === "none") {
+      this.setState({
+        editModalStatus: "block"
+      });
+    } else if (this.state.editModalStatus === "block") {
+      this.setState({
+        editModalStatus: "none"
+      });
+    }
   };
 
-  _closeEditModalBtn_clickHandler = function() {
-    this.setState({
-      modalStatus: "none"
-    });
-  };
-
-  _getBookImage = function() {
+  _getBookImage = () => {
     const bareImage = JSON.stringify(this.props.review.Book.image);
-    const targetIndex = bareImage.indexOf("?")
+    const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
     if (targetIndex === -1) {
@@ -50,12 +36,12 @@ class ReviewItem extends React.Component {
     } else {
       bookImageURL = bareImage.slice(1, targetIndex);
     }
-    return bookImageURL;
+    return bookImageURL; 
   };
 
-  _getDate = function() {
+  _getDate = () => {
     const bareDate = JSON.stringify(this.props.review.createdAt);
-    
+
     let year = bareDate.slice(1, 5);
     let month = bareDate.slice(6, 8);
     let day = bareDate.slice(9, 11);
@@ -66,36 +52,33 @@ class ReviewItem extends React.Component {
     return newDate;
   };
 
-  _deleteReviewBtn_handler = function() {
+  _deleteReviewBtn_handler = () => {
     const review = this.props.review;
     const _deleteReview = this.props._deleteReview;
 
-    
     axios
-    .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
-      userId: review.user_id,
-      bookId: review.book_id
-    })
-    .then(res => {
-      if (res.data) {
-        console.log(`삭제된 리뷰 : ${review.Book.title}`);
-        _deleteReview(review);
+      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
+        userId: review.user_id,
+        bookId: review.book_id
+      })
+      .then(res => {
+        if (res.data) {
+          console.log(`삭제된 리뷰 : ${review.Book.title}`);
+          _deleteReview(review);
         }
       })
       .catch(err => console.log(err));
   };
 
-  _openReviewBtn_clickHandler = function() {
+  _openReviewBtn_clickHandler = () => {
     if (this.state.openBtnName === "펼치기") {
-      this.props._showReview(this.state.reviewStatus);
       this.setState({
-        reviewStatus: "block",
+        hiddenReviewStatus: "block",
         openBtnName: "닫기"
       });
     } else if (this.state.openBtnName === "닫기") {
-      this.props._showReview(this.state.reviewStatus);
       this.setState({
-        reviewStatus: "none",
+        hiddenReviewStatus: "none",
         openBtnName: "펼치기"
       });
     }
@@ -172,13 +155,13 @@ class ReviewItem extends React.Component {
 
           <EditReview
             _closeEditModalBtn_clickHandler={
-              this._closeEditModalBtn_clickHandler
+              this._showEditModalBtn_clickHandler
             }
-            modalStatus={this.state.modalStatus}
+            modalStatus={this.state.editModalStatus}
             editedReview={this.props.editedReview}
             _editReview={this.props._editReview}
             review={this.props.review}
-            openBtnName={this.props.openBtnName}
+            openBtnName={this.state.openBtnName}
           />
         </div>
 
@@ -315,7 +298,7 @@ class ReviewItem extends React.Component {
               font-size: 12px;
             }
             #innerContent {
-              display: ${this.state.reviewStatus};
+              display: ${this.state.hiddenReviewStatus};
             }
             .name {
               font-size: 12px;

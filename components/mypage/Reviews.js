@@ -4,11 +4,9 @@ import ReviewItem from "./ReviewItem";
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
-    
-    this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
   }
 
-  _moreBtn_clickHandler = function() {
+  _moreBtn_clickHandler = () => {
     this.props._getMoreReviews();
   };
 
@@ -23,8 +21,6 @@ class Reviews extends React.Component {
               _deleteReview={this.props._deleteReview}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
-              _showReview={this.props._showReview}
-              openBtnName={this.props.openBtnName}
             />
           ))}
         </div>

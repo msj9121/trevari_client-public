@@ -8,27 +8,23 @@ class EditReview extends React.Component {
       rating: 1,
       ratingValue: 1
     };
-
-    this._onStarHover = this._onStarHover.bind(this);
-    this._onStarClick = this._onStarClick.bind(this);
-    this._submitBtn_ClickHandler = this._submitBtn_ClickHandler.bind(this);
   }
 
-  _onStarHover = function(nextValue, prevValue, name) {
+  _onStarHover = (nextValue, prevValue, name) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = function(nextValue, preValue, name) {
+  _onStarClick = (nextValue, preValue, name) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _submitBtn_ClickHandler = function() {
+  _submitBtn_ClickHandler = () => {
     const review = this.props.review;
 
     let userId = review.user_id;

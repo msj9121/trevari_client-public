@@ -11,13 +11,9 @@ class UpdateUserData extends React.Component {
       updatePasswordSuccess: null,
       passwordUnmatch: false
     };
-    this.onUpdatePhoneSend = this.onUpdatePhoneSend.bind(this);
-    this.onUpdatePasswordSend = this.onUpdatePasswordSend.bind(this);
-    this.checkPasswordMatch = this.checkPasswordMatch.bind(this);
-    //isShowUserModal
-    //!this.state.isShowUserModal
   }
-  onUpdatePhoneSend(e) {
+
+  onUpdatePhoneSend = (e) => {
     e && e.preventDefault();
     const newNumber = Number(document.getElementById("newNumber").value);
     Number(newNumber)
@@ -26,8 +22,9 @@ class UpdateUserData extends React.Component {
 
     if (newNumber) {
       axios
-        .post(`http://${server}/users/updatePhoneNumber`, {
-          userId: this.props.userId,
+      .post(`http://${server}/users/updatePhoneNumber`, {
+      // .post(`http://${BACKEND_ENDPOINT}/users/updatePhoneNumber`, {
+        userId: this.props.userId,
           phoneNumber: newNumber
         })
         .then(response => {
@@ -56,10 +53,12 @@ class UpdateUserData extends React.Component {
       });
     }
   }
-  checkPasswordMatch() {
+
+  checkPasswordMatch = () => {
     var newPassword = document.getElementById("newPassword").value;
     var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
       .value;
+
     if (
       newPasswordConfirmation.length &&
       newPassword.length &&
@@ -74,11 +73,14 @@ class UpdateUserData extends React.Component {
       });
     }
   }
-  onUpdatePasswordSend(e) {
+
+  onUpdatePasswordSend = (e) => {
     e && e.preventDefault();
+
     var newPassword = document.getElementById("newPassword").value;
     var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
       .value;
+
     if (newPassword === newPasswordConfirmation) {
       console.log("sending");
       axios
@@ -105,8 +107,8 @@ class UpdateUserData extends React.Component {
         });
     }
   }
+
   render() {
-    console.log("onclose : ", this.props.onclose);
 
     return (
       <div className={"modal"} id={"userSettingsModal"}>
@@ -114,8 +116,7 @@ class UpdateUserData extends React.Component {
           <button
             className={"closeButton"}
             onClick={() => {
-              console.log("click!");
-              this.props.onclose();
+              this.props._showUserDataModal();
             }}
           >
             X

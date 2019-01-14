@@ -6,14 +6,11 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookmarkItem extends React.Component {
   constructor(props) {
     super(props);
-
-    this._getBookImage = this._getBookImage.bind(this);
-    this._deleteBtn_handler = this._deleteBtn_handler.bind(this);
   }
 
-  _getBookImage = function() {
+  _getBookImage = () => {
     const bareImage = JSON.stringify(this.props.book.Book.image);
-    const targetIndex = bareImage.indexOf("?")
+    const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
     if (targetIndex === -1) {
@@ -24,7 +21,7 @@ class BookmarkItem extends React.Component {
     return bookImageURL;
   };
 
-  _deleteBtn_handler = function() {
+  _deleteBtn_handler = () => {
     const book = this.props.book;
     const _deleteBookmark = this.props._deleteBookmark;
 

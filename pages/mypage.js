@@ -1,11 +1,11 @@
+import React, { Component } from "react";
 import axios from "axios";
-import MypageContents from "../components/mypage/MypageContents";
-import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
+import UpdateUserData from "../components/mypage/UpdateUserData";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
 
-class Mypage extends React.Component {
+class Mypage extends Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
 
@@ -18,7 +18,6 @@ class Mypage extends React.Component {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
     };
-
   }
 
   constructor(props) {
@@ -31,23 +30,11 @@ class Mypage extends React.Component {
       currentBookmarks: [],
       tabName: "마이 리뷰",
       userDataModal: false,
-      editedReview: "",
-      openBtnName: "펼치기"
+      editedReview: ""
     };
-
-    this._getBookmarks = this._getBookmarks.bind(this);
-    this._deleteReview = this._deleteReview.bind(this);
-    this._deleteBookmark = this._deleteBookmark.bind(this);
-    this._getMoreReviews = this._getMoreReviews.bind(this);
-    this._getMoreBookmarks = this._getMoreBookmarks.bind(this);
-    this._openUserDataModal = this._openUserDataModal.bind(this);
-    this._closeUserDataModal = this._closeUserDataModal.bind(this);
-    this._editReview = this._editReview.bind(this);
-    this._showReview = this._showReview.bind(this);
-    this._changeTabName = this._changeTabName.bind(this);
   }
 
-  _getBookmarks = function() {
+  _getBookmarks = () => {
     const userId = this.state.id;
 
     axios
@@ -61,22 +48,22 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  _changeTabName = function(event) {
+  _changeTabName = event => {
     let tabName = event.target.textContent;
-    
+
     this.setState({
       tabName: tabName
     });
   };
 
-  _deleteReview = function(review) {
+  _deleteReview = review => {
     const targetIndex1 = this.state.currentReviews.indexOf(review);
     const copiedCurrentReviews = this.state.currentReviews.slice();
     copiedCurrentReviews.splice(targetIndex1, 1);
 
-    const targetIndex2 = this.state.reviews.indexOf(review)
+    const targetIndex2 = this.state.reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
-    copiedReviews.splice(targetIndex2, 1)
+    copiedReviews.splice(targetIndex2, 1);
 
     this.setState({
       reviews: copiedReviews,
@@ -84,7 +71,7 @@ class Mypage extends React.Component {
     });
   };
 
-  _deleteBookmark = function(book) {
+  _deleteBookmark = book => {
     const targetIndex1 = this.state.currentBookmarks.indexOf(book);
     const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
     copiedCurrentBookmarks.splice(targetIndex1, 1);
@@ -99,58 +86,31 @@ class Mypage extends React.Component {
     });
   };
 
-  _getMoreReviews = function() {
+  _getMoreReviews = () => {
     const reviewsLength = this.state.currentReviews.length;
     const newLength = reviewsLength + 10;
 
     this.setState({
       currentReviews: this.state.reviews.slice(0, newLength)
-    })
-    // axios
-    //   .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
-    //     userId: this.state.id
-    //   })
-    //   .then(res => {
-    //     this.setState({
-    //       reviews: res.data.slice(0, newLength)
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
+    });
   };
 
-  _getMoreBookmarks = function() {
+  _getMoreBookmarks = () => {
     const bookmarksLength = this.state.currentBookmarks.length;
     const newLength = bookmarksLength + 10;
 
     this.setState({
       currentBookmarks: this.state.books.slice(0, newLength)
-    })
-
-    // axios
-    //   .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
-    //     userId: this.state.id
-    //   })
-    //   .then(res => {
-    //     this.setState({
-    //       books: res.data.slice(0, newLength)
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
-  };
-
-  _openUserDataModal = function() {
-    this.setState({
-      userDataModal: true
     });
   };
 
-  _closeUserDataModal = function() {
+  _showUserDataModal = () => {
     this.setState({
-      userDataModal: false
+      userDataModal: !this.state.userDataModal
     });
   };
 
-  _editReview = function(editedReview, userId, bookId, reviewId, rating) {
+  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
     let newReviews = this.state.reviews;
 
     for (var i = 0; i < newReviews.length; i++) {
@@ -180,18 +140,6 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  _showReview = function(reviewStatus) {
-    if (reviewStatus === "none") {
-      this.setState({
-        openBtnName: "닫기"
-      });
-    } else if (reviewStatus === "block") {
-      this.setState({
-        openBtnName: "펼치기"
-      });
-    }
-  };
-
   render() {
     if (!this.state.id) {
       return (
@@ -219,7 +167,7 @@ class Mypage extends React.Component {
           {this.state.userDataModal ? (
             <UpdateUserData
               userId={this.props.ID}
-              onclose={this._closeUserDataModal}
+              _showUserDataModal={this._showUserDataModal}
             />
           ) : (
             undefined
@@ -247,7 +195,7 @@ class Mypage extends React.Component {
               </span>
               <button
                 id={"userSettingsButton"}
-                onClick={this._openUserDataModal}
+                onClick={this._showUserDataModal}
               >
                 <i className="fas fa-cog" />
               </button>
@@ -256,14 +204,11 @@ class Mypage extends React.Component {
           <div id="contents_box">
             {this.state.tabName === "마이 리뷰" ? (
               <Reviews
-                // reviews={this.state.reviews}
                 currentReviews={this.state.currentReviews}
                 _deleteReview={this._deleteReview}
                 _getMoreReviews={this._getMoreReviews}
                 editedReview={this.state.editedReview}
                 _editReview={this._editReview}
-                _showReview={this._showReview}
-                openBtnName={this.state.openBtnName}
               />
             ) : (
               <Bookmarks

@@ -4,11 +4,9 @@ import BookmarkItem from "./BookmarkItem";
 class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
-
-    this._viewMoreBtn_clickHandler = this._viewMoreBtn_clickHandler.bind(this);
   }
 
-  _viewMoreBtn_clickHandler = function() {
+  _viewMoreBtn_clickHandler = () => {
     this.props._getMoreBookmarks();
   };
 
@@ -36,13 +34,11 @@ class Bookmarks extends React.Component {
         </div>
         <style jsx>{`
           .allContainer {
-            
           }
           .image_container {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
-          
           }
           .viewMoreBtn {
             font-size: 15px;
