@@ -1,7 +1,7 @@
 import Document, { Head, Main, NextScript } from "next/document";
 
 const bodyStyle = {
-  margin: "0 auto"
+  "margin": "0 auto",
   // width: '1600px'
 };
 

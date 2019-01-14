@@ -91,17 +91,17 @@ class Book extends Component {
           console.log(err);
         });
       const changeBook = await axios
-        .post(`${BACKEND_ENDPOINT}/books/getBookById`, { 
+        .post(`${BACKEND_ENDPOINT}/books/getBookById`, {
           id: this.state.book.id
         })
         .then(res => {
           console.log("GET Book 성공");
-          return res.data
+          return res.data;
         })
         .catch(err => {
           console.log(err);
         });
-      
+
       this.setState({
         bookReviewData: changeBookReviews,
         bookReviewLength: changeBookReviews.length,
@@ -113,44 +113,6 @@ class Book extends Component {
       console.log("GET 실패");
     }
   };
-
-  // _getReviewChange = (check, del) => {
-  //   if (check) {
-  //     axios
-  //       .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
-  //         bookId: this.state.book.id
-  //       })
-  //       .then(res => {
-  //         console.log("GET BookReviews 성공");
-  //         const changeBookReviews = res.data
-  //         this.setState({
-  //           bookReviewData: changeBookReviews,
-  //           bookReviewLength: changeBookReviews.length,
-  //           isReviewed: del === false ? false : true
-  //         });
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-
-  //     axios
-  //       .post(`${BACKEND_ENDPOINT}/books/getBookById`, { 
-  //         id: this.state.book.id
-  //       })
-  //       .then(res => {
-  //         console.log("GET Book 성공");
-  //         const changeBook = res.data
-  //         this.setState({
-  //           book: changeBook
-  //         });
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     console.log("GET 실패");
-  //   }
-  // };
 
   //------------------BookMark----------------------------//
 
@@ -197,18 +159,15 @@ class Book extends Component {
             _changeBookMarkData={this._changeBookMarkData}
             _filterBookmarkId={this._filterBookmarkId}
           />
-          {this.state.review ? (
-            <BookReviewbox
-              ID={this.props.ID}
-              bookId={this.props.book.id}
-              isReviewed={this.state.isReviewed}
-              bookReviewData={this.state.bookReviewData}
-              _getReviewChange={this._getReviewChange}
-              _chackUserReview={this._chackUserReview}
-            />
-          ) : (
-            console.log("reviewbox---hide")
-          )}
+          <BookReviewbox
+            ID={this.props.ID}
+            review={this.state.review}
+            bookId={this.props.book.id}
+            isReviewed={this.state.isReviewed}
+            bookReviewData={this.state.bookReviewData}
+            _getReviewChange={this._getReviewChange}
+            _chackUserReview={this._chackUserReview}
+          />
         </div>
 
         <style jsx>{`

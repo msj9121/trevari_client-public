@@ -20,21 +20,27 @@ class BookReviewbox extends Component {
   };
 
   render() {
-    console.log("reviewbox---show")
+    console.log("reviewbox---show");
     return (
       <div className="book_reviewbox">
-        <BookReviewScore
-          _onStarClickHover={this._onStarClickHover}
-          rating={this.state.rating}
-          ratingValue={this.state.ratingValue}
-        />
-        <BookReviewInput
-          ID={this.props.ID}
-          bookId={this.props.bookId}
-          _getReviewChange={this.props._getReviewChange}
-          isReviewed={this.props.isReviewed}
-          ratingValue={this.state.ratingValue}
-        />
+        {this.props.review ? (
+          <div>
+            <BookReviewScore
+              _onStarClickHover={this._onStarClickHover}
+              rating={this.state.rating}
+              ratingValue={this.state.ratingValue}
+            />
+            <BookReviewInput
+              ID={this.props.ID}
+              bookId={this.props.bookId}
+              _getReviewChange={this.props._getReviewChange}
+              isReviewed={this.props.isReviewed}
+              ratingValue={this.state.ratingValue}
+            />
+          </div>
+        ) : (
+          console.log("reviewbox---hide")
+        )}
         <BookReviewInner
           ID={this.props.ID}
           bookId={this.props.bookId}

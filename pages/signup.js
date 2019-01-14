@@ -97,72 +97,98 @@ class Signup extends Component {
   render() {
     return (
       <div id="signup">
-        <div className="signup-text">회원가입</div>
-        <div className="signup-input">
-          <input
-            className="input-box"
-            type="email"
-            placeholder="이메일"
-            name="email"
-            onChange={this.handleChange}
-          />
+        <div className="signup_container">
+          <div className="signup_box">
+            <div className="signup-text">회원가입</div>
+            <div className="signup-inputbox">
+              <div className="signup-input">
+                <input
+                  className="input-box"
+                  type="email"
+                  placeholder="이메일을 입력해주세요."
+                  name="email"
+                  onChange={this.handleChange}
+                />
+              </div>
+
+              <div className="signup-input">
+                <input
+                  className="input-box"
+                  placeholder="비밀번호를 입력해주세요.(8~16자)"
+                  type="password"
+                  name="password"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="signup-input">
+                <input
+                  className="input-box"
+                  placeholder="비밀번호를 다시 입력해주세요."
+                  type="password"
+                  name="repassword"
+                  onChange={this.handleChange}
+                />
+              </div>
+
+              <div className="signup-input">
+                <input
+                  className="input-box"
+                  placeholder="이름을 입력해주세요."
+                  name="name"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="signup-input">
+                <input
+                  className="input-box"
+                  placeholder="휴대폰 번호를 입력해주세요."
+                  name="phoneNumber"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="wanning-div">{this.state.check}</div>
+              <button className="signup-btn" onClick={this.clickSignupButton}>
+                회원가입
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="signup-input">
-          <input
-            className="input-box"
-            placeholder="비밀번호"
-            type="password"
-            name="password"
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="signup-input">
-          <input
-            className="input-box"
-            placeholder="비밀번호 확인"
-            type="password"
-            name="repassword"
-            onChange={this.handleChange}
-          />
-        </div>
-
-        <div className="signup-input">
-          <input
-            className="input-box"
-            placeholder="이름"
-            name="name"
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="signup-input">
-          <input
-            className="input-box"
-            placeholder="전화번호"
-            name="phoneNumber"
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="wanning-div">{this.state.check}</div>
-        <button className="signup-btn" onClick={this.clickSignupButton}>
-          회원가입
-        </button>
         <style jsx>{`
           #signup {
-            text-align: center;
+            background-color: rgba(0, 0, 0, 0.03);
+          }
+          .signup_container {
+            width: 60%;
+            height: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .signup_box {
+            border: 1px solid #ddd;
+            width: 370px;
+            background-color: white;
           }
           .signup-text {
-            font-size: 50px;
+            font-size: 35px;
+            text-align: left;
+            margin: 35px 20px;
+          }
+          .signup-inputbox {
+            text-align: center;
+            margin: 0px 20px;
           }
           .signup-input {
-            margin-top: 5px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
           }
           .input-box {
-            width: 300px;
+            width: 320px;
             height: 40px;
             font-size: 15px;
-            padding: 5px;
+            padding: 5px 0px 5px 5px;
+            border: 1px solid #ddd;
           }
           .wanning-div {
             color: red;
@@ -170,14 +196,14 @@ class Signup extends Component {
             height: 20px;
           }
           .signup-btn {
-            font-size: 15px;
-            width: 300px;
+            font-size: 18px;
+            width: 330px;
             height: 50px;
             padding: 10px;
             color: whitesmoke;
             margin-bottom: 20px;
-            border: orange solid 1px;
-            background-color: orange;
+            border: none;
+            background-color: #ff8906;
           }
           .signup-btn:hover {
             cursor: pointer;

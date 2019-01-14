@@ -16,7 +16,7 @@ class Header extends Component {
           <ul>
             <Link href="/recommend">
               <li>
-                <span>책추천</span>
+                <span>추천 도서</span>
               </li>
             </Link>
             <Link
@@ -58,6 +58,7 @@ class Header extends Component {
         <style jsx>{`
           #header {
             border-bottom: solid 1px #ddd;
+            background-color: white;
           }
           #header_mypage {
             display: ${this.props.headerMypage_status};
@@ -79,6 +80,7 @@ class Header extends Component {
           ul {
             margin: 0px;
             padding-top: 20px;
+            padding-right: 10px;
           }
           li {
             display: inline-block;

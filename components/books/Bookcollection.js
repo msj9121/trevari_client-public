@@ -17,6 +17,158 @@ class Bookcollection extends Component {
     return getBookImage;
   };
 
+  _renderStar = () => {
+    if (
+      9 <= this.props.book.averageScore &&
+      this.props.book.averageScore <= 10
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      8 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 9
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      6 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 8
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      4 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 6
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      2 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 4
+    ) {
+      return (
+        <div className="star">
+          <i className="star-a">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-a {
+              font-style: normal;
+              color: red;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    } else if (
+      0 <= this.props.book.averageScore &&
+      this.props.book.averageScore < 2
+    ) {
+      return (
+        <div className="star">
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <i className="star-b">★</i>
+          <style jsx>{`
+            .star {
+              margin: 0px 5px 0px 5px;
+            }
+            .star-b {
+              color: #363636;
+              font-style: normal;
+            }
+          `}</style>
+        </div>
+      );
+    }
+  };
+
   render() {
     const Author = this.props.book.author.replace(/<[^>]*>/g, "");
     return (
@@ -32,8 +184,13 @@ class Bookcollection extends Component {
             <div className="bookcollection_img">
               <img src={this._getBookImage()} />
               <span className="tooltiptext">
-                <p>Title : {this.props.book.title}</p>
-                <p>Author : {Author}</p>
+                <div className="tooltiptext_title">{this.props.book.title}</div>
+                <div className="tooltiptext_author">저자 : {Author}</div>
+                <div className="tooltiptext_averageScore">
+                  <div>평점 : </div>
+                  <div>{this._renderStar()}</div>
+                  <div>{this.props.book.averageScore}</div>
+                </div>
               </span>
             </div>
           </div>
@@ -58,11 +215,10 @@ class Bookcollection extends Component {
           }
           .tooltiptext {
             visibility: hidden;
-            width: 120px;
+            width: 250px;
             background-color: black;
             color: #fff;
             text-align: left;
-            border-radius: 6px;
             padding: 5px 5px 5px 5px;
             margin-left: 10px;
             font-size: 11px;
@@ -72,6 +228,22 @@ class Bookcollection extends Component {
             z-index: 1;
             botton: 0%;
             // left: 105%;
+          }
+          .tooltiptext_title {
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .tooltiptext_author {
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: 400;
+          }
+          .tooltiptext_averageScore {
+            display: flex;
+            font-size: 14px;
+            font-weight: 400;
           }
           img {
             width: 100%;
