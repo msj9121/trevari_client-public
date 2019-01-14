@@ -9,7 +9,6 @@ class Login extends Component {
     this.state = {
       email: null,
       password: null,
-      userid: 0,
       check: ""
     };
   }
@@ -59,11 +58,7 @@ class Login extends Component {
       .then(res => {
         if (res.data) {
           localStorage.setItem("user", res.data.id);
-          this.setState({
-            userid: res.data.id
-          });
-          this.props.saveId(this.state.userid);
-          this.props.changeCondition();
+          this.props.changeCondition_saveId();
           Router.push("/index");
         } else {
           this.setState({
@@ -111,7 +106,9 @@ class Login extends Component {
                 로그인
               </button>
 
-              <div className="login-a-div">아직 트레바리 멤버가 아니신가요?</div>
+              <div className="login-a-div">
+                아직 트레바리 멤버가 아니신가요?
+              </div>
               <div className="login-b-div" onClick={this.moveSignupPage}>
                 트레바리 가입하기!
               </div>
