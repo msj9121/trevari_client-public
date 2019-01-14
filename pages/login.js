@@ -58,6 +58,7 @@ class Login extends Component {
       .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
+          localStorage.setItem("user", res.data.id);
           this.setState({
             userid: res.data.id
           });

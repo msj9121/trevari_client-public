@@ -13,7 +13,6 @@ class Mypage extends Component {
       `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
       { userId }
     );
-
     return {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
