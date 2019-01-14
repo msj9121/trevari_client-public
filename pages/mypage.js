@@ -34,7 +34,7 @@ class Mypage extends Component {
   }
 
   _getBookmarks = () => {
-    const userId = this.state.id;
+    const userId = this.props.ID;
 
     axios
       .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
