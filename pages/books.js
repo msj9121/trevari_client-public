@@ -62,7 +62,7 @@ class Books extends Component {
             }
             #books_box {
               margin: 0 auto;
-              width: 60%;
+              max-width: 1140px;
               display: flex;
               flex-wrap: wrap;
               justify-content: center;

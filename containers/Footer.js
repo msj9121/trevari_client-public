@@ -34,7 +34,7 @@ const Footer = () => (
       }
       #footer_box {
         margin: 0 auto;
-        width: 60%;
+        max-width: 1140px;
       }
       .footer-one {
         display: flex;

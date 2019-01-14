@@ -42,7 +42,7 @@ class ReviewItem extends React.Component {
 
   _getBookImage = function() {
     const bareImage = JSON.stringify(this.props.review.Book.image);
-    const targetIndex = bareImage.indexOf("?")
+    const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
     if (targetIndex === -1) {
@@ -55,7 +55,7 @@ class ReviewItem extends React.Component {
 
   _getDate = function() {
     const bareDate = JSON.stringify(this.props.review.createdAt);
-    
+
     let year = bareDate.slice(1, 5);
     let month = bareDate.slice(6, 8);
     let day = bareDate.slice(9, 11);
@@ -70,16 +70,15 @@ class ReviewItem extends React.Component {
     const review = this.props.review;
     const _deleteReview = this.props._deleteReview;
 
-    
     axios
-    .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
-      userId: review.user_id,
-      bookId: review.book_id
-    })
-    .then(res => {
-      if (res.data) {
-        console.log(`삭제된 리뷰 : ${review.Book.title}`);
-        _deleteReview(review);
+      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
+        userId: review.user_id,
+        bookId: review.book_id
+      })
+      .then(res => {
+        if (res.data) {
+          console.log(`삭제된 리뷰 : ${review.Book.title}`);
+          _deleteReview(review);
         }
       })
       .catch(err => console.log(err));
@@ -185,15 +184,10 @@ class ReviewItem extends React.Component {
         <style jsx>{`
           #reviewCard {
             display: flex;
-            background: #fcfbf9;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-              0 3px 10px 0 rgba(0, 0, 0, 0.09);
-            margin-top: 10px;
-            margin-bottom: 20px;
-            margin-left: auto;
-            margin-right: auto;
+            background: white;
             padding: 20px;
-            width: 90%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
           }
           #outer_content {
             background: #fcfbf9;

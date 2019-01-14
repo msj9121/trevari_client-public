@@ -64,11 +64,10 @@ class Header extends Component {
             display: ${this.props.headerMypage_status};
           }
           #header_box {
-            display: block;
             display: flex;
             justify-content: space-between;
             margin: 0 auto;
-            width: 60%;
+            max-width: 1140px;
           }
           .header_logo {
             width: 100px;

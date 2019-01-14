@@ -18,7 +18,6 @@ class Mypage extends React.Component {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
     };
-
   }
 
   constructor(props) {
@@ -29,7 +28,7 @@ class Mypage extends React.Component {
       currentReviews: props.currentReviews,
       books: [],
       currentBookmarks: [],
-      tabName: "마이 리뷰",
+      tabName: "내가 평가한 책",
       userDataModal: false,
       editedReview: "",
       openBtnName: "펼치기"
@@ -63,7 +62,7 @@ class Mypage extends React.Component {
 
   _changeTabName = function(event) {
     let tabName = event.target.textContent;
-    
+
     this.setState({
       tabName: tabName
     });
@@ -74,9 +73,9 @@ class Mypage extends React.Component {
     const copiedCurrentReviews = this.state.currentReviews.slice();
     copiedCurrentReviews.splice(targetIndex1, 1);
 
-    const targetIndex2 = this.state.reviews.indexOf(review)
+    const targetIndex2 = this.state.reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
-    copiedReviews.splice(targetIndex2, 1)
+    copiedReviews.splice(targetIndex2, 1);
 
     this.setState({
       reviews: copiedReviews,
@@ -105,7 +104,7 @@ class Mypage extends React.Component {
 
     this.setState({
       currentReviews: this.state.reviews.slice(0, newLength)
-    })
+    });
     // axios
     //   .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
     //     userId: this.state.id
@@ -124,7 +123,7 @@ class Mypage extends React.Component {
 
     this.setState({
       currentBookmarks: this.state.books.slice(0, newLength)
-    })
+    });
 
     // axios
     //   .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
@@ -231,7 +230,7 @@ class Mypage extends React.Component {
                   id="reviews_btn"
                   onClick={event => this._changeTabName(event)}
                 >
-                  마이 리뷰
+                  내가 평가한 책
                 </button>
               </span>
               <span>
@@ -242,7 +241,7 @@ class Mypage extends React.Component {
                     this._getBookmarks();
                   }}
                 >
-                  마이 북마크
+                  내가 읽고싶은 책
                 </button>
               </span>
               <button
@@ -254,7 +253,7 @@ class Mypage extends React.Component {
             </div>
           </div>
           <div id="contents_box">
-            {this.state.tabName === "마이 리뷰" ? (
+            {this.state.tabName === "내가 평가한 책" ? (
               <Reviews
                 // reviews={this.state.reviews}
                 currentReviews={this.state.currentReviews}
@@ -274,6 +273,9 @@ class Mypage extends React.Component {
             )}
           </div>
           <style jsx>{`
+            #mypage {
+              background: rgba(0, 0, 0, 0.03);
+            }
             #userSettingsButton {
               float: right;
               font-size: 16px;
@@ -284,57 +286,56 @@ class Mypage extends React.Component {
               height: 10px;
             }
             #mypage_navBox {
-              padding-bottom: 10px;
               border-bottom: solid 1px #ddd;
-              padding-top: 10px;
+              background-color: white;;
             }
             #Mypage_nav {
               margin-left: auto;
               margin-right: auto;
-              width: 60%;
+              max-width: 1140px;
             }
             #contents_box {
               margin-left: auto;
               margin-right: auto;
-              width: 60%;
+              max-width: 1140px;
             }
 
             #reviews_btn {
               font-size: 15px;
-              width: 120px;
-              height: 30px;
-              padding: 5px;
+              padding: 15px 10px 15px 10px;
               margin-right: 10px;
-              color: whitesmoke;
-              border: orange solid 1px;
-              background-color: orange;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
             }
             #reviews_btn:hover {
-              cursor: pointer;
-              background-color: #ff7f00;
+              font-weight: 700;
             }
             #reviews_btn:focus {
-              border-bottom: 3px solid #ff8906;
-              font-weight: bold;
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
             }
 
             #bookmarks_btn {
               font-size: 15px;
-              width: 120px;
-              height: 30px;
-              padding: 5px;
+              padding: 15px 10px 15px 10px;
               margin-right: 10px;
-              color: whitesmoke;
-              border: orange solid 1px;
-              background-color: orange;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
             }
             #bookmarks_btn:hover {
-              cursor: pointer;
-              background-color: #ff7f00;
+              font-weight: 700;
             }
             #bookmarks_btn:focus {
-              border-bottom: 3px solid #ff8906;
-              font-weight: bold;
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
             }
 
             #addBooks_btn {

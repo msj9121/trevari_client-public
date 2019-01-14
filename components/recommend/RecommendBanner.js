@@ -89,7 +89,7 @@ const RecommendBanner = props => {
           height: 100%;
         }
         .recommend_banner_box {
-          width: 60%;
+          max-width: 1140px;
           height: 100%;
           margin: 0 auto;
           z-index: 0;
