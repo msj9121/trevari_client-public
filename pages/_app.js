@@ -3,25 +3,39 @@ import Header from "../containers/Header";
 import Footer from "../containers/Footer";
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, router, ctx, localStorage }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-
     return { pageProps };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
+      id: "없음",
       movepage: "/login",
       text: "로그인",
       hiddenBox_status: "none",
       headerMypage_status: "none"
     };
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      this.setState({
+        id: localStorage.getItem("user"),
+        movepage: "/index",
+        text: "로그아웃",
+        headerMypage_status: "block"
+      });
+    }
+    console.log("id :", this.state.id);
+    console.log("id type :", typeof this.state.id);
+    console.log("local :", localStorage.getItem("user"));
+    console.log("local type :", typeof localStorage.getItem("user"));
   }
 
   changeCondition = () => {
@@ -40,6 +54,7 @@ export default class MyApp extends App {
         text: "로그인",
         headerMypage_status: "none"
       });
+      localStorage.removeItem("user");
     }
   };
 

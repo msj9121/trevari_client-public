@@ -20,14 +20,14 @@ class Header extends Component {
               </li>
             </Link>
             <Link
-              as={`/mypage/${this.props.ID}`}
+              // as={`/mypage/${this.props.ID}`}
               href={`/mypage?userId=${this.props.ID}`}
             >
               <li>
                 <span id="header_mypage">마이페이지</span>
               </li>
             </Link>
-            <Link as={`/login`} href={this.props.loginState.movepage}>
+            <Link href={this.props.loginState.movepage}>
               <li onClick={this.props.rechangeCondition}>
                 <span>{this.props.loginState.text}</span>
               </li>
