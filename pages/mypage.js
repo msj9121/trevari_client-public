@@ -11,7 +11,6 @@ class Mypage extends React.Component {
       `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
       { userId }
     );
-
     return {
       reviews: reviews.data.slice(0, 10)
     };
@@ -28,7 +27,7 @@ class Mypage extends React.Component {
       editedReview: "",
       openBtnName: "펼치기"
     };
-
+    console.log("Mypage ID :", this.state.id);
     this._getBookmarks = this._getBookmarks.bind(this);
     this._deleteReview = this._deleteReview.bind(this);
     this._deleteBookmark = this._deleteBookmark.bind(this);
