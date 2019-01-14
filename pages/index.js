@@ -30,7 +30,7 @@ class Index extends Component {
           }
           #index_box {
             margin: 0 auto;
-            width: 60%;
+            max-width: 1140px;
             display: flex;
             justify-content: center;
           }

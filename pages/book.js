@@ -178,7 +178,7 @@ class Book extends Component {
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd;
             margin: 0 auto;
-            width: 60%;
+            max-width: 1140px;
             background: white;
           }
           @media screen and (max-width: 600px) {
