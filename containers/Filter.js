@@ -27,7 +27,7 @@ class Filter extends Component {
         <div id="filter_box">
           <div className="filter_group">
             <input
-              placeholder="책제목 검색"
+              placeholder="책 제목 검색"
               type="search"
               className="filter_input"
               value={this.state.bookTitle}
@@ -62,6 +62,7 @@ class Filter extends Component {
             border: 1px solid #ced4da;
             border-radius: 3px 0px 0px 3px;
             outline-style: none;
+            padding: 5px;
           }
           .filter_xbox {
             border: solid 1px;

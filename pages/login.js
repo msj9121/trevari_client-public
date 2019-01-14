@@ -80,54 +80,80 @@ class Login extends Component {
   render() {
     return (
       <div id="login">
-        <div className="login-text">로그인</div>
+        <div className="login_container">
+          <div className="login_box">
+            <div className="login-text">로그인</div>
+            <div className="login-inputbox">
+              <div className="login-input">
+                <input
+                  className="input-box"
+                  type="email"
+                  placeholder="이메일"
+                  name="email"
+                  onChange={this.handleChange}
+                />
+              </div>
 
-        <div className="login-input">
-          <input
-            className="input-box"
-            type="email"
-            placeholder="이메일"
-            name="email"
-            onChange={this.handleChange}
-          />
-        </div>
+              <div className="login-input">
+                <input
+                  className="input-box"
+                  placeholder="비밀번호"
+                  type="password"
+                  name="password"
+                  onChange={this.handleChange}
+                />
+              </div>
 
-        <div className="login-input">
-          <input
-            className="input-box"
-            placeholder="비밀번호"
-            type="password"
-            name="password"
-            onChange={this.handleChange}
-          />
-        </div>
+              <div className="wanning-div">{this.state.check}</div>
 
-        <div className="wanning-div">{this.state.check}</div>
+              <button className="login-btn" onClick={this.clickLoginButton}>
+                로그인
+              </button>
 
-        <button className="login-btn" onClick={this.clickLoginButton}>
-          로그인
-        </button>
-
-        <div className="login-a-div" onClick={this.moveSignupPage}>
-          트레바리 가입하기!
+              <div className="login-a-div">아직 트레바리 멤버가 아니신가요?</div>
+              <div className="login-b-div" onClick={this.moveSignupPage}>
+                트레바리 가입하기!
+              </div>
+            </div>
+          </div>
         </div>
 
         <style jsx>{`
           #login {
-            text-align: center;
+            background-color: rgba(0, 0, 0, 0.03);
+          }
+          .login_container {
+            width: 60%;
+            height: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .login_box {
+            border: 1px solid #ddd;
+            width: 370px;
+            background-color: white;
           }
           .login-text {
-            font-size: 50px;
+            font-size: 35px;
+            text-align: left;
+            margin: 35px 20px;
+          }
+          .login-inputbox {
+            text-align: center;
+            margin: 0px 20px;
           }
           .login-input {
             margin-top: 5px;
             margin-bottom: 5px;
           }
           .input-box {
-            width: 300px;
+            width: 320px;
             height: 40px;
             font-size: 15px;
-            padding: 5px;
+            padding: 5px 0px 5px 5px;
+            border: 1px solid #ddd;
           }
           .wanning-div {
             color: red;
@@ -135,28 +161,31 @@ class Login extends Component {
             height: 20px;
           }
           .login-btn {
-            font-size: 15px;
-            width: 300px;
+            font-size: 18px;
+            font-weight: 500;
+            width: 330px;
             height: 50px;
             padding: 10px;
             color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            border: none;
+            background-color: #ff8906;
           }
           .login-btn:hover {
             cursor: pointer;
             background-color: #ff7f00;
           }
           .login-a-div {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            height: 20px;
-            font-size: 13px;
-            color: blue;
+            margin-top: 10px;
           }
-          .login-a-div:hover {
+          .login-b-div {
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #246db7;
+          }
+          .login-b-div:hover {
             cursor: pointer;
-            color: orange;
+            color: #ff8906;
           }
           @media screen and (max-width: 600px) {
             #login {

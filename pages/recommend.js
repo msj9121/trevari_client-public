@@ -84,7 +84,7 @@ class Recommend extends Component {
     return (
       <div>
         <Filter />
-        <RecommendBanner />
+        <RecommendBanner ID={this.props.ID}/>
         <div id="recommend">
           <div id="recommend_box">
             <RecommendBooks

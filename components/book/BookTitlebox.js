@@ -250,14 +250,14 @@ class BookTitlebox extends Component {
               className="book_titlebox_endReviewBtn"
               onClick={this.props._toggle}
             >
-              - 평점보기
+              - 평점주기
             </span>
           ) : (
             <span
               className="book_titlebox_startReviewBtn"
               onClick={this.props._toggle}
             >
-              + 평점보기
+              + 평점주기
             </span>
           )}
         </div>
@@ -267,6 +267,7 @@ class BookTitlebox extends Component {
             display: flex;
             margin: 0 auto;
             width: 90%;
+            border-bottom: 1px solid #ddd;
           }
           .book_titlebox_img {
             width: 280px;
@@ -310,12 +311,19 @@ class BookTitlebox extends Component {
             padding: 5px 25px 5px 25px;
             cursor: pointer;
           }
+          .book_titlebox_startReviewBtn:hover {
+            background-color: #e07300;
+          }
+          
           .book_titlebox_endReviewBtn {
             color: white;
             background-color: #246db7;
             font-size: 20px;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
+          }
+          .book_titlebox_endReviewBtn:hover {
+            background-color: #1e5791;
           }
           .book_titlebox_addBookmarkBtn {
             background-color: #ff8906;
@@ -326,6 +334,9 @@ class BookTitlebox extends Component {
             margin-right: 15px;
             cursor: pointer;
           }
+          .book_titlebox_addBookmarkBtn:hover {
+            background-color: #e07300;
+          }
           .book_titlebox_deleteBookmarkBtn {
             background-color: #246db7;
             color: white;
@@ -334,6 +345,9 @@ class BookTitlebox extends Component {
             margin-top: 10px;
             margin-right: 15px;
             cursor: pointer;
+          }
+          .book_titlebox_deleteBookmarkBtn:hover {
+            background-color: #1e5791;
           }
           @media screen and (max-width: 600px) {
             .book_titlebox {
