@@ -168,15 +168,10 @@ class ReviewItem extends React.Component {
         <style jsx>{`
           #reviewCard {
             display: flex;
-            background: #fcfbf9;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-              0 3px 10px 0 rgba(0, 0, 0, 0.09);
-            margin-top: 10px;
-            margin-bottom: 20px;
-            margin-left: auto;
-            margin-right: auto;
+            background: white;
             padding: 20px;
-            width: 90%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
           }
           #outer_content {
             background: #fcfbf9;

@@ -30,6 +30,9 @@ class Reviews extends React.Component {
           </button>
         </div>
         <style jsx>{`
+          #reviews_container {
+            margin: 10px;
+          }
           .moreViewBtn_container {
             display: flex;
             justify-content: center;

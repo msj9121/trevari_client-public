@@ -28,7 +28,7 @@ class Mypage extends Component {
       currentReviews: props.currentReviews,
       books: [],
       currentBookmarks: [],
-      tabName: "마이 리뷰",
+      tabName: "내가 평가한 책",
       userDataModal: false,
       editedReview: ""
     };
@@ -179,7 +179,7 @@ class Mypage extends Component {
                   id="reviews_btn"
                   onClick={event => this._changeTabName(event)}
                 >
-                  마이 리뷰
+                  내가 평가한 책
                 </button>
               </span>
               <span>
@@ -190,7 +190,7 @@ class Mypage extends Component {
                     this._getBookmarks();
                   }}
                 >
-                  마이 북마크
+                  내가 읽고싶은 책
                 </button>
               </span>
               <button
@@ -202,7 +202,7 @@ class Mypage extends Component {
             </div>
           </div>
           <div id="contents_box">
-            {this.state.tabName === "마이 리뷰" ? (
+            {this.state.tabName === "내가 평가한 책" ? (
               <Reviews
                 currentReviews={this.state.currentReviews}
                 _deleteReview={this._deleteReview}
@@ -219,6 +219,9 @@ class Mypage extends Component {
             )}
           </div>
           <style jsx>{`
+            #mypage {
+              background: rgba(0, 0, 0, 0.03);
+            }
             #userSettingsButton {
               float: right;
               font-size: 16px;
@@ -229,57 +232,56 @@ class Mypage extends Component {
               height: 10px;
             }
             #mypage_navBox {
-              padding-bottom: 10px;
               border-bottom: solid 1px #ddd;
-              padding-top: 10px;
+              background-color: white;;
             }
             #Mypage_nav {
               margin-left: auto;
               margin-right: auto;
-              width: 60%;
+              max-width: 1140px;
             }
             #contents_box {
               margin-left: auto;
               margin-right: auto;
-              width: 60%;
+              max-width: 1140px;
             }
 
             #reviews_btn {
               font-size: 15px;
-              width: 120px;
-              height: 30px;
-              padding: 5px;
+              padding: 15px 10px 15px 10px;
               margin-right: 10px;
-              color: whitesmoke;
-              border: orange solid 1px;
-              background-color: orange;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
             }
             #reviews_btn:hover {
-              cursor: pointer;
-              background-color: #ff7f00;
+              font-weight: 700;
             }
             #reviews_btn:focus {
-              border-bottom: 3px solid #ff8906;
-              font-weight: bold;
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
             }
 
             #bookmarks_btn {
               font-size: 15px;
-              width: 120px;
-              height: 30px;
-              padding: 5px;
+              padding: 15px 10px 15px 10px;
               margin-right: 10px;
-              color: whitesmoke;
-              border: orange solid 1px;
-              background-color: orange;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
             }
             #bookmarks_btn:hover {
-              cursor: pointer;
-              background-color: #ff7f00;
+              font-weight: 700;
             }
             #bookmarks_btn:focus {
-              border-bottom: 3px solid #ff8906;
-              font-weight: bold;
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
             }
 
             #addBooks_btn {

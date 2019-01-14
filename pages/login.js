@@ -123,7 +123,7 @@ class Login extends Component {
             background-color: rgba(0, 0, 0, 0.03);
           }
           .login_container {
-            width: 60%;
+            max-width: 1140px;
             height: 800px;
             margin: 0 auto;
             display: flex;

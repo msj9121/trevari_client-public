@@ -65,20 +65,36 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Header
-          loginState={this.state}
-          rechangeCondition={this.rechangeCondition}
-          ID={this.state.id}
-          changeHiddenBoxStatus={this.changeHiddenBoxStatus}
-          hiddenBox_status={this.state.hiddenBox_status}
-          headerMypage_status={this.state.headerMypage_status}
-        />
-        <Component
-          {...pageProps}
-          ID={this.state.id}
-          saveId={this.saveId}
-          changeCondition={this.changeCondition}
-        />
+        <div id="head">
+          <Header
+            loginState={this.state}
+            rechangeCondition={this.rechangeCondition}
+            ID={this.state.id}
+            changeHiddenBoxStatus={this.changeHiddenBoxStatus}
+            hiddenBox_status={this.state.hiddenBox_status}
+            headerMypage_status={this.state.headerMypage_status}
+          />
+          <style jsx>{`
+            #head {
+              position: fixed;
+              width: 100%;
+            }
+          `}</style>
+        </div>
+
+        <div id="pages">
+          <Component
+            {...pageProps}
+            ID={this.state.id}
+            saveId={this.saveId}
+            changeCondition={this.changeCondition}
+          />
+          <style jsx>{`
+            #pages {
+              padding-top: 60px;
+            }
+          `}</style>
+        </div>
         <Footer />
       </Container>
     );

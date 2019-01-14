@@ -49,7 +49,7 @@ class Filter extends Component {
             display: flex;
             justify-content: flex-end;
             margin: 0 auto;
-            width: 60%;
+            max-width: 1140px;
           }
           .filter_group {
             display: flex;

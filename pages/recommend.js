@@ -120,7 +120,7 @@ class Recommend extends Component {
             #recommend_box {
               border: 1px solid #ddd;
               margin: 0 auto;
-              width: 60%;
+              max-width: 1140px;
               background-color: white;
               padding-top: 10px;
             }
