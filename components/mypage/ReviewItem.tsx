@@ -1,11 +1,39 @@
-import React from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 import EditReview from "./EditReview";
 
-class ReviewItem extends React.Component {
-  constructor(props) {
+interface ReviewItemProps {
+  review: IReview;
+  key: Number;
+  _deleteReview: Function;
+  editedReview: String;
+  _editReview: Function;
+}
+
+interface ReveiwItemState {
+  editModalStatus: String;
+  hiddenReviewStatus: String;
+  openBtnName: String;
+}
+
+interface IReview {
+  Book: any;
+  createdAt: string;
+  user_id: Number;
+  book_id: Number;
+  score: Number;
+  text: String;
+}
+
+interface IBook {
+  image: string;
+}
+
+
+class ReviewItem extends Component<ReviewItemProps, ReveiwItemState> {
+  constructor(props: ReviewItemProps) {
     super(props);
     this.state = {
       editModalStatus: "none",
@@ -27,10 +55,10 @@ class ReviewItem extends React.Component {
   };
 
   _getBookImage = () => {
-    const Book = this.props.review.Book
+    const Book: IBook = this.props.review.Book
     const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
-    let bookImageURL;
+    let bookImageURL: string;
 
     if (targetIndex === -1) {
       bookImageURL = bareImage;
@@ -42,7 +70,7 @@ class ReviewItem extends React.Component {
 
   _getDate = () => {
     const bareDate = this.props.review.createdAt;
-   
+
     let year = bareDate.slice(0, 4);
     let month = bareDate.slice(5, 7);
     let day = bareDate.slice(8, 10);
@@ -99,14 +127,13 @@ class ReviewItem extends React.Component {
               <img
                 src={this._getBookImage()}
                 className="oneImage"
-                align="center"
               />
             </div>
           </Link>
-          <div id="myRate" align="center">
+          <div id="myRate">
             내가 준 평점 : {review.score}
           </div>
-          <div id="averageRate" align="center">
+          <div id="averageRate">
             평균 평점 : {Number(review.Book.averageScore).toFixed(1)}
           </div>
           <div className="deleteBtn_container">
@@ -136,13 +163,13 @@ class ReviewItem extends React.Component {
         </div>
 
         <div id="innerContent">
-          <div className="name" type="text">
+          <div className="name">
             {review.Book.title}
           </div>
-          <div className="date" type="text">
+          <div className="date">
             작성시간 : {this._getDate()}
           </div>
-          <div className="reviewText_box" type="text">
+          <div className="reviewText_box">
             {review.text}
           </div>
           <div>

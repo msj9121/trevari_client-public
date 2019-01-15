@@ -1,25 +1,69 @@
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../constant";
 import UpdateUserData from "../components/mypage/UpdateUserData";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
+import { object } from "prop-types";
 
-class Mypage extends Component {
-  static async getInitialProps(context) {
+interface MypageProps {
+  ID: string
+  reviews: IReviews[] | string[]
+  currentReviews: IReviews[] | string[]
+}
+
+interface MypageState {
+  id: string
+  reviews: IReviews[] | string[]
+  currentReviews: IReviews[] | string[]
+  books: string[]
+  currentBookmarks: string[]
+  tabName: string | null
+  userDataModal: Boolean
+  editedReview: string
+}
+
+interface IReviews {
+  id: number
+  text: string
+  score: number
+  data: string;
+}
+
+interface IContext {
+  query: IQuery;
+}
+
+interface IQuery {
+  userId: string;
+}
+
+interface IEvent {
+  target: HTMLButtonElement
+}
+
+interface Itarget {
+  textContent: string
+}
+
+class Mypage extends Component<MypageProps, MypageState> {
+  state: MypageState
+
+  static async getInitialProps(context: IContext) {
     const { userId } = context.query;
 
     const reviews = await axios.post(
       `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
       { userId }
     );
+
     return {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
     };
   }
 
-  constructor(props) {
+  constructor(props: MypageProps) {
     super(props);
     this.state = {
       id: this.props.ID,
@@ -47,7 +91,7 @@ class Mypage extends Component {
       .catch(err => console.log(err));
   };
 
-  _changeTabName = event => {
+  _changeTabName = (event: MouseEvent<HTMLButtonElement>) => {
     let tabName = event.currentTarget.textContent;
 
     this.setState({
@@ -55,12 +99,14 @@ class Mypage extends Component {
     });
   };
 
-  _deleteReview = review => {
-    const targetIndex1 = this.state.currentReviews.indexOf(review);
+  _deleteReview = (review: string) => {
+    const currentReviews = this.state.currentReviews as string[];
+    const targetIndex1 = currentReviews.indexOf(review);
     const copiedCurrentReviews = this.state.currentReviews.slice();
     copiedCurrentReviews.splice(targetIndex1, 1);
 
-    const targetIndex2 = this.state.reviews.indexOf(review);
+    const reviews = this.state.reviews as string[];
+    const targetIndex2 = reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
     copiedReviews.splice(targetIndex2, 1);
 
@@ -70,7 +116,7 @@ class Mypage extends Component {
     });
   };
 
-  _deleteBookmark = book => {
+  _deleteBookmark = (book: string) => {
     const targetIndex1 = this.state.currentBookmarks.indexOf(book);
     const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
     copiedCurrentBookmarks.splice(targetIndex1, 1);
@@ -109,9 +155,9 @@ class Mypage extends Component {
     });
   };
 
-  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
-    let newReviews = this.state.reviews;
-
+  _editReview = (editedReview: string, userId: number, bookId: number, reviewId: number, rating: number) => {
+    let newReviews = this.state.reviews as IReviews[];
+    
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
@@ -126,7 +172,7 @@ class Mypage extends Component {
         score: rating,
         text: editedReview
       })
-      .then(res => {
+      .then((res) => {
         if (res.data) {
           this.setState({
             reviews: newReviews
@@ -142,7 +188,7 @@ class Mypage extends Component {
   render() {
     if (!this.state.id) {
       return (
-        <div id="notLogin" align="center">
+        <div id ="notLogin">
           <h2>로그인을 해주세요</h2>
           <style jsx>{`
             #notLogin {
@@ -176,7 +222,7 @@ class Mypage extends Component {
               <span>
                 <button
                   id="reviews_btn"
-                  onClick={event => this._changeTabName(event)}
+                  onClick={this._changeTabName}
                 >
                   내가 평가한 책
                 </button>
@@ -201,7 +247,7 @@ class Mypage extends Component {
             </div>
           </div>
           <div id="contents_box">
-            {this.state.tabName === "내가 평가한 책" ? (
+            { this.state.tabName === "내가 평가한 책" ? (
               <Reviews
                 currentReviews={this.state.currentReviews}
                 _deleteReview={this._deleteReview}

@@ -1,23 +1,37 @@
-import React from "react";
+import React, { Component, MouseEvent } from "react";
 const server = "3.16.58.104:5000";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
-class UpdateUserData extends React.Component {
-  constructor(props) {
+interface UpdateUserDataProps {
+  userId: string;
+  _showUserDataModal: Function;
+}
+
+interface UpdateUserDataState {
+  updatePhoneSuccess: Object;
+  updatePasswordSuccess: Object;
+  passwordUnmatch: Boolean;
+}
+
+interface InumberElement{
+  value: string;
+}
+
+class UpdateUserData extends Component<UpdateUserDataProps, UpdateUserDataState> {
+  constructor(props: UpdateUserDataProps) {
     super(props);
     this.state = {
-      updatePhoneSuccess: null,
-      updatePasswordSuccess: null,
+      updatePhoneSuccess: false,
+      updatePasswordSuccess: false,
       passwordUnmatch: false
     };
   }
 
-  onUpdatePhoneSend = (e) => {
+  onUpdatePhoneSend = (e: MouseEvent<HTMLButtonElement>) => {
     e && e.preventDefault();
-    const numberElement = document.getElementById("newNumber") 
+    const numberElement = document.getElementById("newNumber");
     const newNumber = numberElement.value;
-
     Number(newNumber)
       ? console.log("value", Number(newNumber))
       : console.log("fail");
@@ -27,20 +41,20 @@ class UpdateUserData extends React.Component {
       .post(`http://${server}/users/updatePhoneNumber`, {
       // .post(`http://${BACKEND_ENDPOINT}/users/updatePhoneNumber`, {
         userId: this.props.userId,
-          phoneNumber: Number(newNumber)
+          phoneNumber: newNumber
         })
         .then(response => {
           console.log("response", response);
           if (response.data) {
             this.setState({
-              updatePhoneSuccess: true
+              updatePhoneSuccess: !this.state.updatePhoneSuccess
             });
             setTimeout(() => {
-              this.props.onclose;
+              this.props._showUserDataModal;
             }, 2000);
           } else {
             this.setState({
-              updatePhoneSuccess: false
+              updatePhoneSuccess: !this.state.updatePhoneSuccess
             });
           }
         })
@@ -58,8 +72,7 @@ class UpdateUserData extends React.Component {
 
   checkPasswordMatch = () => {
     var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
-      .value;
+    var newPasswordConfirmation = document.getElementById("newPasswordConfirm").value;
 
     if (
       newPasswordConfirmation.length &&
@@ -76,12 +89,11 @@ class UpdateUserData extends React.Component {
     }
   }
 
-  onUpdatePasswordSend = (e) => {
+  onUpdatePasswordSend = () => {
     e && e.preventDefault();
 
     var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
-      .value;
+    var newPasswordConfirmation = document.getElementById("newPasswordConfirm").value;
 
     if (newPassword === newPasswordConfirmation) {
       console.log("sending");

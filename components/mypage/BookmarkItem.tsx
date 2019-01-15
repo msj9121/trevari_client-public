@@ -3,13 +3,34 @@ import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
-class BookmarkItem extends React.Component {
-  constructor(props) {
+interface IBook {
+  image: string;
+  title: String;
+  id: Number;
+  isbn: string;
+}
+
+interface Ibook {
+  Book: IBook;
+  user_id: Number;
+  book_id: Number;
+  id: Number;
+}
+
+interface BookmarkItemProps {
+  book: Ibook;
+  key: Number;
+  _deleteBookmark: Function;
+}
+
+class BookmarkItem extends React.Component<BookmarkItemProps> {
+  constructor(props: BookmarkItemProps) {
     super(props);
   }
 
   _getBookImage = () => {
-    const bareImage = JSON.stringify(this.props.book.Book.image);
+    const Book: IBook = this.props.book.Book;
+    const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
@@ -24,6 +45,7 @@ class BookmarkItem extends React.Component {
   _deleteBtn_handler = () => {
     const book = this.props.book;
     const _deleteBookmark = this.props._deleteBookmark;
+
     _deleteBookmark(book);
 
     axios
@@ -47,10 +69,7 @@ class BookmarkItem extends React.Component {
         <div>
           <Link as={`/book/${book.Book.id}`} href={`/book?id=${book.Book.id}`}>
             <div className="image_container">
-              <img
-                className="image"     
-                src={this._getBookImage()}
-              />
+              <img className="image" src={this._getBookImage()} />
             </div>
           </Link>
         </div>

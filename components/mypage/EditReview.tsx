@@ -1,8 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 import StarRatingComponent from "react-star-rating-component";
+import { string } from "prop-types";
 
-class EditReview extends React.Component {
-  constructor(props) {
+interface EditReviewProps {
+  _closeEditModalBtn_clickHandler: Function;
+  modalStatus: String;
+  editedReview: String;
+  _editReview: Function;
+  review: Object;
+  openBtnName: String;
+}
+
+interface EditReviewState {
+  rating: Number;
+  ratingValue: Number;
+}
+
+interface IReview {
+  user_id: Number;
+  book_id: Number | String;
+  id: Number;
+
+}
+
+class EditReview extends Component<EditReviewProps, EditReviewState> {
+  constructor(props: EditReviewProps) {
     super(props);
     this.state = {
       rating: 1,
@@ -10,14 +32,14 @@ class EditReview extends React.Component {
     };
   }
 
-  _onStarHover = (nextValue) => {
+  _onStarHover = (nextValue: number) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = (nextValue) => {
+  _onStarClick = (nextValue: number) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
@@ -26,17 +48,16 @@ class EditReview extends React.Component {
 
   _submitBtn_ClickHandler = () => {
     const review = this.props.review;
-    
+
     let userId = review.user_id;
     let bookId = review.book_id;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
     let editedReview;
-
-    if (document.getElementsByClassName(bookId)[0].value === "") {
+    if (document.getElementsByClassName(bookId)[0].innerHTML === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
-      editedReview = document.getElementsByClassName(bookId)[0].value;
+      editedReview = document.getElementsByClassName(bookId)[0].innerHTML;
     }
 
     this.props._editReview(editedReview, userId, bookId, reviewId, rating);
@@ -44,11 +65,11 @@ class EditReview extends React.Component {
 
   render() {
     return (
-      <div id="myModal" className="modal" display={this.props.modalStatus}>
+      <div id="myModal" className="modal">
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={event => this.props._closeEditModalBtn_clickHandler(event)}
+            onClick={this.props._closeEditModalBtn_clickHandler}
           >
             &times;
           </span>
