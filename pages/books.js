@@ -59,6 +59,8 @@ class Books extends Component {
           <style jsx>{`
             #books {
               background: rgba(0, 0, 0, 0.03);
+              padding-top: 60px;
+              padding-bottom: 5px;
             }
             #books_box {
               margin: 0 auto;
@@ -67,8 +69,7 @@ class Books extends Component {
               flex-wrap: wrap;
               justify-content: center;
               background-color: white;
-              border-left: 1px solid #ddd;
-              border-right: 1px solid #ddd;
+              border: 1px solid #ddd;
             }
             @media screen and (max-width: 600px) {
               #books_box {

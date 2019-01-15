@@ -172,9 +172,23 @@ const RecommendBanner = props => {
           height: 100%;
         }
         @media screen and (max-width: 600px) {
-          .recommend_banner_box {
-            width: 100%;
+          #recommend_banner {
+            display: none;
           }
+          // .recommend_banner_box {
+          //   width: 100%;
+          // }
+          // .recommend_banner_books_book1 {
+          //   width: 100px;
+          // }
+          // .recommend_banner_books_book2 {
+          //   margin-left: 10px;
+          //   margin-right: 10px;
+          //   width: 100px;
+          // }
+          // .recommend_banner_books_book3 {
+          //   width: 100px;
+          // }
         }
       `}</style>
     </div>

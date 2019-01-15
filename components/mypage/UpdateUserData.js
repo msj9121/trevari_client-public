@@ -120,14 +120,18 @@ class UpdateUserData extends React.Component {
           >
             X
           </button>
-          <h3 id={"userSettingsLabel"}>User Settings </h3>
+          <h3 id={"userSettingsLabel"}>내 정보 수정</h3>
         </div>
         <hr />
         <div className={"updatePhone"}>
-          <h4 className={"userSettingsOpt"}>Update your phone number</h4>
+          <h4 className={"userSettingsOpt"}>휴대폰 번호</h4>
           <form>
-            <label>New number</label>
-            <input type={"text"} id={"newNumber"} />
+            {/* <label>New number</label> */}
+            <input
+              type={"text"}
+              id={"newNumber"}
+              placeholder="휴대폰 번호를 입력해주세요."
+            />
             <p
               className={"updateWarning"}
               id={"updatePhoneSuccess"}
@@ -150,21 +154,27 @@ class UpdateUserData extends React.Component {
               number.
             </p>
             <button id={"updatePhoneSend"} onClick={this.onUpdatePhoneSend}>
-              Update
+              변경
             </button>
           </form>
         </div>
         <div className={"updatePhone"}>
-          <h4 className={"userSettingsOpt"}>Update your password</h4>
+          <h4 className={"userSettingsOpt"}>비밀번호</h4>
           <form>
-            <label>New password</label>
-            <input type={"password"} name={"Password"} id={"newPassword"} />
-            <label>Confirm new password</label>
+            {/* <label>New password</label> */}
+            <input
+              type={"password"}
+              name={"Password"}
+              id={"newPassword"}
+              placeholder="비밀번호를 입력해주세요.(8~16자)"
+            />
+            {/* <label>Confirm new password</label> */}
             <input
               type={"password"}
               name={"Password"}
               id={"newPasswordConfirm"}
               onBlur={this.checkPasswordMatch}
+              placeholder="비밀번호를 다시 입력해주세요."
             />
             <p
               className={"updateWarning"}
@@ -200,7 +210,7 @@ class UpdateUserData extends React.Component {
               id={"updatePasswordSend"}
               onClick={this.onUpdatePasswordSend}
             >
-              Update
+              변경
             </button>
           </form>
         </div>
@@ -213,17 +223,30 @@ class UpdateUserData extends React.Component {
             background-color: #fff;
             padding: 20px;
             box-shadow: 1px 1px 10px grey;
-            border-radius: 5%;
-
+            top: 20%;
             left: 50%;
             transform: translate(-50%);
             margin: 0 auto;
 
             font-family: helvetica, sans-serif;
-            color: #565656;
+            color: black;
+          }
+          #newNumber {
+            padding: 10px;
+            border: 1px solid #DDD;
+          }
+          #newPassword {
+            padding: 10px;
+            border: 1px solid #DDD;
+          }
+          #newPasswordConfirm {
+            padding: 10px;
+            border: 1px solid #DDD;
           }
           .userSettingsOpt {
-            text-align: center;
+            text-align: left;
+            margin-top: 20px;
+            margin-bottom: 0px;
           }
           #userSettingsLabel {
             font-family: helvetica, sans-serif;
@@ -244,26 +267,29 @@ class UpdateUserData extends React.Component {
           }
           .closeButton {
             float: right;
-            font-size: 20px;
-            color: grey;
+            font-size: 25px;
+            font-weight: 600;
             border: none;
+            background-color: white;
+            cursor: pointer;
           }
           #updatePhoneSend,
           #updatePasswordSend {
-            background-color: #f97400;
-            padding: 10px;
+            background-color: #ff8906;
+            padding: 5px 20px;
+            font-weight: 500;
+            border: none;
             text-align: center;
             color: white;
             margin: auto;
             margin-top: 10px;
-            text-shadow: 1px 0px 3px grey;
-            border-radius: 10%;
             font-size: 16px;
+            outline-style: none;
+            cursor: pointer;
           }
           #updatePhoneSend:hover,
           #updatePasswordSend:hover {
-            box-shadow: 0px 1px 5px #f9cf9a;
-            top: 1px;
+            background-color: #e07300;
           }
           #updatePhoneSend:focus,
           #updatePasswordSend:focus {
@@ -273,7 +299,7 @@ class UpdateUserData extends React.Component {
           hr {
             border-color: grey;
             border: none;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid #DDD;
           }
           .updateWarning {
             font-weight: bold;

@@ -225,25 +225,28 @@ class Mypage extends React.Component {
           )}
           <div id="mypage_navBox">
             <div id="Mypage_nav">
-              <span>
-                <button
-                  id="reviews_btn"
-                  onClick={event => this._changeTabName(event)}
-                >
-                  내가 평가한 책
-                </button>
-              </span>
-              <span>
-                <button
-                  id="bookmarks_btn"
-                  onClick={event => {
-                    this._changeTabName(event);
-                    this._getBookmarks();
-                  }}
-                >
-                  내가 읽고싶은 책
-                </button>
-              </span>
+              <div>
+                <span>
+                  <button
+                    id="reviews_btn"
+                    onClick={event => this._changeTabName(event)}
+                  >
+                    내가 평가한 책
+                  </button>
+                </span>
+                <span>
+                  <button
+                    id="bookmarks_btn"
+                    onClick={event => {
+                      this._changeTabName(event);
+                      this._getBookmarks();
+                    }}
+                  >
+                    내가 읽고싶은 책
+                  </button>
+                </span>
+              </div>
+
               <button
                 id={"userSettingsButton"}
                 onClick={this._openUserDataModal}
@@ -277,22 +280,29 @@ class Mypage extends React.Component {
               background: rgba(0, 0, 0, 0.03);
             }
             #userSettingsButton {
-              float: right;
-              font-size: 16px;
-              color: grey;
-              border-radius: 10%;
+              font-size: 25px;
+              color: #ff8906;
+              background-color: white;
+              border: none;
+              outline-style: none;
+              cursor: pointer;
+              margin-right: 10px;
+            }
+            #userSettingsButton:hover {
+              color: #e07300;
             }
             #mypageTitle {
               height: 10px;
             }
             #mypage_navBox {
               border-bottom: solid 1px #ddd;
-              background-color: white;;
+              background-color: white;
             }
             #Mypage_nav {
-              margin-left: auto;
-              margin-right: auto;
+              margin: 0 auto;
               max-width: 1140px;
+              display: flex;
+              justify-content: space-between;
             }
             #contents_box {
               margin-left: auto;
@@ -301,7 +311,7 @@ class Mypage extends React.Component {
             }
 
             #reviews_btn {
-              font-size: 15px;
+              font-size: 16px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -320,7 +330,7 @@ class Mypage extends React.Component {
             }
 
             #bookmarks_btn {
-              font-size: 15px;
+              font-size: 16px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -349,31 +359,31 @@ class Mypage extends React.Component {
               border: solid 2px #ced4da;
             }
             @media screen and (max-width: 800px) {
-              #mypage {
-                width: 100%;
-              }
-              #contents_box {
-                width: 100%;
-              }
-              #Mypage_nav {
-                width: 80%;
-              }
-              #reviews_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 30%;
-                margin-right: ;
-              }
-              #bookmarks_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 35%;
-                margin-right: ;
-              }
-              #userSettingsButton {
-              }
+              // #mypage {
+              //   width: 100%;
+              // }
+              // #contents_box {
+              //   width: 100%;
+              // }
+              // #Mypage_nav {
+              //   width: 80%;
+              // }
+              // #reviews_btn {
+              //   font-size: 12px;
+              //   height: 20px;
+              //   padding: 0px;
+              //   width: 30%;
+              //   margin-right: ;
+              // }
+              // #bookmarks_btn {
+              //   font-size: 12px;
+              //   height: 20px;
+              //   padding: 0px;
+              //   width: 35%;
+              //   margin-right: ;
+              // }
+              // #userSettingsButton {
+              // }
             }
           `}</style>
         </div>

@@ -77,6 +77,12 @@ class Login extends Component {
     Router.push("/signup");
   };
 
+  _handleKeyPress = e => {
+    if (e.charCode === 13) {
+      this.clickLoginButton();
+    }
+  };
+
   render() {
     return (
       <div id="login">
@@ -91,6 +97,7 @@ class Login extends Component {
                   placeholder="이메일"
                   name="email"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -101,6 +108,7 @@ class Login extends Component {
                   type="password"
                   name="password"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -110,7 +118,9 @@ class Login extends Component {
                 로그인
               </button>
 
-              <div className="login-a-div">아직 트레바리 멤버가 아니신가요?</div>
+              <div className="login-a-div">
+                아직 트레바리 멤버가 아니신가요?
+              </div>
               <div className="login-b-div" onClick={this.moveSignupPage}>
                 트레바리 가입하기!
               </div>
@@ -169,6 +179,7 @@ class Login extends Component {
             color: whitesmoke;
             border: none;
             background-color: #ff8906;
+            outline-style: none;
           }
           .login-btn:hover {
             cursor: pointer;

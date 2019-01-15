@@ -5,21 +5,27 @@ class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookTitle : ""
-    }
+      bookTitle: ""
+    };
   }
 
-  _changeBookTitle = (e) => {
+  _changeBookTitle = e => {
     this.setState({
-      bookTitle : e.target.value
-    })
-  }
+      bookTitle: e.target.value
+    });
+  };
 
   _deleteBookTitle = () => {
     this.setState({
-      bookTitle : ""
-    })
-  }
+      bookTitle: ""
+    });
+  };
+
+  // _handleKeyPress = e => {
+  //   if (e.charCode === 13) {
+  //     this._deleteBookTitle();
+  //   }
+  // };
 
   render() {
     return (
@@ -32,6 +38,7 @@ class Filter extends Component {
               className="filter_input"
               value={this.state.bookTitle}
               onChange={this._changeBookTitle}
+              // onKeyPress={this._handleKeyPress}
             />
             <div className="filter_xbox" onClick={this._deleteBookTitle}>
               X
@@ -44,6 +51,10 @@ class Filter extends Component {
         <style jsx>{`
           #filter {
             border-bottom: solid 1px #ddd;
+            position: fixed;
+            width: 100%;
+            background-color: white;
+            z-index: 998;
           }
           #filter_box {
             display: flex;
@@ -80,7 +91,6 @@ class Filter extends Component {
           }
           @media screen and (max-width: 600px) {
             #filter_box {
-              width: 100%;
             }
           }
         `}</style>

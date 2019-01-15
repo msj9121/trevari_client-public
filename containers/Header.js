@@ -16,7 +16,7 @@ class Header extends Component {
           <ul>
             <Link href="/recommend">
               <li>
-                <span>추천 도서</span>
+                <button id="header_recommend">추천 도서</button>
               </li>
             </Link>
             <Link
@@ -24,12 +24,12 @@ class Header extends Component {
               href={`/mypage?userId=${this.props.ID}`}
             >
               <li>
-                <span id="header_mypage">마이페이지</span>
+                <button id="header_mypage">마이페이지</button>
               </li>
             </Link>
             <Link as={`/login`} href={this.props.loginState.movepage}>
               <li onClick={this.props.rechangeCondition}>
-                <span>{this.props.loginState.text}</span>
+                <button id="header_login">{this.props.loginState.text}</button>
               </li>
             </Link>
           </ul>
@@ -59,6 +59,7 @@ class Header extends Component {
           #header {
             border-bottom: solid 1px #ddd;
             background-color: white;
+            width: 100%;
           }
           #header_mypage {
             display: ${this.props.headerMypage_status};
@@ -84,10 +85,26 @@ class Header extends Component {
           li {
             display: inline-block;
           }
-          span {
+          button {
             color: rgba(0, 0, 0, 0.5);
             cursor: pointer;
-            margin-left: 20px;
+            background-color: white;
+            border: none;
+            outline-style: none;
+            font-size: 16px;
+            margin-left: 15px;
+          }
+          button:hover {
+            color: #ff8906;
+          }
+          #header_recommend:focus {
+            color: #ff8906;
+          }
+          #header_mypage:focus {
+            color: #ff8906;
+          }
+          #header_login:focus {
+            color: #ff8906;
           }
           #hidden_header_box {
             display: none;
@@ -187,14 +204,13 @@ const Hamburger = function(props) {
         .dropdown_content {
           display: ${props.hiddenBox_status};
           position: absolute;
-          margin-left: -110px;
+          left: -110px;
           margin-top: 5px;
           background: white;
           width: 200px;
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           padding-top: 10px;
-          padding-bottom: 10px;
-          z-index: ;
+          padding-bottom: 15px;
           text-align: left;
         }
         .dropdown:hover {
@@ -203,21 +219,22 @@ const Hamburger = function(props) {
         .bar {
           width: 35px;
           height: 5px;
-          background-color: orange;
+          background-color: #ff8906;
           margin-top: 6px;
           margin-left: auto;
           margin-right: 8px;
         }
+        
         .link {
           border-bottom: solid 1px #ddd;
           font-size: 17px;
-          font-weight: bold;
           margin-right: 10px;
           margin-left: 10px;
           padding-top: 10px;
+          color: rgba(0,0,0,0.5);
         }
         .link:hover {
-          color: orange;
+          color: #ff8906;
         }
         #link_mypage {
           display: ${props.headerMypage_status};
