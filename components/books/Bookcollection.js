@@ -16,6 +16,16 @@ class Bookcollection extends Component {
     }
     return getBookImage;
   };
+  _getBookTitle = () => {
+    const getBookTitle = this.props.book.title;
+    for (let i = 0; i < getBookTitle.length; i++) {
+      if (getBookTitle[i] === "(") {
+        const changeBookTitle = getBookTitle.slice(0, i);
+        return changeBookTitle;
+      }
+    }
+    return getBookTitle;
+  };
 
   _renderStar = () => {
     if (
@@ -60,7 +70,7 @@ class Bookcollection extends Component {
               color: red;
             }
             .star-b {
-              color: #363636;
+              color: gray;
               font-style: normal;
             }
           `}</style>
@@ -86,7 +96,7 @@ class Bookcollection extends Component {
               color: red;
             }
             .star-b {
-              color: #363636;
+              color: gray;
               font-style: normal;
             }
           `}</style>
@@ -112,7 +122,7 @@ class Bookcollection extends Component {
               color: red;
             }
             .star-b {
-              color: #363636;
+              color: gray;
               font-style: normal;
             }
           `}</style>
@@ -138,7 +148,7 @@ class Bookcollection extends Component {
               color: red;
             }
             .star-b {
-              color: #363636;
+              color: gray;
               font-style: normal;
             }
           `}</style>
@@ -160,7 +170,7 @@ class Bookcollection extends Component {
               margin: 0px 5px 0px 5px;
             }
             .star-b {
-              color: #363636;
+              color: gray;
               font-style: normal;
             }
           `}</style>
@@ -184,12 +194,15 @@ class Bookcollection extends Component {
             <div className="bookcollection_img">
               <img src={this._getBookImage()} />
               <span className="tooltiptext">
-                <div className="tooltiptext_title">{this.props.book.title}</div>
-                <div className="tooltiptext_author">저자 : {Author}</div>
-                <div className="tooltiptext_averageScore">
-                  <div>평점 : </div>
-                  <div>{this._renderStar()}</div>
-                  <div>{this.props.book.averageScore}</div>
+                <div className="tooltiptext_box">
+                  <div className="tooltiptext_title">
+                    {this._getBookTitle()}
+                  </div>
+                  <div className="tooltiptext_author">{Author}</div>
+                  <div className="tooltiptext_averageScore">
+                    <div>{this._renderStar()}</div>
+                    <div>{Number(this.props.book.averageScore).toFixed(1)}</div>
+                  </div>
                 </div>
               </span>
             </div>
@@ -203,6 +216,7 @@ class Bookcollection extends Component {
             box-shadow: 0 7px 15px #999;
             cursor: pointer;
             margin: 20px;
+            position: relative;
           }
           .bookcollection_imgbox:hover {
             transform: scale(1.1);
@@ -215,35 +229,43 @@ class Bookcollection extends Component {
           }
           .tooltiptext {
             visibility: hidden;
-            width: 250px;
-            background-color: black;
-            color: #fff;
-            text-align: left;
-            padding: 5px 5px 5px 5px;
-            margin-left: 10px;
-            font-size: 11px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            // text-align: center;
 
             /* Position the tooltip */
             position: absolute;
             z-index: 1;
-            botton: 0%;
-            // left: 105%;
+            left: -0%;
+
+            text-align: center;
           }
           .tooltiptext_title {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
+            margin:10px;
+          }
+
+          .tooltiptext_box {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
           }
 
           .tooltiptext_author {
-            font-size: 14px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            font-weight: 400;
+            font-size: 10px;
+            font-weight: 600;
+            margin:10px;
           }
           .tooltiptext_averageScore {
             display: flex;
-            font-size: 14px;
-            font-weight: 400;
+            font-size: 18px;
+            font-weight: 500;
+            justify-content: center;
+            padding-right:6px;
           }
           img {
             width: 100%;
@@ -256,8 +278,11 @@ class Bookcollection extends Component {
           }
           @media screen and (max-width: 600px) {
             .bookcollection_imgbox {
-              width: 33%;
-              margin: 30px;
+              width: 120px;
+              margin: 15px;
+            }
+            .tooltiptext {
+              display: none;
             }
           }
         `}</style>

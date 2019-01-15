@@ -222,7 +222,7 @@ class BookTitlebox extends Component {
           <div className="book_titlebox_author">
             {this.props.book.publishedAt}
           </div>
-          <div className="book_titlebox_author">
+          <div className="book_titlebox_isbn">
             ISBN : {this.props.book.isbn}
           </div>
           <div className="book_titlebox_description">{Description}</div>
@@ -295,6 +295,9 @@ class BookTitlebox extends Component {
           .book_titlebox_author {
             margin-bottom: 10px;
           }
+          .book_titlebox_isbn {
+            margin-bottom: 10px;
+          }
           .book_titlebox_description {
             font-size: 15px;
           }
@@ -354,8 +357,8 @@ class BookTitlebox extends Component {
               width: 100%;
             }
             .book_titlebox_img {
-              width: 160px;
-              height: 200px;
+              width: 150px;
+              height: 150px;
               margin: 20px;
             }
             .book_titlebox_title {
@@ -378,22 +381,28 @@ class BookTitlebox extends Component {
               font-size: 12px;
               margin-bottom: 5px;
             }
+            .book_titlebox_isbn {
+              display: none;
+            }
             .book_titlebox_description {
               display: none;
             }
             .book_titlebox_startReviewBtn {
-              font-size: 15px;
-              padding: 5px 20px 5px 20px;
+              font-size: 12px;
+              padding: 5px 15px 5px 15px;
             }
             .book_titlebox_endReviewBtn {
-              font-size: 15px;
-              padding: 5px 20px 5px 20px;
+              font-size: 12px;
+              padding: 5px 15px 5px 15px;
             }
             .book_titlebox_addBookmarkBtn {
-              font-size: 15px;
+              font-size: 12px;
+              margin-right: 5px;
+              padding: 5px 12px 5px 12px;
             }
             .book_titlebox_deleteBookmarkBtn {
-              font-size: 15px;
+              font-size: 12px;
+              padding: 5px 12px 5px 12px;
             }
           }
         `}</style>

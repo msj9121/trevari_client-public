@@ -80,6 +80,7 @@ export default class MyApp extends App {
             #head {
               position: fixed;
               width: 100%;
+              z-index: 999;
             }
           `}</style>
         </div>
@@ -93,6 +94,7 @@ export default class MyApp extends App {
           <style jsx>{`
             #pages {
               padding-top: 60px;
+              width: 100%;
             }
           `}</style>
         </div>

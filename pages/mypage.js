@@ -214,17 +214,16 @@ class Mypage extends React.Component {
         ) : (
           undefined
         )}
+
         <div id="mypage_navBox">
           <div id="Mypage_nav">
-            <span>
+            <div>
               <button
                 id="reviews_btn"
                 onClick={event => this._changeTabName(event)}
               >
                 내가 평가한 책
               </button>
-            </span>
-            <span>
               <button
                 id="bookmarks_btn"
                 onClick={event => {
@@ -234,7 +233,7 @@ class Mypage extends React.Component {
               >
                 내가 읽고싶은 책
               </button>
-            </span>
+            </div>
             <button id={"userSettingsButton"} onClick={this._openUserDataModal}>
               <i className="fas fa-cog" />
             </button>
@@ -261,106 +260,88 @@ class Mypage extends React.Component {
           )}
         </div>
         <style jsx>{`
-          #mypage {
-            background: rgba(0, 0, 0, 0.03);
-          }
-          #userSettingsButton {
-            float: right;
-            font-size: 16px;
-            color: grey;
-            border-radius: 10%;
-          }
-          #mypageTitle {
-            height: 10px;
-          }
-          #mypage_navBox {
-            border-bottom: solid 1px #ddd;
-            background-color: white;
-          }
-          #Mypage_nav {
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 1140px;
-          }
-          #contents_box {
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 1140px;
-          }
-
-          #reviews_btn {
-            font-size: 15px;
-            padding: 15px 10px 15px 10px;
-            margin-right: 10px;
-            color: #4e4e4e;
-            border: none;
-            background-color: white;
-            cursor: pointer;
-            outline-style: none;
-            font-weight: 400;
-          }
-          #reviews_btn:hover {
-            font-weight: 700;
-          }
-          #reviews_btn:focus {
-            border-bottom: #ff8906 solid 2px;
-            font-weight: 700;
-          }
-
-          #bookmarks_btn {
-            font-size: 15px;
-            padding: 15px 10px 15px 10px;
-            margin-right: 10px;
-            color: #4e4e4e;
-            border: none;
-            background-color: white;
-            cursor: pointer;
-            outline-style: none;
-            font-weight: 400;
-          }
-          #bookmarks_btn:hover {
-            font-weight: 700;
-          }
-          #bookmarks_btn:focus {
-            border-bottom: #ff8906 solid 2px;
-            font-weight: 700;
-          }
-
-          #addBooks_btn {
-            border: solid 1px #ced4da;
-          }
-          #addBooks_btn:hover {
-            font-weight: bold;
-          }
-          #addBooks_btn:focus {
-            font-weight: bold;
-            border: solid 2px #ced4da;
-          }
-          @media screen and (max-width: 800px) {
             #mypage {
-              width: 100%;
-            }
-            #contents_box {
-              width: 100%;
-            }
-            #Mypage_nav {
-              width: 80%;
-            }
-            #reviews_btn {
-              font-size: 12px;
-              height: 20px;
-              padding: 0px;
-              width: 30%;
-              margin-right: ;
-            }
-            #bookmarks_btn {
-              font-size: 12px;
-              height: 20px;
-              padding: 0px;
-              width: 35%;
-              margin-right: ;
+              background: rgba(0, 0, 0, 0.03);
             }
             #userSettingsButton {
+              font-size: 25px;
+              color: #ff8906;
+              background-color: white;
+              border: none;
+              outline-style: none;
+              cursor: pointer;
+              margin-right: 10px;
+            }
+            #userSettingsButton:hover {
+              color: #e07300;
+            }
+            #mypageTitle {
+              height: 10px;
+            }
+            #mypage_navBox {
+              border-bottom: solid 1px #ddd;
+              background-color: white;
+            }
+            #Mypage_nav {
+              margin: 0 auto;
+              max-width: 1140px;
+              display: flex;
+              justify-content: space-between;
+            }
+            #contents_box {
+              margin-left: auto;
+              margin-right: auto;
+              max-width: 1140px;
+            }
+            #reviews_btn {
+              font-size: 16px;
+              padding: 15px 10px 15px 10px;
+              margin-right: 10px;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
+            }
+            #reviews_btn:hover {
+              font-weight: 700;
+            }
+            #reviews_btn:focus {
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
+            #bookmarks_btn {
+              font-size: 16px;
+              padding: 15px 10px 15px 10px;
+              margin-right: 10px;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
+            }
+            #bookmarks_btn:hover {
+              font-weight: 700;
+            }
+            #bookmarks_btn:focus {
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
+            }
+
+            #addBooks_btn {
+              border: solid 1px #ced4da;
+            }
+            #addBooks_btn:hover {
+              font-weight: bold;
+            }
+            #addBooks_btn:focus {
+              font-weight: bold;
+              border: solid 2px #ced4da;
+            }
+            @media screen and (max-width: 600px) {
+              
             }
           }
         `}</style>

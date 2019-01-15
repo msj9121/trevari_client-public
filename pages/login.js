@@ -73,6 +73,12 @@ class Login extends Component {
     Router.push("/signup");
   };
 
+  _handleKeyPress = e => {
+    if (e.charCode === 13) {
+      this.clickLoginButton();
+    }
+  };
+
   render() {
     return (
       <div id="login">
@@ -87,6 +93,7 @@ class Login extends Component {
                   placeholder="이메일"
                   name="email"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -97,6 +104,7 @@ class Login extends Component {
                   type="password"
                   name="password"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -167,6 +175,7 @@ class Login extends Component {
             color: whitesmoke;
             border: none;
             background-color: #ff8906;
+            outline-style: none;
           }
           .login-btn:hover {
             cursor: pointer;
