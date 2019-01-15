@@ -13,7 +13,6 @@ class Mypage extends React.Component {
       `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
       { userId }
     );
-
     return {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
@@ -23,7 +22,6 @@ class Mypage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.ID,
       reviews: props.reviews,
       currentReviews: props.currentReviews,
       books: [],
@@ -44,6 +42,14 @@ class Mypage extends React.Component {
     this._editReview = this._editReview.bind(this);
     this._showReview = this._showReview.bind(this);
     this._changeTabName = this._changeTabName.bind(this);
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      this.setState({
+        id: localStorage.getItem("user")
+      });
+    }
   }
 
   _getBookmarks = function() {
@@ -192,86 +198,68 @@ class Mypage extends React.Component {
   };
 
   render() {
-    if (!this.state.id) {
-      return (
-        <div id="notLogin" align="center">
-          <h2>로그인을 해주세요</h2>
-          <style jsx>{`
-            #notLogin {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border: solid 1px #ced4da;
-              height: 350px;
-          `}</style>
-        </div>
-      );
-    } else if (this.state.id) {
-      return (
-        <div id="mypage">
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-            integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-            crossOrigin="anonymous"
+    return (
+      <div id="mypage">
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossOrigin="anonymous"
+        />
+        {this.state.userDataModal ? (
+          <UpdateUserData
+            userId={localStorage.getItem("user")}
+            onclose={this._closeUserDataModal}
           />
-          {this.state.userDataModal ? (
-            <UpdateUserData
-              userId={this.props.ID}
-              onclose={this._closeUserDataModal}
-            />
-          ) : (
-            undefined
-          )}
-          <div id="mypage_navBox">
-            <div id="Mypage_nav">
-              <div>
-                <button
-                  id="reviews_btn"
-                  onClick={event => this._changeTabName(event)}
-                >
-                  내가 평가한 책
-                </button>
-                <button
-                  id="bookmarks_btn"
-                  onClick={event => {
-                    this._changeTabName(event);
-                    this._getBookmarks();
-                  }}
-                >
-                  내가 읽고싶은 책
-                </button>
-              </div>
+        ) : (
+          undefined
+        )}
 
+        <div id="mypage_navBox">
+          <div id="Mypage_nav">
+            <div>
               <button
-                id={"userSettingsButton"}
-                onClick={this._openUserDataModal}
+                id="reviews_btn"
+                onClick={event => this._changeTabName(event)}
               >
-                <i className="fas fa-cog" />
+                내가 평가한 책
+              </button>
+              <button
+                id="bookmarks_btn"
+                onClick={event => {
+                  this._changeTabName(event);
+                  this._getBookmarks();
+                }}
+              >
+                내가 읽고싶은 책
               </button>
             </div>
+            <button id={"userSettingsButton"} onClick={this._openUserDataModal}>
+              <i className="fas fa-cog" />
+            </button>
           </div>
-          <div id="contents_box">
-            {this.state.tabName === "내가 평가한 책" ? (
-              <Reviews
-                // reviews={this.state.reviews}
-                currentReviews={this.state.currentReviews}
-                _deleteReview={this._deleteReview}
-                _getMoreReviews={this._getMoreReviews}
-                editedReview={this.state.editedReview}
-                _editReview={this._editReview}
-                _showReview={this._showReview}
-                openBtnName={this.state.openBtnName}
-              />
-            ) : (
-              <Bookmarks
-                currentBookmarks={this.state.currentBookmarks}
-                _deleteBookmark={this._deleteBookmark}
-                _getMoreBookmarks={this._getMoreBookmarks}
-              />
-            )}
-          </div>
-          <style jsx>{`
+        </div>
+        <div id="contents_box">
+          {this.state.tabName === "내가 평가한 책" ? (
+            <Reviews
+              // reviews={this.state.reviews}
+              currentReviews={this.state.currentReviews}
+              _deleteReview={this._deleteReview}
+              _getMoreReviews={this._getMoreReviews}
+              editedReview={this.state.editedReview}
+              _editReview={this._editReview}
+              _showReview={this._showReview}
+              openBtnName={this.state.openBtnName}
+            />
+          ) : (
+            <Bookmarks
+              currentBookmarks={this.state.currentBookmarks}
+              _deleteBookmark={this._deleteBookmark}
+              _getMoreBookmarks={this._getMoreBookmarks}
+            />
+          )}
+        </div>
+        <style jsx>{`
             #mypage {
               background: rgba(0, 0, 0, 0.03);
             }
@@ -305,7 +293,6 @@ class Mypage extends React.Component {
               margin-right: auto;
               max-width: 1140px;
             }
-
             #reviews_btn {
               font-size: 16px;
               padding: 15px 10px 15px 10px;
@@ -321,10 +308,9 @@ class Mypage extends React.Component {
               font-weight: 700;
             }
             #reviews_btn:focus {
-              border-bottom: #ff8906 solid 2px;
-              font-weight: 700;
-            }
-
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
             #bookmarks_btn {
               font-size: 16px;
               padding: 15px 10px 15px 10px;
@@ -354,37 +340,13 @@ class Mypage extends React.Component {
               font-weight: bold;
               border: solid 2px #ced4da;
             }
-            @media screen and (max-width: 800px) {
-              // #mypage {
-              //   width: 100%;
-              // }
-              // #contents_box {
-              //   width: 100%;
-              // }
-              // #Mypage_nav {
-              //   width: 80%;
-              // }
-              // #reviews_btn {
-              //   font-size: 12px;
-              //   height: 20px;
-              //   padding: 0px;
-              //   width: 30%;
-              //   margin-right: ;
-              // }
-              // #bookmarks_btn {
-              //   font-size: 12px;
-              //   height: 20px;
-              //   padding: 0px;
-              //   width: 35%;
-              //   margin-right: ;
-              // }
-              // #userSettingsButton {
-              // }
+            @media screen and (max-width: 600px) {
+              
             }
-          `}</style>
-        </div>
-      );
-    }
+          }
+        `}</style>
+      </div>
+    );
   }
 }
 

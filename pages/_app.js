@@ -9,14 +9,12 @@ export default class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-
     return { pageProps };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
       movepage: "/login",
       text: "로그인",
       hiddenBox_status: "none",
@@ -24,28 +22,32 @@ export default class MyApp extends App {
     };
   }
 
-  changeCondition = () => {
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      this.setState({
+        id: localStorage.getItem("user"),
+        movepage: "/index",
+        text: "로그아웃",
+        headerMypage_status: "block"
+      });
+    }
+  }
+
+  rechangeCondition = () => {
     this.setState({
+      movepage: "/login",
+      text: "로그인",
+      headerMypage_status: "none"
+    });
+    localStorage.removeItem("user");
+  };
+
+  changeCondition_saveId = () => {
+    this.setState({
+      id: localStorage.getItem("user"),
       movepage: "/index",
       text: "로그아웃",
       headerMypage_status: "block"
-    });
-  };
-
-  rechangeCondition = () => {
-    if (this.state.text === "로그아웃") {
-      this.setState({
-        id: "",
-        movepage: "/login",
-        text: "로그인",
-        headerMypage_status: "none"
-      });
-    }
-  };
-
-  saveId = loginId => {
-    this.setState({
-      id: loginId
     });
   };
 
@@ -87,8 +89,7 @@ export default class MyApp extends App {
           <Component
             {...pageProps}
             ID={this.state.id}
-            saveId={this.saveId}
-            changeCondition={this.changeCondition}
+            changeCondition_saveId={this.changeCondition_saveId}
           />
           <style jsx>{`
             #pages {

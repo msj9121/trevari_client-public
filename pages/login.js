@@ -9,7 +9,6 @@ class Login extends Component {
     this.state = {
       email: null,
       password: null,
-      userid: 0,
       check: ""
     };
   }
@@ -58,11 +57,8 @@ class Login extends Component {
       .post(`${BACKEND_ENDPOINT}/users/login`, data)
       .then(res => {
         if (res.data) {
-          this.setState({
-            userid: res.data.id
-          });
-          this.props.saveId(this.state.userid);
-          this.props.changeCondition();
+          localStorage.setItem("user", res.data.id);
+          this.props.changeCondition_saveId();
           Router.push("/index");
         } else {
           this.setState({
