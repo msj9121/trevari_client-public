@@ -9,8 +9,11 @@ class Books extends Component {
     const { input } = context.query;
 
     const books = await axios
-      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
-        params: { input }
+      .get(`${BACKEND_ENDPOINT}/books/most-bookmarks`, {
+        params: { 
+          input: input,
+          offset: 0
+        }
       })
       .then(res => {
         return res.data;
@@ -18,7 +21,7 @@ class Books extends Component {
       .catch(err => {
         console.log(err);
       });
-
+    console.log(books);
     return {
       books
     };
