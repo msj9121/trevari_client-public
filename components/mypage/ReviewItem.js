@@ -71,11 +71,14 @@ class ReviewItem extends React.Component {
     const _deleteReview = this.props._deleteReview;
 
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
-        userId: review.user_id,
-        bookId: review.book_id
+      .delete(`${BACKEND_ENDPOINT}/reviews/review`, {
+        params: {
+          userId: review.user_id,
+          bookId: review.book_id
+        }
       })
       .then(res => {
+        console.log("delete", res.data)
         if (res.data) {
           console.log(`삭제된 리뷰 : ${review.Book.title}`);
           _deleteReview(review);

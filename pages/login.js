@@ -36,7 +36,11 @@ class Login extends Component {
       email: this.state.email
     };
     axios
-      .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
+      .get(`${BACKEND_ENDPOINT}/users/email`, {
+        params: {
+          email: data.email
+        }
+      })
       .then(res => {
         if (res.data) {
           this.setState({
@@ -49,12 +53,18 @@ class Login extends Component {
   };
 
   requestLogin = () => {
+    console.log("asfasfasf")
     const data = {
       email: this.state.email,
       password: this.state.password
     };
     axios
-      .post(`${BACKEND_ENDPOINT}/users/login`, data)
+      .get(`${BACKEND_ENDPOINT}/users/user`, {
+        params: {
+          email: data.email,
+          password: data.password
+        }
+      })
       .then(res => {
         if (res.data) {
           localStorage.setItem("user", res.data.id);

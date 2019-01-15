@@ -28,7 +28,7 @@ class BookReviewInput extends Component {
     if (this.props.ID && this.props.isReviewed === false) {
       console.log("평점을 올릴 수 있습니다.")
       const bookReviews = await axios
-        .post(`${BACKEND_ENDPOINT}/reviews/addReview`, {
+        .post(`${BACKEND_ENDPOINT}/reviews/review`, {
           userId: this.props.ID,
           bookId: this.props.bookId,
           text: this.state.reviewText,

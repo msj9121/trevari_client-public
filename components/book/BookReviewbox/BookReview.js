@@ -157,7 +157,7 @@ class BookReview extends Component {
 
   _editReview = () => {
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
+      .put(`${BACKEND_ENDPOINT}/reviews/review`, {
         userId: this.props.ID,
         bookId: this.props.book_id,
         score: this.state.editRatingValue,
@@ -177,9 +177,11 @@ class BookReview extends Component {
 
   _deleteReview = () => {
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/deleteReview`, {
-        userId: this.props.ID,
-        bookId: this.props.book_id
+      .delete(`${BACKEND_ENDPOINT}/reviews/review`, {
+        params: {
+          userId: this.props.ID,
+          bookId: this.props.book_id
+        }
       })
       .then(res => {
         console.log("삭제 성공 : ", res.data);
@@ -193,8 +195,9 @@ class BookReview extends Component {
   };
 
   render() {
-    console.log("editReviewText", this.state.editReviewText);
-    console.log("editRatingValue", this.state.editRatingValue);
+    console.log("BookReview--ID", typeof this.props.ID);
+    console.log("BookReview--user_id", typeof this.props.user_id);
+    console.log("BookREview--edit", typeof this.state.edit);
     return (
       <div id="bookReview">
         <div className="bookReview_scorebox">

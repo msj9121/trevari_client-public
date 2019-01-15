@@ -16,6 +16,7 @@ class Bookcollection extends Component {
     }
     return getBookImage;
   };
+
   _getBookTitle = () => {
     const getBookTitle = this.props.book.title;
     for (let i = 0; i < getBookTitle.length; i++) {
@@ -245,7 +246,7 @@ class Bookcollection extends Component {
           .tooltiptext_title {
             font-size: 13px;
             font-weight: 600;
-            margin:10px;
+            margin: 10px;
           }
 
           .tooltiptext_box {
@@ -258,14 +259,14 @@ class Bookcollection extends Component {
           .tooltiptext_author {
             font-size: 10px;
             font-weight: 600;
-            margin:10px;
+            margin: 10px;
           }
           .tooltiptext_averageScore {
             display: flex;
             font-size: 18px;
             font-weight: 500;
             justify-content: center;
-            padding-right:6px;
+            padding-right: 6px;
           }
           img {
             width: 100%;
