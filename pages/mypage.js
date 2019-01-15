@@ -226,25 +226,21 @@ class Mypage extends React.Component {
           <div id="mypage_navBox">
             <div id="Mypage_nav">
               <div>
-                <span>
-                  <button
-                    id="reviews_btn"
-                    onClick={event => this._changeTabName(event)}
-                  >
-                    내가 평가한 책
-                  </button>
-                </span>
-                <span>
-                  <button
-                    id="bookmarks_btn"
-                    onClick={event => {
-                      this._changeTabName(event);
-                      this._getBookmarks();
-                    }}
-                  >
-                    내가 읽고싶은 책
-                  </button>
-                </span>
+                <button
+                  id="reviews_btn"
+                  onClick={event => this._changeTabName(event)}
+                >
+                  내가 평가한 책
+                </button>
+                <button
+                  id="bookmarks_btn"
+                  onClick={event => {
+                    this._changeTabName(event);
+                    this._getBookmarks();
+                  }}
+                >
+                  내가 읽고싶은 책
+                </button>
               </div>
 
               <button
