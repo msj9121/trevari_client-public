@@ -9,8 +9,10 @@ class Recommend extends Component {
   static async getInitialProps() {
     const input1 = "대한";
 
-    const res1 = await axios.post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-      input: input1
+    const res1 = await axios.get(`${BACKEND_ENDPOINT}/books/search/title`, {
+      params: {
+        input: input1
+      }
     });
 
     const recommendBooks1 = res1.data.slice(0, 6);
@@ -41,8 +43,10 @@ class Recommend extends Component {
 
   _getRecommendBooks = () => {
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input2
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input2
+        }
       })
       .then(res => {
         this.setState({
@@ -54,8 +58,10 @@ class Recommend extends Component {
       .catch(err => console.log(err));
 
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input3
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input3
+        }
       })
       .then(res => {
         this.setState({
@@ -67,8 +73,10 @@ class Recommend extends Component {
       .catch(err => console.log(err));
 
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input4
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input4
+        }
       })
       .then(res => {
         this.setState({

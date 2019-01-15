@@ -9,15 +9,21 @@ class Book extends Component {
     const { id, ID } = context.query;
 
     const book = await axios
-      .post(`${BACKEND_ENDPOINT}/books/getBookById`, { id })
+      .get(`${BACKEND_ENDPOINT}/books/id`, {
+        params: {
+          id: id
+        }
+      })
       .then(res => res.data)
       .catch(err => {
         console.log(err);
       });
 
     const bookReviewData = await axios
-      .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
-        bookId: id
+      .get(`${BACKEND_ENDPOINT}/reviews/book-id`, {
+        params: {
+          bookId: id
+        }
       })
       .then(res => res.data)
       .catch(err => {
@@ -26,8 +32,10 @@ class Book extends Component {
 
     if (ID) {
       const bookMarkData = await axios
-        .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
-          userId: ID
+        .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+          params: {
+            userId: ID
+          }
         })
         .then(response => response.data)
         .catch(err => {
@@ -80,8 +88,10 @@ class Book extends Component {
   _getReviewChange = async (check, del) => {
     if (check) {
       const changeBookReviews = await axios
-        .post(`${BACKEND_ENDPOINT}/reviews/getReviewsForBookId`, {
-          bookId: this.state.book.id
+        .get(`${BACKEND_ENDPOINT}/reviews/book-id`, {
+          params: {
+            bookId: this.state.book.id
+          }
         })
         .then(res => {
           console.log("GET BookReviews 성공");
@@ -91,8 +101,10 @@ class Book extends Component {
           console.log(err);
         });
       const changeBook = await axios
-        .post(`${BACKEND_ENDPOINT}/books/getBookById`, {
-          id: this.state.book.id
+        .get(`${BACKEND_ENDPOINT}/books/id`, {
+          params: {
+            id: this.state.book.id
+          }
         })
         .then(res => {
           console.log("GET Book 성공");
@@ -117,12 +129,11 @@ class Book extends Component {
   //------------------BookMark----------------------------//
 
   _changeBookMarkData = async () => {
-    const res = await axios.post(
-      `${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`,
-      {
+    const res = await axios.get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+      params: {
         userId: this.props.ID
       }
-    );
+    });
     const changeBookmark = res.data;
     console.log("GET-changeBookmarkDatas response : ", changeBookmark);
     this.setState({

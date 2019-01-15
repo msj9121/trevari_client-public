@@ -25,7 +25,7 @@ export default class MyApp extends App {
   componentDidMount() {
     if (localStorage.getItem("user")) {
       this.setState({
-        id: localStorage.getItem("user"),
+        id: Number(localStorage.getItem("user")),
         movepage: "/index",
         text: "로그아웃",
         headerMypage_status: "block"
@@ -37,7 +37,8 @@ export default class MyApp extends App {
     this.setState({
       movepage: "/login",
       text: "로그인",
-      headerMypage_status: "none"
+      headerMypage_status: "none",
+      id: ""
     });
     localStorage.removeItem("user");
   };
@@ -65,6 +66,7 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    console.log("ID", this.state.id)
     return (
       <Container>
         <div id="head">

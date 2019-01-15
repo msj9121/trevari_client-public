@@ -173,13 +173,10 @@ class BookTitlebox extends Component {
 
   _addBookmark = async () => {
     if (this.props.ID) {
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/addBookmark`,
-        {
-          userId: this.props.ID,
-          bookId: this.props.book.id
-        }
-      );
+      const res = await axios.post(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        userId: this.props.ID,
+        bookId: this.props.book.id
+      });
       const data = await res.data;
       console.log("POST-addBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
@@ -192,13 +189,12 @@ class BookTitlebox extends Component {
   _deleteBookmark = async () => {
     if (this.props.ID) {
       const bookmarkId = this.props._filterBookmarkId();
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`,
-        {
+      const res = await axios.delete(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        params: {
           userId: this.props.ID,
           bookmarkId: bookmarkId
         }
-      );
+      });
       const data = await res.data;
       console.log("POST-deleteBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
@@ -317,7 +313,7 @@ class BookTitlebox extends Component {
           .book_titlebox_startReviewBtn:hover {
             background-color: #e07300;
           }
-          
+
           .book_titlebox_endReviewBtn {
             color: white;
             background-color: #246db7;

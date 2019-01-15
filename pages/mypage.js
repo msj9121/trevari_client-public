@@ -8,11 +8,15 @@ import Bookmarks from "../components/mypage/Bookmarks";
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
+    console.log("useid", userId);
+    const reviews = await axios.get(
+      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId
+        }
+      }
+    )
 
-    const reviews = await axios.post(
-      `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
-      { userId }
-    );
     return {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
@@ -56,7 +60,11 @@ class Mypage extends React.Component {
     const userId = this.state.id;
 
     axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
+      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        params: {
+          userId: userId
+        }
+      })
       .then(res => {
         this.setState({
           books: res.data,
@@ -166,7 +174,7 @@ class Mypage extends React.Component {
     }
 
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
+      .put(`${BACKEND_ENDPOINT}/reviews/review`, {
         userId: userId,
         bookId: bookId,
         score: rating,

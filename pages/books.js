@@ -9,7 +9,9 @@ class Books extends Component {
     const { input } = context.query;
 
     const books = await axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, { input })
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: { input }
+      })
       .then(res => {
         return res.data;
       })

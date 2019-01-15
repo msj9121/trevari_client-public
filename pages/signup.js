@@ -65,19 +65,26 @@ class Signup extends Component {
     const data = {
       email: this.state.email
     };
-    axios
-      .post(`${BACKEND_ENDPOINT}/users/checkEmailAvailability`, data)
-      .then(res =>
-        res.data
-          ? this.requestSignup(data)
-          : this.setState({
-              check: "이미 가입된 이메일 입니다!"
-            })
-      )
-      .catch(err => console.log(err));
+    console.log("data", data);
+    axios.get(`${BACKEND_ENDPOINT}/users/email`, {
+      params: {
+        email: data.email
+      }
+    }).then((res) => {
+      console.log("DATA", res.data);
+      res.data
+      ? this.requestSignup(data)
+      : this.setState({
+          check: "이미 가입된 이메일 입니다!"
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   };
 
   requestSignup = () => {
+    console.log("requestSignup")
     const data = {
       email: this.state.email,
       name: this.state.name,
@@ -85,7 +92,7 @@ class Signup extends Component {
       phoneNumber: this.state.phoneNumber
     };
     axios
-      .post(`${BACKEND_ENDPOINT}/users/signup`, data)
+      .post(`${BACKEND_ENDPOINT}/users/user`, data)
       .then(res => {
         if (res.data) {
           Router.push("/login");

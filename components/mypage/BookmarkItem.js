@@ -13,7 +13,7 @@ class BookmarkItem extends React.Component {
 
   _getBookImage = function() {
     const bareImage = JSON.stringify(this.props.book.Book.image);
-    const targetIndex = bareImage.indexOf("?")
+    const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
     if (targetIndex === -1) {
@@ -31,9 +31,11 @@ class BookmarkItem extends React.Component {
     _deleteBookmark(book);
 
     axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
-        userId: book.user_id,
-        bookmarkId: book.id
+      .delete(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        params: {
+          userId: book.user_id,
+          bookmarkId: book.id
+        }
       })
       .then(res => {
         if (res.data) {
@@ -76,7 +78,7 @@ class BookmarkItem extends React.Component {
           .image_box {
             width: 130px;
             height: 170px;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
           }
           .image {
             width: 100%;
@@ -104,7 +106,7 @@ class BookmarkItem extends React.Component {
             outline-style: none;
             font-weight: 600;
             cursor: pointer;
-            border-radius: .15rem;
+            border-radius: 0.15rem;
           }
           .deleteBtn:hover {
             background-color: #e07300;
