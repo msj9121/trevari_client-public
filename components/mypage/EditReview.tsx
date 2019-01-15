@@ -1,13 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, MouseEvent } from "react";
 import StarRatingComponent from "react-star-rating-component";
-import { string } from "prop-types";
 
 interface EditReviewProps {
   _closeEditModalBtn_clickHandler: Function;
   modalStatus: String;
   editedReview: String;
   _editReview: Function;
-  review: Object;
+  review: IReview;
   openBtnName: String;
 }
 
@@ -18,9 +17,9 @@ interface EditReviewState {
 
 interface IReview {
   user_id: Number;
-  book_id: Number | String;
+  book_id: Number | string;
   id: Number;
-
+  text: String;
 }
 
 class EditReview extends Component<EditReviewProps, EditReviewState> {
@@ -47,10 +46,10 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
   };
 
   _submitBtn_ClickHandler = () => {
-    const review = this.props.review;
+    const review: IReview = this.props.review;
 
     let userId = review.user_id;
-    let bookId = review.book_id;
+    let bookId = review.book_id as string;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
     let editedReview;
@@ -64,18 +63,20 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
   };
 
   render() {
+    const review: IReview = this.props.review;
+
     return (
       <div id="myModal" className="modal">
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={this.props._closeEditModalBtn_clickHandler}
+            onClick={event => this.props._closeEditModalBtn_clickHandler(event)}
           >
             &times;
           </span>
           <textarea
-            className={this.props.review.book_id}
-            defaultValue={this.props.review.text}
+            className={review.book_id as string}
+            defaultValue={review.text as string}
           />
           <div id="reviewScore">
             <div className="reviewScore_text">별점을 선택해주세요.</div>
