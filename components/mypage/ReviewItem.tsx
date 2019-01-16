@@ -1,11 +1,39 @@
-import React from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 import EditReview from "./EditReview";
 
-class ReviewItem extends React.Component {
-  constructor(props) {
+interface ReviewItemProps {
+  review: IReview;
+  key: Number;
+  _deleteReview: Function;
+  editedReview: String;
+  _editReview: Function;
+}
+
+interface ReveiwItemState {
+  editModalStatus: String;
+  hiddenReviewStatus: String;
+  openBtnName: String;
+}
+
+export interface IReview {
+  Book: any;
+  createdAt: string;
+  user_id: Number;
+  book_id: Number;
+  score: Number;
+  text: String;
+  id: Number;
+}
+
+interface IBook {
+  image: string;
+}
+
+class ReviewItem extends Component<ReviewItemProps, ReveiwItemState> {
+  constructor(props: ReviewItemProps) {
     super(props);
     this.state = {
       editModalStatus: "none",
@@ -27,10 +55,10 @@ class ReviewItem extends React.Component {
   };
 
   _getBookImage = () => {
-    const Book = this.props.review.Book;
+    const Book: IBook = this.props.review.Book;
     const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
-    let bookImageURL;
+    let bookImageURL: string;
 
     if (targetIndex === -1) {
       bookImageURL = bareImage;
@@ -385,10 +413,7 @@ class ReviewItem extends React.Component {
               href={`/book?id=${review.book_id}`}
             >
               <div className="image_container">
-                <img
-                  src={this._getBookImage()}
-                  className="oneImage"
-                />
+                <img src={this._getBookImage()} className="oneImage" />
               </div>
             </Link>
             <div>

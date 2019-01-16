@@ -3,13 +3,33 @@ import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
-class BookmarkItem extends React.Component {
-  constructor(props) {
+interface IBook {
+  image: string;
+  title: String;
+  id: Number;
+  isbn: string;
+}
+
+export interface Ibook {
+  Book: IBook;
+  user_id: Number;
+  book_id: Number;
+  id: Number;
+}
+
+interface BookmarkItemProps {
+  book: Ibook;
+  key: Number;
+  _deleteBookmark: Function;
+}
+
+class BookmarkItem extends React.Component<BookmarkItemProps> {
+  constructor(props: BookmarkItemProps) {
     super(props);
   }
 
   _getBookImage = () => {
-    const Book = this.props.book.Book;
+    const Book: IBook = this.props.book.Book;
     const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
@@ -17,7 +37,7 @@ class BookmarkItem extends React.Component {
     if (targetIndex === -1) {
       bookImageURL = this.props.book.Book.image;
     } else {
-      bookImageURL = bareImage.slice(0, targetIndex);
+      bookImageURL = bareImage.slice(1, targetIndex);
     }
     return bookImageURL;
   };
@@ -45,31 +65,13 @@ class BookmarkItem extends React.Component {
 
   render() {
     const book = this.props.book;
-    // const ID = Number(this.props.id)
-    console.log(this.props.book.Book.id)
 
     return (
       <div id="bookmark_content">
         <div>
-          <Link 
-            as={`/book/${book.Book.id}`} 
-            href={`/book?id=${book.Book.id}`}
-            // href={{
-            //   pathname: "/book",
-            //   query: { 
-            //     id: book.Book.id, 
-            //     ID: ID 
-            //   }
-            // }}
-            >
-            <div className="image_box">
-              <img
-                className="image"
-                align="center"
-                src={this._getBookImage()}
-                book_id={book.Book.id}
-                book_isbn={book.Book.isbn}
-              />
+          <Link as={`/book/${book.Book.id}`} href={`/book?id=${book.Book.id}`}>
+            <div className="image_container">
+              <img className="image" src={this._getBookImage()} />
             </div>
           </Link>
         </div>

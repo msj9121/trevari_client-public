@@ -1,37 +1,81 @@
+import React, { Component, MouseEvent } from "react";
 import axios from "axios";
-import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
+import UpdateUserData from "../components/mypage/UpdateUserData";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
 
-class Mypage extends React.Component {
-  static async getInitialProps(context) {
+interface MypageProps {
+  ID: string
+  reviews: IReviews[] | string[]
+  currentReviews: IReviews[] | string[]
+}
+
+interface MypageState {
+  id: string | null;
+  reviews: IReviews[] | string[]
+  currentReviews: IReviews[] | string[]
+  books: string[]
+  currentBookmarks: string[]
+  tabName: string | null
+  userDataModal: Boolean
+  editedReview: string
+}
+
+export interface IReviews {
+  text: string
+  score: number
+  data: string;
+  [key: string]: any;
+}
+
+interface IContext {
+  query: IQuery;
+}
+
+interface IQuery {
+  userId: string;
+}
+
+interface IEvent {
+  target: HTMLButtonElement
+}
+
+interface Itarget {
+  textContent: string
+}
+
+class Mypage extends Component<MypageProps, MypageState> {
+  state: MypageState
+
+  static async getInitialProps(context: IContext) {
     const { userId } = context.query;
 
-    const reviews = await axios.get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
-      params: {
-        userId: userId,
-        offset: 0
+    const reviews = await axios.get(
+      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId
+        }
       }
-    });
-    
+    )
+
     return {
       reviews: reviews.data,
-      reviewsLength: reviews.data.length
+      currentReviews: reviews.data.slice(0, 10)
     };
   }
 
-  constructor(props) {
+  constructor(props: MypageProps) {
     super(props);
     this.state = {
       id: this.props.ID,
       reviews: props.reviews,
-      reviewsLength: props.reviewsLength,
+      currentReviews: props.currentReviews,
       books: [],
-      booksLength: 0,
+      currentBookmarks: [],
       tabName: "내가 평가한 책",
       userDataModal: false,
-      editedReview: "",
+      editedReview: ""
     };
   }
 
@@ -41,32 +85,10 @@ class Mypage extends React.Component {
         id: localStorage.getItem("user")
       });
     }
-
-    // window.addEventListener("scroll", this.handleScroll);
   }
 
-  // componentWillUnmount() {
-  //   window.removeEventListener("scroll", this.handleScroll);
-  // }
-
-  // handleScroll = () => {
-  //   const { innerHeight } = window;
-  //   const { scrollHeight } = document.body;
-  //   // IE에서는 document.documentElement 를 사용.
-  //   const scrollTop =
-  //     (document.documentElement && document.documentElement.scrollTop) ||
-  //     document.body.scrollTop;
-  //   // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
-  //   if (scrollHeight - innerHeight - scrollTop < 10) {
-      
-      
-  //     this._getMoreReviews()
-  //     console.log("Almost Bottom Of This Browser");
-  //   }
-  // }
-
   _getBookmarks = () => {
-    const userId = this.state.id;
+    const userId = this.props.ID;
 
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
@@ -78,13 +100,13 @@ class Mypage extends React.Component {
       .then(res => {
         this.setState({
           books: res.data,
-          booksLength: res.data.length
+          currentBookmarks: res.data.slice(0, 10)
         });
       })
       .catch(err => console.log(err));
   };
 
-  _changeTabName = event => {
+  _changeTabName = (event: MouseEvent<HTMLButtonElement>) => {
     let tabName = event.currentTarget.textContent;
 
     this.setState({
@@ -92,62 +114,54 @@ class Mypage extends React.Component {
     });
   };
 
-  _deleteReview = review => {
-    const reviews = this.state.reviews;
+  _deleteReview = (review: string) => {
+    const currentReviews = this.state.currentReviews as string[];
+    const targetIndex1 = currentReviews.indexOf(review);
+    const copiedCurrentReviews = this.state.currentReviews.slice();
+    copiedCurrentReviews.splice(targetIndex1, 1);
+
+    const reviews = this.state.reviews as string[];
     const targetIndex2 = reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
     copiedReviews.splice(targetIndex2, 1);
 
     this.setState({
-      reviews: copiedReviews
+      reviews: copiedReviews,
+      currentReviews: copiedCurrentReviews
     });
   };
 
-  _deleteBookmark = book => {
+  _deleteBookmark = (book: string) => {
+    const targetIndex1 = this.state.currentBookmarks.indexOf(book);
+    const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
+    copiedCurrentBookmarks.splice(targetIndex1, 1);
+
     const targetIndex2 = this.state.books.indexOf(book);
     const copiedBooks = this.state.books.slice();
     copiedBooks.splice(targetIndex2, 1);
 
     this.setState({
-      books: copiedBooks
+      books: copiedBooks,
+      currentBookmarks: copiedCurrentBookmarks
     });
   };
 
   _getMoreReviews = () => {
-    const userId = this.state.id
+    const reviewsLength = this.state.currentReviews.length;
+    const newLength = reviewsLength + 10;
 
-    axios
-      .get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
-        params: {
-          userId: userId,
-          offset: this.state.reviewsLength
-        }
-      })
-      .then(res => {
-        this.setState({
-          reviews: this.state.reviews.concat(res.data),
-          reviewsLength: this.state.reviewsLength + res.data.length
-        });
-      });
+    this.setState({
+      currentReviews: this.state.reviews.slice(0, newLength)
+    });
   };
-  
-  _getMoreBookmarks = () => {
-    const userId = this.state.id;
 
-    axios
-      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
-        params: {
-          userId: userId,
-          offset: this.state.booksLength
-        }
-      })
-      .then(res => {
-        this.setState({
-          books: this.state.books.concat(res.data),
-          booksLength: this.state.booksLength + res.data.length
-        });
-      })
-      .catch(err => console.log(err));
+  _getMoreBookmarks = () => {
+    const bookmarksLength = this.state.currentBookmarks.length;
+    const newLength = bookmarksLength + 10;
+
+    this.setState({
+      currentBookmarks: this.state.books.slice(0, newLength)
+    });
   };
 
   _showUserDataModal = () => {
@@ -156,9 +170,9 @@ class Mypage extends React.Component {
     });
   };
 
-  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
-    let newReviews = this.state.reviews;
-
+  _editReview = (editedReview: string, userId: number, bookId: number, reviewId: number, rating: number) => {
+    let newReviews = this.state.reviews as IReviews[];
+    
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
@@ -167,23 +181,23 @@ class Mypage extends React.Component {
     }
 
     axios
-      .put(`${BACKEND_ENDPOINT}/reviews/review`, {
-        userId: userId,
-        bookId: bookId,
-        score: rating,
-        text: editedReview
-      })
-      .then(res => {
-        if (res.data) {
-          this.setState({
-            review: newReviews
-          });
-          console.log(
-            `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
-          );
-        }
-      })
-      .catch(err => console.log(err));
+    .put(`${BACKEND_ENDPOINT}/reviews/review`, {
+      userId: userId,
+      bookId: bookId,
+      score: rating,
+      text: editedReview
+    })
+    .then(res => {
+      if (res.data) {
+        this.setState({
+          reviews: newReviews
+        });
+        console.log(
+          `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
+        );
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   render() {
@@ -231,57 +245,53 @@ class Mypage extends React.Component {
         <div id="contents_box">
           {this.state.tabName === "내가 평가한 책" ? (
             <Reviews
-              reviews={this.state.reviews}
+              // reviews={this.state.reviews}
+              currentReviews={this.state.currentReviews}
               _deleteReview={this._deleteReview}
               _getMoreReviews={this._getMoreReviews}
               editedReview={this.state.editedReview}
               _editReview={this._editReview}
+              // _showReview={this._showReview}
+              // openBtnName={this.state.openBtnName}
             />
           ) : (
             <Bookmarks
-              books={this.state.books}
+              currentBookmarks={this.state.currentBookmarks}
               _deleteBookmark={this._deleteBookmark}
               _getMoreBookmarks={this._getMoreBookmarks}
-              id={this.state.id}
             />
           )}
         </div>
-        <style jsx>{`
+          <style jsx>{`
             #mypage {
               background: rgba(0, 0, 0, 0.03);
             }
             #userSettingsButton {
-              font-size: 25px;
-              color: #ff8906;
-              background-color: white;
-              border: none;
-              outline-style: none;
-              cursor: pointer;
-              margin-right: 10px;
-            }
-            #userSettingsButton:hover {
-              color: #e07300;
+              float: right;
+              font-size: 16px;
+              color: grey;
+              border-radius: 10%;
             }
             #mypageTitle {
               height: 10px;
             }
             #mypage_navBox {
               border-bottom: solid 1px #ddd;
-              background-color: white;
+              background-color: white;;
             }
             #Mypage_nav {
-              margin: 0 auto;
+              margin-left: auto;
+              margin-right: auto;
               max-width: 1140px;
-              display: flex;
-              justify-content: space-between;
             }
             #contents_box {
               margin-left: auto;
               margin-right: auto;
               max-width: 1140px;
             }
+
             #reviews_btn {
-              font-size: 16px;
+              font-size: 15px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -295,11 +305,12 @@ class Mypage extends React.Component {
               font-weight: 700;
             }
             #reviews_btn:focus {
-            border-bottom: #ff8906 solid 2px;
-            font-weight: 700;
-          }
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
+            }
+
             #bookmarks_btn {
-              font-size: 16px;
+              font-size: 15px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -327,13 +338,37 @@ class Mypage extends React.Component {
               font-weight: bold;
               border: solid 2px #ced4da;
             }
-            @media screen and (max-width: 600px) {
-              
+            @media screen and (max-width: 800px) {
+              #mypage {
+                width: 100%;
+              }
+              #contents_box {
+                width: 100%;
+              }
+              #Mypage_nav {
+                width: 80%;
+              }
+              #reviews_btn {
+                font-size: 12px;
+                height: 20px;
+                padding: 0px;
+                width: 30%;
+                margin-right: ;
+              }
+              #bookmarks_btn {
+                font-size: 12px;
+                height: 20px;
+                padding: 0px;
+                width: 35%;
+                margin-right: ;
+              }
+              #userSettingsButton {
+              }
             }
-          }
-        `}</style>
-      </div>
-    );
+          `}</style>
+        </div>
+      );
+    }
   }
 }
 
