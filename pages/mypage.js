@@ -62,7 +62,8 @@ class Mypage extends React.Component {
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
         params: {
-          userId: userId
+          userId: userId,
+          offset: 0
         }
       })
       .then(res => {

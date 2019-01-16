@@ -3,6 +3,7 @@ import axios from "axios";
 import BookTitlebox from "../components/book/BookTitlebox";
 import BookReviewbox from "../components/book/BookReviewbox";
 import { BACKEND_ENDPOINT } from "../constant";
+import Filter from "../containers/Filter";
 
 class Book extends Component {
   static async getInitialProps(context) {
@@ -34,7 +35,8 @@ class Book extends Component {
       const bookMarkData = await axios
         .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
           params: {
-            userId: ID
+            userId: ID,
+            offset: 0
           }
         })
         .then(response => response.data)
@@ -58,6 +60,9 @@ class Book extends Component {
       bookReviewLength: this.props.bookReviewData.length,
       bookMarkData: this.props.bookMarkData
     };
+  }
+
+  componentDidMount() {
   }
 
   //------------------BookReview----------------------------//
@@ -131,7 +136,8 @@ class Book extends Component {
   _changeBookMarkData = async () => {
     const res = await axios.get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
       params: {
-        userId: this.props.ID
+        userId: this.props.ID,
+        offset: 0
       }
     });
     const changeBookmark = res.data;
@@ -142,6 +148,7 @@ class Book extends Component {
   };
 
   _filterBookmarkId = () => {
+    console.log("filter--------", this.state.bookMarkData)
     if (this.props.ID && this.state.bookMarkData) {
       const bookId = this.props.book.id;
       const bookmarkData = this.state.bookMarkData;
@@ -158,47 +165,51 @@ class Book extends Component {
 
   render() {
     return (
-      <div id="book">
-        <div id="book_box">
-          <BookTitlebox
-            ID={this.props.ID}
-            book={this.state.book}
-            review={this.state.review}
-            bookMarkData={this.state.bookMarkData}
-            bookReviewLength={this.state.bookReviewLength}
-            _toggle={this._toggle}
-            _changeBookMarkData={this._changeBookMarkData}
-            _filterBookmarkId={this._filterBookmarkId}
-          />
-          <BookReviewbox
-            ID={this.props.ID}
-            review={this.state.review}
-            bookId={this.props.book.id}
-            isReviewed={this.state.isReviewed}
-            bookReviewData={this.state.bookReviewData}
-            _getReviewChange={this._getReviewChange}
-            _chackUserReview={this._chackUserReview}
-          />
-        </div>
+      <React.Fragment>
+        <Filter />
+        <div id="book">
+          <div id="book_box">
+            <BookTitlebox
+              ID={this.props.ID}
+              book={this.state.book}
+              review={this.state.review}
+              bookMarkData={this.state.bookMarkData}
+              bookReviewLength={this.state.bookReviewLength}
+              _toggle={this._toggle}
+              _changeBookMarkData={this._changeBookMarkData}
+              _filterBookmarkId={this._filterBookmarkId}
+            />
+            <BookReviewbox
+              ID={this.props.ID}
+              review={this.state.review}
+              bookId={this.props.book.id}
+              isReviewed={this.state.isReviewed}
+              bookReviewData={this.state.bookReviewData}
+              _getReviewChange={this._getReviewChange}
+              _chackUserReview={this._chackUserReview}
+            />
+          </div>
 
-        <style jsx>{`
-          #book {
-            background: rgba(0, 0, 0, 0.03);
-          }
-          #book_box {
-            border-left: 1px solid #ddd;
-            border-right: 1px solid #ddd;
-            margin: 0 auto;
-            max-width: 1140px;
-            background: white;
-          }
-          @media screen and (max-width: 600px) {
-            #book_box {
-              width: 100%;
+          <style jsx>{`
+            #book {
+              background: rgba(0, 0, 0, 0.03);
+              padding-top: 60px;
+              padding-bottom: 5px;
             }
-          }
-        `}</style>
-      </div>
+            #book_box {
+              border: 1px solid #ddd;
+              margin: 0 auto;
+              max-width: 1140px;
+              background: white;
+            }
+            @media screen and (max-width: 600px) {
+              #book_box {
+                width: 100%;
+              }
+            }
+          `}</style>
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -5,7 +5,6 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookTitlebox extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.book.averageScore);
   }
 
   _renderStar = () => {

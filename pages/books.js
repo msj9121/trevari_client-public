@@ -6,25 +6,51 @@ import Filter from "../containers/Filter";
 
 class Books extends Component {
   static async getInitialProps(context) {
-    const { input } = context.query;
+    const { input, recommend, userId } = context.query;
+    console.log("input", typeof input);
 
-    const books = await axios
-      .get(`${BACKEND_ENDPOINT}/books/most-bookmarks`, {
-        params: { 
-          input: input,
-          offset: 0
-        }
-      })
-      .then(res => {
-        return res.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    console.log(books);
-    return {
-      books
-    };
+    if (input === "") {
+      const books = [];
+      return books;
+    } else if (recommend) {
+      if (userId) {
+        const res = await axios.get(`${BACKEND_ENDPOINT}${recommend}`, {
+          params: {
+            userId: userId
+          }
+        });
+        const books = res.data;
+        return {
+          books
+        };
+      } else {
+        const res = await axios.get(`${BACKEND_ENDPOINT}${recommend}`);
+        const books = res.data;
+
+        return {
+          books
+        };
+      }
+    }  else {
+      const books = await axios
+        .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+          params: {
+            input: input,
+            offset: 0
+          }
+        })
+        .then(res => {
+          console.log("res", res.data);
+          return res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      return {
+        books
+      };
+    }
   }
 
   constructor(props) {
@@ -49,16 +75,26 @@ class Books extends Component {
   }
 
   render() {
+    console.log("state", this.state.books)
     return (
       <React.Fragment>
         <Filter />
         <div id="books">
           <div id="books_box">
-            {this.state.books.map((book, index) => {
+            {this.state.books ? (
+              this.state.books.map((book, index) => {
+                return (
+                  <Bookcollection book={book} key={index} ID={this.props.ID} />
+                );
+              })
+            ) : (
+              <div />
+            )}
+            {/* {this.state.books.map((book, index) => {
               return (
                 <Bookcollection book={book} key={index} ID={this.props.ID} />
               );
-            })}
+            })} */}
           </div>
 
           <style jsx>{`

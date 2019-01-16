@@ -8,20 +8,15 @@ import Spinner from "../components/books/Spinner";
 
 class Recommend extends Component {
   static async getInitialProps() {
-    const input1 = "대한";
+    const recommend = "/books/most-bookmarks";
 
     // 인기작품
-    const res = await axios.get(`${BACKEND_ENDPOINT}/books/most-bookmarks`, {
-      params: {
-        input: input1,
-        offset: 0
-      }
-    });
+    const res = await axios.get(`${BACKEND_ENDPOINT}/books/most-bookmarks`);
 
     const mostBookmarks = res.data.slice(0, 6);
 
     return {
-      input1,
+      recommend,
       mostBookmarks
     };
   }
@@ -29,14 +24,8 @@ class Recommend extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input1: this.props.input1,
-      input2: "해리",
-      input3: "시간",
-      input4: "여행",
-      mostBookmarks: this.props.mostBookmarks,
-      newRelease: [],
-      bestRated: [],
-      myRecommendations: []
+      recommend: this.props.recommend,
+      mostBookmarks: this.props.mostBookmarks
     };
   }
 
@@ -50,7 +39,8 @@ class Recommend extends Component {
       .get(`${BACKEND_ENDPOINT}/books/new-release`)
       .then(res => {
         this.setState({
-          newRelease: this.state.newRelease.concat(res.data.slice(0, 6))
+          recommend2: "/books/new-release",
+          newRelease: res.data.slice(0, 6)
         });
       })
       .catch(err => console.log(err));
@@ -60,7 +50,8 @@ class Recommend extends Component {
       .get(`${BACKEND_ENDPOINT}/books/best-rated`)
       .then(res => {
         this.setState({
-          bestRated: this.state.bestRated.concat(res.data.slice(0, 6))
+          recommend3: "/books/best-rated",
+          bestRated: res.data.slice(0, 6)
         });
       })
       .catch(err => console.log(err));
@@ -74,40 +65,41 @@ class Recommend extends Component {
       })
       .then(res => {
         this.setState({
-          myRecommendations: this.state.myRecommendations.concat(res.data.slice(0, 6))
+          recommend4: "/books/my-recommendations",
+          myRecommendations: res.data.slice(0, 6)
         });
       })
       .catch(err => console.log(err));
   };
 
-  // _renderRecommendBooks = () => {
-  //   const newRelease = this.state.newRelease;
-  //   const bestRated = this.state.bestRated;
-  //   const myRecommendations = this.state.myRecommendations;
+  _renderRecommendBooks = () => {
+    const newRelease = this.state.newRelease;
+    const bestRated = this.state.bestRated;
+    const myRecommendations = this.state.myRecommendations;
 
-  //   return (
-  //     <React.Fragment>
-  //       <RecommendBooks
-  //         title={"1월 신작"}
-  //         recommendBooks={newRelease}
-  //         ID={this.props.ID}
-  //         input={this.state.input2}
-  //       />
-  //       <RecommendBooks
-  //         title={"평점이 높은 작품들"}
-  //         recommendBooks={bestRated}
-  //         ID={this.props.ID}
-  //         input={this.state.input3}
-  //       />
-  //       <RecommendBooks
-  //         title={"트레바리 추천작"}
-  //         recommendBooks={myRecommendations}
-  //         ID={this.props.ID}
-  //         input={this.state.input4}
-  //       />
-  //     </React.Fragment>
-  //   );
-  // };
+    return (
+      <React.Fragment>
+        <RecommendBooks
+          title={"2019년 신작"}
+          recommendBooks={newRelease}
+          ID={this.props.ID}
+          recommend={this.state.recommend2}
+        />
+        <RecommendBooks
+          title={"최고 인기작품 TOP 30"}
+          recommendBooks={bestRated}
+          ID={this.props.ID}
+          recommend={this.state.recommend3}
+        />
+        <RecommendBooks
+          title={"트레바리 추천"}
+          recommendBooks={myRecommendations}
+          ID={this.props.ID}
+          recommend={this.state.recommend4}
+        />
+      </React.Fragment>
+    );
+  };
 
   render() {
     return (
@@ -121,34 +113,16 @@ class Recommend extends Component {
                 title={"트레바리 인기작품 BEST 30"}
                 recommendBooks={this.state.mostBookmarks}
                 ID={this.props.ID}
-                input={this.state.input1}
-              />
-              <RecommendBooks
-                title={"1월 신작"}
-                recommendBooks={this.state.newRelease}
-                ID={this.props.ID}
-                input={this.state.input2}
-              />
-              <RecommendBooks
-                title={"평점이 높은 작품들"}
-                recommendBooks={this.state.bestRated}
-                ID={this.props.ID}
-                input={this.state.input3}
-              />
-              <RecommendBooks
-                title={"트레바리 추천작"}
-                recommendBooks={this.state.myRecommendations}
-                ID={this.props.ID}
-                input={this.state.input4}
+                recommend={this.state.recommend}
               />
 
-              {/* {this.state.newRelease &&
+              {this.state.newRelease &&
               this.state.bestRated &&
               this.state.myRecommendations ? (
                 this._renderRecommendBooks()
               ) : (
                 <Spinner />
-              )} */}
+              )}
             </div>
           </div>
 
