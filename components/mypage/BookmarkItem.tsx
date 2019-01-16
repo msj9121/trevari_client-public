@@ -49,9 +49,11 @@ class BookmarkItem extends React.Component<BookmarkItemProps> {
     _deleteBookmark(book);
 
     axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`, {
-        userId: book.user_id,
-        bookmarkId: book.id
+      .delete(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        params: {
+          userId: book.user_id,
+          bookmarkId: book.id
+        }
       })
       .then(res => {
         if (res.data) {
@@ -80,17 +82,17 @@ class BookmarkItem extends React.Component<BookmarkItemProps> {
         </div>
         <style jsx>{`
           #bookmark_content {
-            margin: 5px 5px 10px 5px;
+            margin: 20px;
             width: 130px;
             height: 205px;
             position: relative;
           }
-          .image_container {
+          .image_box {
             width: 130px;
             height: 170px;
+            border: 1px solid #ddd;
           }
           .image {
-            background: ;
             width: 100%;
             height: 100%;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2),
@@ -110,13 +112,16 @@ class BookmarkItem extends React.Component<BookmarkItemProps> {
             height: 30px;
             padding: 5px;
             margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            color: white;
+            border: none;
+            background-color: #ff8906;
+            outline-style: none;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 0.15rem;
           }
           .deleteBtn:hover {
-            cursor: pointer;
-            background-color: #ff7f00;
+            background-color: #e07300;
           }
           @media screen and (max-width: 800px) {
             #bookmark_content {

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import BookmarkItem from "./BookmarkItem";
+import BookmarkItem, { Ibook } from "./BookmarkItem";
 
 interface BookmarksProps {
-  currentBookmarks: string[];
-  _deleteBookmark: Function
-  _getMoreBookmarks: Function
+  currentBookmarks: Ibook[];
+  _deleteBookmark: Function;
+  _getMoreBookmarks: Function;
 }
 
 class Bookmarks extends Component<BookmarksProps> {
@@ -40,11 +40,17 @@ class Bookmarks extends Component<BookmarksProps> {
         </div>
         <style jsx>{`
           .allContainer {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin: 10px;
           }
           .image_container {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            margin: 5px;
+            width: 92%;
+            margin: 0 auto;
           }
           .viewMoreBtn {
             font-size: 15px;
@@ -52,13 +58,15 @@ class Bookmarks extends Component<BookmarksProps> {
             height: 30px;
             padding: 5px;
             margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            color: white;
+            font-weight: 600;
+            border: none;
+            background-color: #ff8906;
+            outline-style: none;
           }
           .viewMoreBtn:hover {
             cursor: pointer;
-            background-color: #ff7f00;
+            background-color: #e07300;
           }
           @media screen and (max-width: 800px) {
             .viewMoreBtn {

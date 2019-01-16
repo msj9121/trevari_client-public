@@ -4,7 +4,6 @@ import { BACKEND_ENDPOINT } from "../constant";
 import UpdateUserData from "../components/mypage/UpdateUserData";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
-import { object } from "prop-types";
 
 interface MypageProps {
   ID: string
@@ -13,7 +12,7 @@ interface MypageProps {
 }
 
 interface MypageState {
-  id: string
+  id: string | null;
   reviews: IReviews[] | string[]
   currentReviews: IReviews[] | string[]
   books: string[]
@@ -23,11 +22,11 @@ interface MypageState {
   editedReview: string
 }
 
-interface IReviews {
-  id: number
+export interface IReviews {
   text: string
   score: number
   data: string;
+  [key: string]: any;
 }
 
 interface IContext {
@@ -52,10 +51,13 @@ class Mypage extends Component<MypageProps, MypageState> {
   static async getInitialProps(context: IContext) {
     const { userId } = context.query;
 
-    const reviews = await axios.post(
-      `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
-      { userId }
-    );
+    const reviews = await axios.get(
+      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId
+        }
+      }
+    )
 
     return {
       reviews: reviews.data,
@@ -77,11 +79,24 @@ class Mypage extends Component<MypageProps, MypageState> {
     };
   }
 
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      this.setState({
+        id: localStorage.getItem("user")
+      });
+    }
+  }
+
   _getBookmarks = () => {
     const userId = this.props.ID;
 
     axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
+      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        params: {
+          userId: userId,
+          offset: 0
+        }
+      })
       .then(res => {
         this.setState({
           books: res.data,
@@ -166,103 +181,87 @@ class Mypage extends Component<MypageProps, MypageState> {
     }
 
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
-        userId: userId,
-        bookId: bookId,
-        score: rating,
-        text: editedReview
-      })
-      .then((res) => {
-        if (res.data) {
-          this.setState({
-            reviews: newReviews
-          });
-          console.log(
-            `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
-          );
-        }
-      })
-      .catch(err => console.log(err));
+    .put(`${BACKEND_ENDPOINT}/reviews/review`, {
+      userId: userId,
+      bookId: bookId,
+      score: rating,
+      text: editedReview
+    })
+    .then(res => {
+      if (res.data) {
+        this.setState({
+          reviews: newReviews
+        });
+        console.log(
+          `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
+        );
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   render() {
-    if (!this.state.id) {
-      return (
-        <div id ="notLogin">
-          <h2>로그인을 해주세요</h2>
-          <style jsx>{`
-            #notLogin {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border: solid 1px #ced4da;
-              height: 350px;
-          `}</style>
-        </div>
-      );
-    } else if (this.state.id) {
-      return (
-        <div id="mypage">
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-            integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-            crossOrigin="anonymous"
+    return (
+      <div id="mypage">
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossOrigin="anonymous"
+        />
+        {this.state.userDataModal ? (
+          <UpdateUserData
+            userId={localStorage.getItem("user")}
+            _showUserDataModal={this._showUserDataModal}
           />
-          {this.state.userDataModal ? (
-            <UpdateUserData
-              userId={this.props.ID}
-              _showUserDataModal={this._showUserDataModal}
-            />
-          ) : (
-            undefined
-          )}
-          <div id="mypage_navBox">
-            <div id="Mypage_nav">
-              <span>
-                <button
-                  id="reviews_btn"
-                  onClick={this._changeTabName}
-                >
-                  내가 평가한 책
-                </button>
-              </span>
-              <span>
-                <button
-                  id="bookmarks_btn"
-                  onClick={event => {
-                    this._changeTabName(event);
-                    this._getBookmarks();
-                  }}
-                >
-                  내가 읽고싶은 책
-                </button>
-              </span>
+        ) : (
+          undefined
+        )}
+
+        <div id="mypage_navBox">
+          <div id="Mypage_nav">
+            <div>
               <button
-                id={"userSettingsButton"}
-                onClick={this._showUserDataModal}
+                id="reviews_btn"
+                onClick={event => this._changeTabName(event)}
               >
-                <i className="fas fa-cog" />
+                내가 평가한 책
+              </button>
+              <button
+                id="bookmarks_btn"
+                onClick={event => {
+                  this._changeTabName(event);
+                  this._getBookmarks();
+                }}
+              >
+                내가 읽고싶은 책
               </button>
             </div>
+            <button id={"userSettingsButton"} onClick={this._showUserDataModal}>
+              <i className="fas fa-cog" />
+            </button>
           </div>
-          <div id="contents_box">
-            { this.state.tabName === "내가 평가한 책" ? (
-              <Reviews
-                currentReviews={this.state.currentReviews}
-                _deleteReview={this._deleteReview}
-                _getMoreReviews={this._getMoreReviews}
-                editedReview={this.state.editedReview}
-                _editReview={this._editReview}
-              />
-            ) : (
-              <Bookmarks
-                currentBookmarks={this.state.currentBookmarks}
-                _deleteBookmark={this._deleteBookmark}
-                _getMoreBookmarks={this._getMoreBookmarks}
-              />
-            )}
-          </div>
+        </div>
+        <div id="contents_box">
+          {this.state.tabName === "내가 평가한 책" ? (
+            <Reviews
+              // reviews={this.state.reviews}
+              currentReviews={this.state.currentReviews}
+              _deleteReview={this._deleteReview}
+              _getMoreReviews={this._getMoreReviews}
+              editedReview={this.state.editedReview}
+              _editReview={this._editReview}
+              // _showReview={this._showReview}
+              // openBtnName={this.state.openBtnName}
+            />
+          ) : (
+            <Bookmarks
+              currentBookmarks={this.state.currentBookmarks}
+              _deleteBookmark={this._deleteBookmark}
+              _getMoreBookmarks={this._getMoreBookmarks}
+            />
+          )}
+        </div>
           <style jsx>{`
             #mypage {
               background: rgba(0, 0, 0, 0.03);

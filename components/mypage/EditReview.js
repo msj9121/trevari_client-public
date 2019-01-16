@@ -8,56 +8,56 @@ class EditReview extends React.Component {
       rating: 1,
       ratingValue: 1
     };
-
-    this._onStarHover = this._onStarHover.bind(this);
-    this._onStarClick = this._onStarClick.bind(this);
-    this._submitBtn_ClickHandler = this._submitBtn_ClickHandler.bind(this);
   }
 
-  _onStarHover = function(nextValue, prevValue, name) {
+  _onStarHover = nextValue => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = function(nextValue, preValue, name) {
+  _onStarClick = nextValue => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _submitBtn_ClickHandler = function() {
+  _submitBtn_ClickHandler = () => {
     const review = this.props.review;
 
     let userId = review.user_id;
     let bookId = review.book_id;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
+    let editedReviewE = document.getElementsByClassName(bookId)[0];
     let editedReview;
-    if (document.getElementsByClassName(bookId)[0].value === "") {
+    
+    if (editedReviewE.value === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
-      editedReview = document.getElementsByClassName(bookId)[0].value;
+      editedReview = editedReviewE.value;
     }
 
     this.props._editReview(editedReview, userId, bookId, reviewId, rating);
   };
 
   render() {
+    const review = this.props.review;
+
     return (
-      <div id="myModal" className="modal" display={this.props.modalStatus}>
+      <div id="myModal" className="modal">
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={this.props._closeEditModalBtn_clickHandler}
+            onClick={this.props._showEditModalBtn_clickHandler}
           >
             &times;
           </span>
           <textarea
-            className={this.props.review.book_id}
-            defaultValue={this.props.review.text}
+            className={review.book_id}
+            defaultValue={review.text}
           />
           <div id="reviewScore">
             <div className="reviewScore_text">별점을 선택해주세요.</div>
@@ -76,7 +76,7 @@ class EditReview extends React.Component {
               className="submit-btn"
               onClick={() => {
                 this._submitBtn_ClickHandler();
-                this.props._closeEditModalBtn_clickHandler();
+                this.props._showEditModalBtn_clickHandler();
               }}
             >
               수정내용 등록
@@ -85,7 +85,7 @@ class EditReview extends React.Component {
         </div>
         <style jsx>{`
           .modal {
-            display: ${this.props.modalStatus};
+            display: ${this.props.editModalStatus};
             position: fixed;
             z-index: 1;
             left: 0;

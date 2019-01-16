@@ -7,44 +7,32 @@ import Bookmarks from "../components/mypage/Bookmarks";
 class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
-    console.log("useid", userId);
-    const reviews = await axios.get(
-      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
-        params: {
-          userId: userId
-        }
-      }
-    )
 
+    const reviews = await axios.get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+      params: {
+        userId: userId,
+        offset: 0
+      }
+    });
+    
     return {
       reviews: reviews.data,
-      currentReviews: reviews.data.slice(0, 10)
+      reviewsLength: reviews.data.length
     };
   }
 
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.ID,
       reviews: props.reviews,
-      currentReviews: props.currentReviews,
+      reviewsLength: props.reviewsLength,
       books: [],
-      currentBookmarks: [],
+      booksLength: 0,
       tabName: "내가 평가한 책",
       userDataModal: false,
       editedReview: "",
-      openBtnName: "펼치기"
     };
-
-    this._getBookmarks = this._getBookmarks.bind(this);
-    this._deleteReview = this._deleteReview.bind(this);
-    this._deleteBookmark = this._deleteBookmark.bind(this);
-    this._getMoreReviews = this._getMoreReviews.bind(this);
-    this._getMoreBookmarks = this._getMoreBookmarks.bind(this);
-    this._openUserDataModal = this._openUserDataModal.bind(this);
-    this._closeUserDataModal = this._closeUserDataModal.bind(this);
-    this._editReview = this._editReview.bind(this);
-    this._showReview = this._showReview.bind(this);
-    this._changeTabName = this._changeTabName.bind(this);
   }
 
   componentDidMount() {
@@ -53,116 +41,122 @@ class Mypage extends React.Component {
         id: localStorage.getItem("user")
       });
     }
+
+    // window.addEventListener("scroll", this.handleScroll);
   }
 
-  _getBookmarks = function() {
+  // componentWillUnmount() {
+  //   window.removeEventListener("scroll", this.handleScroll);
+  // }
+
+  // handleScroll = () => {
+  //   const { innerHeight } = window;
+  //   const { scrollHeight } = document.body;
+  //   // IE에서는 document.documentElement 를 사용.
+  //   const scrollTop =
+  //     (document.documentElement && document.documentElement.scrollTop) ||
+  //     document.body.scrollTop;
+  //   // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
+  //   if (scrollHeight - innerHeight - scrollTop < 10) {
+      
+      
+  //     this._getMoreReviews()
+  //     console.log("Almost Bottom Of This Browser");
+  //   }
+  // }
+
+  _getBookmarks = () => {
     const userId = this.state.id;
 
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
         params: {
-          userId: userId
+          userId: userId,
+          offset: 0
         }
       })
       .then(res => {
         this.setState({
           books: res.data,
-          currentBookmarks: res.data.slice(0, 10)
+          booksLength: res.data.length
         });
       })
       .catch(err => console.log(err));
   };
 
-  _changeTabName = function(event) {
-    let tabName = event.target.textContent;
+  _changeTabName = event => {
+    let tabName = event.currentTarget.textContent;
 
     this.setState({
       tabName: tabName
     });
   };
 
-  _deleteReview = function(review) {
-    const targetIndex1 = this.state.currentReviews.indexOf(review);
-    const copiedCurrentReviews = this.state.currentReviews.slice();
-    copiedCurrentReviews.splice(targetIndex1, 1);
-
-    const targetIndex2 = this.state.reviews.indexOf(review);
+  _deleteReview = review => {
+    const reviews = this.state.reviews;
+    const targetIndex2 = reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
     copiedReviews.splice(targetIndex2, 1);
 
     this.setState({
-      reviews: copiedReviews,
-      currentReviews: copiedCurrentReviews
+      reviews: copiedReviews
     });
   };
 
-  _deleteBookmark = function(book) {
-    const targetIndex1 = this.state.currentBookmarks.indexOf(book);
-    const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
-    copiedCurrentBookmarks.splice(targetIndex1, 1);
-
+  _deleteBookmark = book => {
     const targetIndex2 = this.state.books.indexOf(book);
     const copiedBooks = this.state.books.slice();
     copiedBooks.splice(targetIndex2, 1);
 
     this.setState({
-      books: copiedBooks,
-      currentBookmarks: copiedCurrentBookmarks
+      books: copiedBooks
     });
   };
 
-  _getMoreReviews = function() {
-    const reviewsLength = this.state.currentReviews.length;
-    const newLength = reviewsLength + 10;
+  _getMoreReviews = () => {
+    const userId = this.state.id
 
+    axios
+      .get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId,
+          offset: this.state.reviewsLength
+        }
+      })
+      .then(res => {
+        this.setState({
+          reviews: this.state.reviews.concat(res.data),
+          reviewsLength: this.state.reviewsLength + res.data.length
+        });
+      });
+  };
+  
+  _getMoreBookmarks = () => {
+    const userId = this.state.id;
+
+    axios
+      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        params: {
+          userId: userId,
+          offset: this.state.booksLength
+        }
+      })
+      .then(res => {
+        this.setState({
+          books: this.state.books.concat(res.data),
+          booksLength: this.state.booksLength + res.data.length
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  _showUserDataModal = () => {
     this.setState({
-      currentReviews: this.state.reviews.slice(0, newLength)
-    });
-    // axios
-    //   .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
-    //     userId: this.state.id
-    //   })
-    //   .then(res => {
-    //     this.setState({
-    //       reviews: res.data.slice(0, newLength)
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
-  };
-
-  _getMoreBookmarks = function() {
-    const bookmarksLength = this.state.currentBookmarks.length;
-    const newLength = bookmarksLength + 10;
-
-    this.setState({
-      currentBookmarks: this.state.books.slice(0, newLength)
-    });
-
-    // axios
-    //   .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
-    //     userId: this.state.id
-    //   })
-    //   .then(res => {
-    //     this.setState({
-    //       books: res.data.slice(0, newLength)
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
-  };
-
-  _openUserDataModal = function() {
-    this.setState({
-      userDataModal: true
+      userDataModal: !this.state.userDataModal
     });
   };
 
-  _closeUserDataModal = function() {
-    this.setState({
-      userDataModal: false
-    });
-  };
-
-  _editReview = function(editedReview, userId, bookId, reviewId, rating) {
+  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
     let newReviews = this.state.reviews;
 
     for (var i = 0; i < newReviews.length; i++) {
@@ -192,18 +186,6 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  _showReview = function(reviewStatus) {
-    if (reviewStatus === "none") {
-      this.setState({
-        openBtnName: "닫기"
-      });
-    } else if (reviewStatus === "block") {
-      this.setState({
-        openBtnName: "펼치기"
-      });
-    }
-  };
-
   render() {
     return (
       <div id="mypage">
@@ -216,7 +198,7 @@ class Mypage extends React.Component {
         {this.state.userDataModal ? (
           <UpdateUserData
             userId={localStorage.getItem("user")}
-            onclose={this._closeUserDataModal}
+            _showUserDataModal={this._showUserDataModal}
           />
         ) : (
           undefined
@@ -241,7 +223,7 @@ class Mypage extends React.Component {
                 내가 읽고싶은 책
               </button>
             </div>
-            <button id={"userSettingsButton"} onClick={this._openUserDataModal}>
+            <button id={"userSettingsButton"} onClick={this._showUserDataModal}>
               <i className="fas fa-cog" />
             </button>
           </div>
@@ -249,20 +231,18 @@ class Mypage extends React.Component {
         <div id="contents_box">
           {this.state.tabName === "내가 평가한 책" ? (
             <Reviews
-              // reviews={this.state.reviews}
-              currentReviews={this.state.currentReviews}
+              reviews={this.state.reviews}
               _deleteReview={this._deleteReview}
               _getMoreReviews={this._getMoreReviews}
               editedReview={this.state.editedReview}
               _editReview={this._editReview}
-              _showReview={this._showReview}
-              openBtnName={this.state.openBtnName}
             />
           ) : (
             <Bookmarks
-              currentBookmarks={this.state.currentBookmarks}
+              books={this.state.books}
               _deleteBookmark={this._deleteBookmark}
               _getMoreBookmarks={this._getMoreBookmarks}
+              id={this.state.id}
             />
           )}
         </div>

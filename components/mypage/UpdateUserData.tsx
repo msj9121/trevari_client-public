@@ -4,7 +4,7 @@ import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
 interface UpdateUserDataProps {
-  userId: string;
+  userId: string | null;
   _showUserDataModal: Function;
 }
 

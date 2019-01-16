@@ -4,16 +4,35 @@ import BookmarkItem from "./BookmarkItem";
 class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
-
-    this._viewMoreBtn_clickHandler = this._viewMoreBtn_clickHandler.bind(this);
   }
 
-  _viewMoreBtn_clickHandler = function() {
-    this.props._getMoreBookmarks();
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.body;
+    
+    const scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    
+    if (scrollHeight - innerHeight - scrollTop < 1) {
+      this.props._getMoreBookmarks();
+    }
   };
 
+  // _viewMoreBtn_clickHandler = () => {
+  //   this.props._getMoreBookmarks();
+  // };
+
   render() {
-    const books = this.props.currentBookmarks;
+    const books = this.props.books;
 
     return (
       <div className="allContainer">
@@ -23,21 +42,23 @@ class Bookmarks extends React.Component {
               book={book}
               key={id}
               _deleteBookmark={this.props._deleteBookmark}
+              id={this.props.id}
             />
           ))}
         </div>
-        <div>
+        {/* <div>
           <button
             className="viewMoreBtn"
             onClick={this._viewMoreBtn_clickHandler}
+            // onClick={this.forTestAddManyBookmarks}
           >
             더보기
           </button>
-        </div>
+        </div> */}
         <style jsx>{`
           .allContainer {
             background-color: white;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
             margin: 10px;
           }
           .image_container {

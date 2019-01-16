@@ -4,11 +4,33 @@ import ReviewItem from "./ReviewItem";
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
-    
-    this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
   }
 
-  _moreBtn_clickHandler = function() {
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.body;
+    // IE에서는 document.documentElement 를 사용.
+    const scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
+    if (scrollHeight - innerHeight - scrollTop < 1) {
+      
+      
+      this.props._getMoreReviews()
+      console.log("Almost Bottom Of This Browser");
+    }
+  }
+
+  _moreBtn_clickHandler = () => {
     this.props._getMoreReviews();
   };
 
@@ -16,15 +38,13 @@ class Reviews extends React.Component {
     return (
       <div id="reviews">
         <div id="reviews_container">
-          {this.props.currentReviews.map((review, id) => (
+          {this.props.reviews.map((review, id) => (
             <ReviewItem
               review={review}
               key={id}
               _deleteReview={this.props._deleteReview}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
-              _showReview={this.props._showReview}
-              openBtnName={this.props.openBtnName}
             />
           ))}
         </div>

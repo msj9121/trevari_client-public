@@ -6,25 +6,23 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookmarkItem extends React.Component {
   constructor(props) {
     super(props);
-
-    this._getBookImage = this._getBookImage.bind(this);
-    this._deleteBtn_handler = this._deleteBtn_handler.bind(this);
   }
 
-  _getBookImage = function() {
-    const bareImage = JSON.stringify(this.props.book.Book.image);
+  _getBookImage = () => {
+    const Book = this.props.book.Book;
+    const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
     let bookImageURL;
 
     if (targetIndex === -1) {
       bookImageURL = this.props.book.Book.image;
     } else {
-      bookImageURL = bareImage.slice(1, targetIndex);
+      bookImageURL = bareImage.slice(0, targetIndex);
     }
     return bookImageURL;
   };
 
-  _deleteBtn_handler = function() {
+  _deleteBtn_handler = () => {
     const book = this.props.book;
     const _deleteBookmark = this.props._deleteBookmark;
 
@@ -47,11 +45,23 @@ class BookmarkItem extends React.Component {
 
   render() {
     const book = this.props.book;
+    // const ID = Number(this.props.id)
+    console.log(this.props.book.Book.id)
 
     return (
       <div id="bookmark_content">
         <div>
-          <Link as={`/book/${book.Book.id}`} href={`/book?id=${book.Book.id}`}>
+          <Link 
+            as={`/book/${book.Book.id}`} 
+            href={`/book?id=${book.Book.id}`}
+            // href={{
+            //   pathname: "/book",
+            //   query: { 
+            //     id: book.Book.id, 
+            //     ID: ID 
+            //   }
+            // }}
+            >
             <div className="image_box">
               <img
                 className="image"

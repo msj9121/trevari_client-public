@@ -2,12 +2,12 @@ import React, { Component, MouseEvent } from "react";
 import StarRatingComponent from "react-star-rating-component";
 
 interface EditReviewProps {
-  _closeEditModalBtn_clickHandler: Function;
-  modalStatus: String;
+  _showEditModalBtn_clickHandler: Function;
   editedReview: String;
   _editReview: Function;
   review: IReview;
   openBtnName: String;
+  editModalStatus: String;
 }
 
 interface EditReviewState {
@@ -52,11 +52,13 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
     let bookId = review.book_id as string;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
+    let editedReviewE = document.getElementsByClassName(bookId)[0] as HTMLTextAreaElement;
     let editedReview;
-    if (document.getElementsByClassName(bookId)[0].innerHTML === "") {
+    
+    if (editedReviewE.value === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
-      editedReview = document.getElementsByClassName(bookId)[0].innerHTML;
+      editedReview = editedReviewE.value;
     }
 
     this.props._editReview(editedReview, userId, bookId, reviewId, rating);
@@ -70,7 +72,7 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={event => this.props._closeEditModalBtn_clickHandler(event)}
+            onClick={event => this.props._showEditModalBtn_clickHandler(event)}
           >
             &times;
           </span>
@@ -95,7 +97,7 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
               className="submit-btn"
               onClick={() => {
                 this._submitBtn_ClickHandler();
-                this.props._closeEditModalBtn_clickHandler();
+                this.props._showEditModalBtn_clickHandler();
               }}
             >
               수정내용 등록
@@ -104,7 +106,7 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
         </div>
         <style jsx>{`
           .modal {
-            display: ${this.props.modalStatus};
+            display: ${this.props.editModalStatus};
             position: fixed;
             z-index: 1;
             left: 0;

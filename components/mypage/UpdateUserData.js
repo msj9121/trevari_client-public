@@ -1,5 +1,5 @@
 import React from "react";
-const server = "3.16.58.104:5000";
+// const server = "3.16.58.104:5000";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
@@ -15,8 +15,10 @@ class UpdateUserData extends React.Component {
 
   onUpdatePhoneSend = (e) => {
     e && e.preventDefault();
+    
     const numberElement = document.getElementById("newNumber") 
     const newNumber = numberElement.value;
+    const userId = this.props.userId
 
     Number(newNumber)
       ? console.log("value", Number(newNumber))
@@ -24,10 +26,9 @@ class UpdateUserData extends React.Component {
 
     if (newNumber) {
       axios
-      .post(`http://${server}/users/updatePhoneNumber`, {
-      // .post(`http://${BACKEND_ENDPOINT}/users/updatePhoneNumber`, {
-        userId: this.props.userId,
-          phoneNumber: Number(newNumber)
+        .put(`${BACKEND_ENDPOINT}/users/phone-number`, {
+          userId: userId,
+          phoneNumber: newNumber
         })
         .then(response => {
           console.log("response", response);
@@ -83,10 +84,13 @@ class UpdateUserData extends React.Component {
     var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
       .value;
 
+    console.log(`newPassword: ${newPassword}, type: ${typeof newPassword}`)
+    console.log(`userId: ${this.props.userId}, type: ${typeof this.props.userId}`)
+
     if (newPassword === newPasswordConfirmation) {
       console.log("sending");
       axios
-        .post(`${BACKEND_ENDPOINT}/users/updatePassword`, {
+        .put(`${BACKEND_ENDPOINT}/users/password`, {
           userId: this.props.userId,
           password: newPassword
         })

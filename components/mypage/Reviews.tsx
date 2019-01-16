@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReviewItem, { IReview } from "./ReviewItem";
+import { IReviews } from "../../pages/Mypage";
 
 interface ReviewsProps {
   currentReviews: IReview[];
@@ -44,20 +45,21 @@ class Reviews extends Component<ReviewsProps> {
           .moreViewBtn_container {
             display: flex;
             justify-content: center;
+            margin: 0px 10px 10px 10px;
           }
           .moreViewBtn {
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 600;
             width: 100%;
             height: 30px;
-            padding: 5px;
-            margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            color: white;
+            border: none;
+            background-color: #ff8906;
+            cursor: pointer;
+            outline-style: none;
           }
           .moreViewBtn:hover {
-            cursor: pointer;
-            background-color: #ff7f00;
+            background-color: #e07300;
           }
           @media screen and (max-width: 800px) {
             .moreViewBtn {
