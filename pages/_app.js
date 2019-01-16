@@ -3,7 +3,7 @@ import Header from "../containers/Header";
 import Footer from "../containers/Footer";
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx, localStorage }) {
+  static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -15,7 +15,6 @@ export default class MyApp extends App {
   constructor(props) {
     super(props);
     this.state = {
-      id: "없음",
       movepage: "/login",
       text: "로그인",
       hiddenBox_status: "none",
@@ -26,41 +25,30 @@ export default class MyApp extends App {
   componentDidMount() {
     if (localStorage.getItem("user")) {
       this.setState({
-        id: localStorage.getItem("user"),
+        id: Number(localStorage.getItem("user")),
         movepage: "/index",
         text: "로그아웃",
         headerMypage_status: "block"
       });
     }
-    console.log("id :", this.state.id);
-    console.log("id type :", typeof this.state.id);
-    console.log("local :", localStorage.getItem("user"));
-    console.log("local type :", typeof localStorage.getItem("user"));
   }
 
-  changeCondition = () => {
+  rechangeCondition = () => {
     this.setState({
+      movepage: "/login",
+      text: "로그인",
+      headerMypage_status: "none",
+      id: ""
+    });
+    localStorage.removeItem("user");
+  };
+
+  changeCondition_saveId = () => {
+    this.setState({
+      id: localStorage.getItem("user"),
       movepage: "/index",
       text: "로그아웃",
       headerMypage_status: "block"
-    });
-  };
-
-  rechangeCondition = () => {
-    if (this.state.text === "로그아웃") {
-      this.setState({
-        id: "",
-        movepage: "/login",
-        text: "로그인",
-        headerMypage_status: "none"
-      });
-      localStorage.removeItem("user");
-    }
-  };
-
-  saveId = loginId => {
-    this.setState({
-      id: loginId
     });
   };
 
@@ -78,6 +66,7 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    console.log("ID", this.state.id)
     return (
       <Container>
         <div id="head">
@@ -93,6 +82,7 @@ export default class MyApp extends App {
             #head {
               position: fixed;
               width: 100%;
+              z-index: 999;
             }
           `}</style>
         </div>
@@ -101,12 +91,12 @@ export default class MyApp extends App {
           <Component
             {...pageProps}
             ID={this.state.id}
-            saveId={this.saveId}
-            changeCondition={this.changeCondition}
+            changeCondition_saveId={this.changeCondition_saveId}
           />
           <style jsx>{`
             #pages {
               padding-top: 60px;
+              width: 100%;
             }
           `}</style>
         </div>

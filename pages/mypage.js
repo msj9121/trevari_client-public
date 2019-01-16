@@ -1,18 +1,21 @@
-import React, { Component } from "react";
 import axios from "axios";
-import { BACKEND_ENDPOINT } from "../constant";
 import UpdateUserData from "../components/mypage/UpdateUserData";
+import { BACKEND_ENDPOINT } from "../constant";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
 
-class Mypage extends Component {
+class Mypage extends React.Component {
   static async getInitialProps(context) {
     const { userId } = context.query;
+    console.log("useid", userId);
+    const reviews = await axios.get(
+      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId
+        }
+      }
+    )
 
-    const reviews = await axios.post(
-      `${BACKEND_ENDPOINT}/reviews/getMyReviews`,
-      { userId }
-    );
     return {
       reviews: reviews.data,
       currentReviews: reviews.data.slice(0, 10)
@@ -22,22 +25,45 @@ class Mypage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.ID,
       reviews: props.reviews,
       currentReviews: props.currentReviews,
       books: [],
       currentBookmarks: [],
       tabName: "내가 평가한 책",
       userDataModal: false,
-      editedReview: ""
+      editedReview: "",
+      openBtnName: "펼치기"
     };
+
+    this._getBookmarks = this._getBookmarks.bind(this);
+    this._deleteReview = this._deleteReview.bind(this);
+    this._deleteBookmark = this._deleteBookmark.bind(this);
+    this._getMoreReviews = this._getMoreReviews.bind(this);
+    this._getMoreBookmarks = this._getMoreBookmarks.bind(this);
+    this._openUserDataModal = this._openUserDataModal.bind(this);
+    this._closeUserDataModal = this._closeUserDataModal.bind(this);
+    this._editReview = this._editReview.bind(this);
+    this._showReview = this._showReview.bind(this);
+    this._changeTabName = this._changeTabName.bind(this);
   }
 
-  _getBookmarks = () => {
-    const userId = this.props.ID;
+  componentDidMount() {
+    if (localStorage.getItem("user")) {
+      this.setState({
+        id: localStorage.getItem("user")
+      });
+    }
+  }
+
+  _getBookmarks = function() {
+    const userId = this.state.id;
 
     axios
-      .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, { userId })
+      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        params: {
+          userId: userId
+        }
+      })
       .then(res => {
         this.setState({
           books: res.data,
@@ -47,15 +73,15 @@ class Mypage extends Component {
       .catch(err => console.log(err));
   };
 
-  _changeTabName = event => {
-    let tabName = event.currentTarget.textContent;
+  _changeTabName = function(event) {
+    let tabName = event.target.textContent;
 
     this.setState({
       tabName: tabName
     });
   };
 
-  _deleteReview = review => {
+  _deleteReview = function(review) {
     const targetIndex1 = this.state.currentReviews.indexOf(review);
     const copiedCurrentReviews = this.state.currentReviews.slice();
     copiedCurrentReviews.splice(targetIndex1, 1);
@@ -70,7 +96,7 @@ class Mypage extends Component {
     });
   };
 
-  _deleteBookmark = book => {
+  _deleteBookmark = function(book) {
     const targetIndex1 = this.state.currentBookmarks.indexOf(book);
     const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
     copiedCurrentBookmarks.splice(targetIndex1, 1);
@@ -85,31 +111,58 @@ class Mypage extends Component {
     });
   };
 
-  _getMoreReviews = () => {
+  _getMoreReviews = function() {
     const reviewsLength = this.state.currentReviews.length;
     const newLength = reviewsLength + 10;
 
     this.setState({
       currentReviews: this.state.reviews.slice(0, newLength)
     });
+    // axios
+    //   .post(`${BACKEND_ENDPOINT}/reviews/getMyReviews`, {
+    //     userId: this.state.id
+    //   })
+    //   .then(res => {
+    //     this.setState({
+    //       reviews: res.data.slice(0, newLength)
+    //     });
+    //   })
+    //   .catch(err => console.log(err));
   };
 
-  _getMoreBookmarks = () => {
+  _getMoreBookmarks = function() {
     const bookmarksLength = this.state.currentBookmarks.length;
     const newLength = bookmarksLength + 10;
 
     this.setState({
       currentBookmarks: this.state.books.slice(0, newLength)
     });
+
+    // axios
+    //   .post(`${BACKEND_ENDPOINT}/bookmarks/getMyBookmarks`, {
+    //     userId: this.state.id
+    //   })
+    //   .then(res => {
+    //     this.setState({
+    //       books: res.data.slice(0, newLength)
+    //     });
+    //   })
+    //   .catch(err => console.log(err));
   };
 
-  _showUserDataModal = () => {
+  _openUserDataModal = function() {
     this.setState({
-      userDataModal: !this.state.userDataModal
+      userDataModal: true
     });
   };
 
-  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
+  _closeUserDataModal = function() {
+    this.setState({
+      userDataModal: false
+    });
+  };
+
+  _editReview = function(editedReview, userId, bookId, reviewId, rating) {
     let newReviews = this.state.reviews;
 
     for (var i = 0; i < newReviews.length; i++) {
@@ -120,7 +173,7 @@ class Mypage extends Component {
     }
 
     axios
-      .post(`${BACKEND_ENDPOINT}/reviews/editReview`, {
+      .put(`${BACKEND_ENDPOINT}/reviews/review`, {
         userId: userId,
         bookId: bookId,
         score: rating,
@@ -129,7 +182,7 @@ class Mypage extends Component {
       .then(res => {
         if (res.data) {
           this.setState({
-            reviews: newReviews
+            review: newReviews
           });
           console.log(
             `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
@@ -139,114 +192,116 @@ class Mypage extends Component {
       .catch(err => console.log(err));
   };
 
+  _showReview = function(reviewStatus) {
+    if (reviewStatus === "none") {
+      this.setState({
+        openBtnName: "닫기"
+      });
+    } else if (reviewStatus === "block") {
+      this.setState({
+        openBtnName: "펼치기"
+      });
+    }
+  };
+
   render() {
-    if (!this.state.id) {
-      return (
-        <div id="notLogin" align="center">
-          <h2>로그인을 해주세요</h2>
-          <style jsx>{`
-            #notLogin {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border: solid 1px #ced4da;
-              height: 350px;
-          `}</style>
-        </div>
-      );
-    } else if (this.state.id) {
-      return (
-        <div id="mypage">
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-            integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-            crossOrigin="anonymous"
+    return (
+      <div id="mypage">
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossOrigin="anonymous"
+        />
+        {this.state.userDataModal ? (
+          <UpdateUserData
+            userId={localStorage.getItem("user")}
+            onclose={this._closeUserDataModal}
           />
-          {this.state.userDataModal ? (
-            <UpdateUserData
-              userId={this.props.ID}
-              _showUserDataModal={this._showUserDataModal}
-            />
-          ) : (
-            undefined
-          )}
-          <div id="mypage_navBox">
-            <div id="Mypage_nav">
-              <span>
-                <button
-                  id="reviews_btn"
-                  onClick={event => this._changeTabName(event)}
-                >
-                  내가 평가한 책
-                </button>
-              </span>
-              <span>
-                <button
-                  id="bookmarks_btn"
-                  onClick={event => {
-                    this._changeTabName(event);
-                    this._getBookmarks();
-                  }}
-                >
-                  내가 읽고싶은 책
-                </button>
-              </span>
+        ) : (
+          undefined
+        )}
+
+        <div id="mypage_navBox">
+          <div id="Mypage_nav">
+            <div>
               <button
-                id={"userSettingsButton"}
-                onClick={this._showUserDataModal}
+                id="reviews_btn"
+                onClick={event => this._changeTabName(event)}
               >
-                <i className="fas fa-cog" />
+                내가 평가한 책
+              </button>
+              <button
+                id="bookmarks_btn"
+                onClick={event => {
+                  this._changeTabName(event);
+                  this._getBookmarks();
+                }}
+              >
+                내가 읽고싶은 책
               </button>
             </div>
+            <button id={"userSettingsButton"} onClick={this._openUserDataModal}>
+              <i className="fas fa-cog" />
+            </button>
           </div>
-          <div id="contents_box">
-            {this.state.tabName === "내가 평가한 책" ? (
-              <Reviews
-                currentReviews={this.state.currentReviews}
-                _deleteReview={this._deleteReview}
-                _getMoreReviews={this._getMoreReviews}
-                editedReview={this.state.editedReview}
-                _editReview={this._editReview}
-              />
-            ) : (
-              <Bookmarks
-                currentBookmarks={this.state.currentBookmarks}
-                _deleteBookmark={this._deleteBookmark}
-                _getMoreBookmarks={this._getMoreBookmarks}
-              />
-            )}
-          </div>
-          <style jsx>{`
+        </div>
+        <div id="contents_box">
+          {this.state.tabName === "내가 평가한 책" ? (
+            <Reviews
+              // reviews={this.state.reviews}
+              currentReviews={this.state.currentReviews}
+              _deleteReview={this._deleteReview}
+              _getMoreReviews={this._getMoreReviews}
+              editedReview={this.state.editedReview}
+              _editReview={this._editReview}
+              _showReview={this._showReview}
+              openBtnName={this.state.openBtnName}
+            />
+          ) : (
+            <Bookmarks
+              currentBookmarks={this.state.currentBookmarks}
+              _deleteBookmark={this._deleteBookmark}
+              _getMoreBookmarks={this._getMoreBookmarks}
+            />
+          )}
+        </div>
+        <style jsx>{`
             #mypage {
               background: rgba(0, 0, 0, 0.03);
             }
             #userSettingsButton {
-              float: right;
-              font-size: 16px;
-              color: grey;
-              border-radius: 10%;
+              font-size: 25px;
+              color: #ff8906;
+              background-color: white;
+              border: none;
+              outline-style: none;
+              cursor: pointer;
+              margin-right: 10px;
+            }
+            #userSettingsButton:hover {
+              color: #e07300;
             }
             #mypageTitle {
               height: 10px;
             }
             #mypage_navBox {
               border-bottom: solid 1px #ddd;
-              background-color: white;;
+              background-color: white;
             }
             #Mypage_nav {
-              margin-left: auto;
-              margin-right: auto;
+              margin: 0 auto;
               max-width: 1140px;
+              display: flex;
+              justify-content: space-between;
             }
             #contents_box {
               margin-left: auto;
               margin-right: auto;
               max-width: 1140px;
             }
-
             #reviews_btn {
-              font-size: 15px;
+              font-size: 16px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -260,12 +315,11 @@ class Mypage extends Component {
               font-weight: 700;
             }
             #reviews_btn:focus {
-              border-bottom: #ff8906 solid 2px;
-              font-weight: 700;
-            }
-
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
             #bookmarks_btn {
-              font-size: 15px;
+              font-size: 16px;
               padding: 15px 10px 15px 10px;
               margin-right: 10px;
               color: #4e4e4e;
@@ -293,37 +347,13 @@ class Mypage extends Component {
               font-weight: bold;
               border: solid 2px #ced4da;
             }
-            @media screen and (max-width: 800px) {
-              #mypage {
-                width: 100%;
-              }
-              #contents_box {
-                width: 100%;
-              }
-              #Mypage_nav {
-                width: 80%;
-              }
-              #reviews_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 30%;
-                margin-right: ;
-              }
-              #bookmarks_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 35%;
-                margin-right: ;
-              }
-              #userSettingsButton {
-              }
+            @media screen and (max-width: 600px) {
+              
             }
-          `}</style>
-        </div>
-      );
-    }
+          }
+        `}</style>
+      </div>
+    );
   }
 }
 

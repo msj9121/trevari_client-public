@@ -33,6 +33,7 @@ class Index extends Component {
             max-width: 1140px;
             display: flex;
             justify-content: center;
+            border: 1px solid #DDD;
           }
           #banner {
             width: 100%;
@@ -40,6 +41,7 @@ class Index extends Component {
             background: url(http://image.trevari.co.kr/landing/top.jpg) center
               center / cover no-repeat;
           }
+          
           .banner-gradient {
             background: linear-gradient(
               135deg,
@@ -81,6 +83,21 @@ class Index extends Component {
           @media screen and (max-width: 600px) {
             #index_box {
               width: 100%;
+            }
+            img {
+              width: 100%;
+            }
+            .banner-gradient_box {
+              width: 300px;
+            }
+            .banner-gradient_trevari {
+              font-size: 40px;
+            }
+            .banner-gradient_x {
+              font-size: 40px;
+            }
+            .banner-gradient_codestates {
+              font-size: 40px;
             }
           }
         `}</style>

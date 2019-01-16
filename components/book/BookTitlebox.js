@@ -173,13 +173,10 @@ class BookTitlebox extends Component {
 
   _addBookmark = async () => {
     if (this.props.ID) {
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/addBookmark`,
-        {
-          userId: this.props.ID,
-          bookId: this.props.book.id
-        }
-      );
+      const res = await axios.post(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        userId: this.props.ID,
+        bookId: this.props.book.id
+      });
       const data = await res.data;
       console.log("POST-addBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
@@ -192,13 +189,12 @@ class BookTitlebox extends Component {
   _deleteBookmark = async () => {
     if (this.props.ID) {
       const bookmarkId = this.props._filterBookmarkId();
-      const res = await axios.post(
-        `${BACKEND_ENDPOINT}/bookmarks/deleteBookmark`,
-        {
+      const res = await axios.delete(`${BACKEND_ENDPOINT}/bookmarks/bookmark`, {
+        params: {
           userId: this.props.ID,
           bookmarkId: bookmarkId
         }
-      );
+      });
       const data = await res.data;
       console.log("POST-deleteBookmark response : ", data);
       /* --------------------------------------BookMark state change--------------------------------------------------------- */
@@ -222,7 +218,7 @@ class BookTitlebox extends Component {
           <div className="book_titlebox_author">
             {this.props.book.publishedAt}
           </div>
-          <div className="book_titlebox_author">
+          <div className="book_titlebox_isbn">
             ISBN : {this.props.book.isbn}
           </div>
           <div className="book_titlebox_description">{Description}</div>
@@ -295,6 +291,9 @@ class BookTitlebox extends Component {
           .book_titlebox_author {
             margin-bottom: 10px;
           }
+          .book_titlebox_isbn {
+            margin-bottom: 10px;
+          }
           .book_titlebox_description {
             font-size: 15px;
           }
@@ -314,7 +313,7 @@ class BookTitlebox extends Component {
           .book_titlebox_startReviewBtn:hover {
             background-color: #e07300;
           }
-          
+
           .book_titlebox_endReviewBtn {
             color: white;
             background-color: #246db7;
@@ -354,8 +353,8 @@ class BookTitlebox extends Component {
               width: 100%;
             }
             .book_titlebox_img {
-              width: 160px;
-              height: 200px;
+              width: 150px;
+              height: 150px;
               margin: 20px;
             }
             .book_titlebox_title {
@@ -378,22 +377,28 @@ class BookTitlebox extends Component {
               font-size: 12px;
               margin-bottom: 5px;
             }
+            .book_titlebox_isbn {
+              display: none;
+            }
             .book_titlebox_description {
               display: none;
             }
             .book_titlebox_startReviewBtn {
-              font-size: 15px;
-              padding: 5px 20px 5px 20px;
+              font-size: 12px;
+              padding: 5px 15px 5px 15px;
             }
             .book_titlebox_endReviewBtn {
-              font-size: 15px;
-              padding: 5px 20px 5px 20px;
+              font-size: 12px;
+              padding: 5px 15px 5px 15px;
             }
             .book_titlebox_addBookmarkBtn {
-              font-size: 15px;
+              font-size: 12px;
+              margin-right: 5px;
+              padding: 5px 12px 5px 12px;
             }
             .book_titlebox_deleteBookmarkBtn {
-              font-size: 15px;
+              font-size: 12px;
+              padding: 5px 12px 5px 12px;
             }
           }
         `}</style>

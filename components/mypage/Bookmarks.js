@@ -4,9 +4,11 @@ import BookmarkItem from "./BookmarkItem";
 class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
+
+    this._viewMoreBtn_clickHandler = this._viewMoreBtn_clickHandler.bind(this);
   }
 
-  _viewMoreBtn_clickHandler = () => {
+  _viewMoreBtn_clickHandler = function() {
     this.props._getMoreBookmarks();
   };
 
@@ -34,11 +36,17 @@ class Bookmarks extends React.Component {
         </div>
         <style jsx>{`
           .allContainer {
+            background-color: white;
+            border: 1px solid #DDD;
+            margin: 10px;
           }
           .image_container {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            margin: 5px;
+            width: 92%;
+            margin: 0 auto;
           }
           .viewMoreBtn {
             font-size: 15px;
@@ -46,13 +54,15 @@ class Bookmarks extends React.Component {
             height: 30px;
             padding: 5px;
             margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            color: white;
+            font-weight: 600;
+            border: none;
+            background-color: #ff8906;
+            outline-style: none;
           }
           .viewMoreBtn:hover {
             cursor: pointer;
-            background-color: #ff7f00;
+            background-color: #e07300;
           }
           @media screen and (max-width: 800px) {
             .viewMoreBtn {

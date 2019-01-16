@@ -9,8 +9,10 @@ class Recommend extends Component {
   static async getInitialProps() {
     const input1 = "대한";
 
-    const res1 = await axios.post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-      input: input1
+    const res1 = await axios.get(`${BACKEND_ENDPOINT}/books/search/title`, {
+      params: {
+        input: input1
+      }
     });
 
     const recommendBooks1 = res1.data.slice(0, 6);
@@ -41,8 +43,10 @@ class Recommend extends Component {
 
   _getRecommendBooks = () => {
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input2
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input2
+        }
       })
       .then(res => {
         this.setState({
@@ -54,8 +58,10 @@ class Recommend extends Component {
       .catch(err => console.log(err));
 
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input3
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input3
+        }
       })
       .then(res => {
         this.setState({
@@ -67,8 +73,10 @@ class Recommend extends Component {
       .catch(err => console.log(err));
 
     axios
-      .post(`${BACKEND_ENDPOINT}/books/searchByTitle`, {
-        input: this.state.input4
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input4
+        }
       })
       .then(res => {
         this.setState({
@@ -84,37 +92,42 @@ class Recommend extends Component {
     return (
       <div>
         <Filter />
-        <RecommendBanner ID={this.props.ID}/>
         <div id="recommend">
-          <div id="recommend_box">
-            <RecommendBooks
-              title={"트레바리 인기작품 BEST 30"}
-              recommendBooks={this.state.recommendBooks1}
-              ID={this.props.ID}
-              input={this.state.input1}
-            />
-            <RecommendBooks
-              title={"1월 신작"}
-              recommendBooks={this.state.recommendBooks2}
-              ID={this.props.ID}
-              input={this.state.input2}
-            />
-            <RecommendBooks
-              title={"평점이 높은 작품들"}
-              recommendBooks={this.state.recommendBooks3}
-              ID={this.props.ID}
-              input={this.state.input3}
-            />
-            <RecommendBooks
-              title={"트레바리 추천작"}
-              recommendBooks={this.state.recommendBooks4}
-              ID={this.props.ID}
-              input={this.state.input4}
-            />
+          <RecommendBanner ID={this.props.ID} />
+          <div id="recommend-container">
+            <div id="recommend_box">
+              <RecommendBooks
+                title={"트레바리 인기작품 BEST 30"}
+                recommendBooks={this.state.recommendBooks1}
+                ID={this.props.ID}
+                input={this.state.input1}
+              />
+              <RecommendBooks
+                title={"1월 신작"}
+                recommendBooks={this.state.recommendBooks2}
+                ID={this.props.ID}
+                input={this.state.input2}
+              />
+              <RecommendBooks
+                title={"평점이 높은 작품들"}
+                recommendBooks={this.state.recommendBooks3}
+                ID={this.props.ID}
+                input={this.state.input3}
+              />
+              <RecommendBooks
+                title={"트레바리 추천작"}
+                recommendBooks={this.state.recommendBooks4}
+                ID={this.props.ID}
+                input={this.state.input4}
+              />
+            </div>
           </div>
 
           <style jsx>{`
             #recommend {
+              padding-top: 57px;
+            }
+            #recommend-container {
               background: rgba(0, 0, 0, 0.03);
             }
             #recommend_box {

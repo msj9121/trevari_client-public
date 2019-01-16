@@ -4,9 +4,11 @@ import ReviewItem from "./ReviewItem";
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
+    
+    this._moreBtn_clickHandler = this._moreBtn_clickHandler.bind(this);
   }
 
-  _moreBtn_clickHandler = () => {
+  _moreBtn_clickHandler = function() {
     this.props._getMoreReviews();
   };
 
@@ -21,6 +23,8 @@ class Reviews extends React.Component {
               _deleteReview={this.props._deleteReview}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
+              _showReview={this.props._showReview}
+              openBtnName={this.props.openBtnName}
             />
           ))}
         </div>
@@ -36,20 +40,21 @@ class Reviews extends React.Component {
           .moreViewBtn_container {
             display: flex;
             justify-content: center;
+            margin: 0px 10px 10px 10px;
           }
           .moreViewBtn {
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 600;
             width: 100%;
             height: 30px;
-            padding: 5px;
-            margin-top: 10px;
-            color: whitesmoke;
-            border: orange solid 1px;
-            background-color: orange;
+            color: white;
+            border: none;
+            background-color: #ff8906;
+            cursor: pointer;
+            outline-style: none;
           }
           .moreViewBtn:hover {
-            cursor: pointer;
-            background-color: #ff7f00;
+            background-color: #e07300;
           }
           @media screen and (max-width: 800px) {
             .moreViewBtn {

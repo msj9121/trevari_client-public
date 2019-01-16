@@ -10,7 +10,7 @@ interface IBook {
   isbn: string;
 }
 
-interface Ibook {
+export interface Ibook {
   Book: IBook;
   user_id: Number;
   book_id: Number;

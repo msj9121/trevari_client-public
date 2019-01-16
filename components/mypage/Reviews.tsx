@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import ReviewItem from "./ReviewItem";
+import ReviewItem, { IReview } from "./ReviewItem";
 
 interface ReviewsProps {
-  currentReviews: string[];
+  currentReviews: IReview[];
   _deleteReview: Function;
   _getMoreReviews: Function;
   editedReview: string;
@@ -22,7 +22,7 @@ class Reviews extends Component<ReviewsProps> {
     return (
       <div id="reviews">
         <div id="reviews_container">
-          {this.props.currentReviews.map((review, id: number) => {
+          {this.props.currentReviews.map((review, id) => {
             <ReviewItem
               review={review}
               key={id}

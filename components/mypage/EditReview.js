@@ -8,31 +8,34 @@ class EditReview extends React.Component {
       rating: 1,
       ratingValue: 1
     };
+
+    this._onStarHover = this._onStarHover.bind(this);
+    this._onStarClick = this._onStarClick.bind(this);
+    this._submitBtn_ClickHandler = this._submitBtn_ClickHandler.bind(this);
   }
 
-  _onStarHover = (nextValue) => {
+  _onStarHover = function(nextValue, prevValue, name) {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = (nextValue) => {
+  _onStarClick = function(nextValue, preValue, name) {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _submitBtn_ClickHandler = () => {
+  _submitBtn_ClickHandler = function() {
     const review = this.props.review;
-    
+
     let userId = review.user_id;
     let bookId = review.book_id;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
     let editedReview;
-
     if (document.getElementsByClassName(bookId)[0].value === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
@@ -48,7 +51,7 @@ class EditReview extends React.Component {
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={event => this.props._closeEditModalBtn_clickHandler(event)}
+            onClick={this.props._closeEditModalBtn_clickHandler}
           >
             &times;
           </span>

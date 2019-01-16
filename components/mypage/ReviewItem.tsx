@@ -18,13 +18,14 @@ interface ReveiwItemState {
   openBtnName: String;
 }
 
-interface IReview {
+export interface IReview {
   Book: any;
   createdAt: string;
   user_id: Number;
   book_id: Number;
   score: Number;
   text: String;
+  id: Number;
 }
 
 interface IBook {

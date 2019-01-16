@@ -30,7 +30,7 @@ class UpdateUserData extends Component<UpdateUserDataProps, UpdateUserDataState>
 
   onUpdatePhoneSend = (e: MouseEvent<HTMLButtonElement>) => {
     e && e.preventDefault();
-    const numberElement = document.getElementById("newNumber");
+    const numberElement = document.getElementById("newNumber") as HTMLInputElement;
     const newNumber = numberElement.value;
     Number(newNumber)
       ? console.log("value", Number(newNumber))
@@ -71,8 +71,10 @@ class UpdateUserData extends Component<UpdateUserDataProps, UpdateUserDataState>
   }
 
   checkPasswordMatch = () => {
-    var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm").value;
+    var newPasswordE = document.getElementById("newPassword") as HTMLInputElement;
+    var newPassword = newPasswordE.value;
+    var newPasswordConfirmationE = document.getElementById("newPasswordConfirm") as HTMLInputElement;
+    var newPasswordConfirmation = newPasswordConfirmationE.value
 
     if (
       newPasswordConfirmation.length &&
@@ -89,11 +91,13 @@ class UpdateUserData extends Component<UpdateUserDataProps, UpdateUserDataState>
     }
   }
 
-  onUpdatePasswordSend = () => {
+  onUpdatePasswordSend = (e: MouseEvent<HTMLButtonElement>) => {
     e && e.preventDefault();
 
-    var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm").value;
+    var newPasswordE = document.getElementById("newPassword") as HTMLInputElement;
+    var newPassword = newPasswordE.value;
+    var newPasswordConfirmationE = document.getElementById("newPasswordConfirm") as HTMLInputElement;
+    var newPasswordConfirmation = newPasswordConfirmationE.value
 
     if (newPassword === newPasswordConfirmation) {
       console.log("sending");
