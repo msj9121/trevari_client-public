@@ -5,7 +5,6 @@ import { BACKEND_ENDPOINT } from "../../constant";
 class BookTitlebox extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.book.averageScore);
   }
 
   _renderStar = () => {
@@ -309,6 +308,7 @@ class BookTitlebox extends Component {
             font-size: 20px;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
+            border-radius: .15rem;
           }
           .book_titlebox_startReviewBtn:hover {
             background-color: #e07300;
@@ -320,6 +320,7 @@ class BookTitlebox extends Component {
             font-size: 20px;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
+            border-radius: .15rem;
           }
           .book_titlebox_endReviewBtn:hover {
             background-color: #1e5791;
@@ -332,6 +333,7 @@ class BookTitlebox extends Component {
             margin-top: 10px;
             margin-right: 15px;
             cursor: pointer;
+            border-radius: .15rem;
           }
           .book_titlebox_addBookmarkBtn:hover {
             background-color: #e07300;
@@ -344,6 +346,7 @@ class BookTitlebox extends Component {
             margin-top: 10px;
             margin-right: 15px;
             cursor: pointer;
+            border-radius: .15rem;
           }
           .book_titlebox_deleteBookmarkBtn:hover {
             background-color: #1e5791;

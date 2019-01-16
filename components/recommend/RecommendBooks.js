@@ -9,7 +9,7 @@ const RecommendBooks = props => {
         <Link
           href={{
             pathname: "/books",
-            query: { input: props.input }
+            query: { recommend: props.recommend, userId: props.ID }
           }}
         >
           <div className="recommend_books_allViewBtn">모두 보기 ></div>
