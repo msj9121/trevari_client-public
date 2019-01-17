@@ -111,21 +111,21 @@ class BookmarkItem extends React.Component {
           .deleteBtn:hover {
             background-color: #e07300;
           }
-          @media screen and (max-width: 800px) {
-            #bookmark_content {
-              width: 80px;
-              height: 130px;
-              position: relative;
-            }
-            .image_container {
-              width: 80px;
-              height: 130px;
-            }
-            .deleteBtn {
-              font-size: 12px;
-              height: 20px;
-              padding: 0px;
-            }
+          @media screen and (max-width: 600px) {
+            // #bookmark_content {
+            //   width: 80px;
+            //   height: 130px;
+            //   position: relative;
+            // }
+            // .image_container {
+            //   width: 80px;
+            //   height: 130px;
+            // }
+            // .deleteBtn {
+            //   font-size: 12px;
+            //   height: 20px;
+            //   padding: 0px;
+            // }
           }
         `}</style>
       </div>

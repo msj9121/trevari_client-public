@@ -279,6 +279,7 @@ class UpdateUserData extends React.Component {
             padding: 5px 20px;
             font-weight: 500;
             border: none;
+            border-radius: 0.15rem;
             text-align: center;
             color: white;
             margin: auto;

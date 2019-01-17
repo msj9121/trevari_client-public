@@ -31,15 +31,7 @@ class Books extends Component {
         };
       }
     } else {
-      const res = await axios.get(`${BACKEND_ENDPOINT}/books/search/title`, {
-        params: {
-          input: input,
-          offset: 0
-        }
-      });
-      const books = res.data;
       return {
-        books,
         input
       };
     }
@@ -51,69 +43,53 @@ class Books extends Component {
       books: this.props.books,
       input: this.props.input,
       offset: 0,
-      isLoaded: false
+      isLoaded: false,
+      isFinish: false,
+      booksSearch: false
     };
-    console.log("constructor", this.state.books)
   }
 
   componentDidMount() {
-    if (this.state.input && this.state.books.length !== 0) {
-      // this._initBooks();
+    if (this.state.input) {
+      this._initBooks();
       window.onscroll = this._onScrollGetData;
     }
-    console.log("did", this.state.books)
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log("shouldComponentUpdate--nextProps", nextProps.input);
-  //   console.log("shouldComponentUpdate--nextState", nextState.input);
-  //   console.log("shouldComponentUpdate--thisState", this.state.input);
-  //   console.log("shouldComponentUpdate--thisProps", this.props.input);
-  //   console.log("shouldComponentUpdate--nextProps", nextProps.books);
-  //   console.log("shouldComponentUpdate--nextState", nextState.books);
-  //   console.log("shouldComponentUpdate--thisProps", this.props.books);
-  //   if(nextProps.input !== this.state.input) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
+  _initBooks = () => {
+    axios
+      .get(`${BACKEND_ENDPOINT}/books/search/title`, {
+        params: {
+          input: this.state.input,
+          offset: this.state.offset
+        }
+      })
+      .then(res => {
+        console.log("getBooks :", res.data);
+        this.setState({
+          books: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-  //   if (nextProps.books !== this.state.books) {
-  //     this.setState({
-  //       books: nextProps.books
-  //     });
-  //     return false;
-  //   } else {
-  //     return false;
-  //   }
-
-  //   if (nextProps.input !== this.state.input) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
-  // _initBooks = () => {
-  //   axios
-  //     .get(`${BACKEND_ENDPOINT}/books/search/title`, {
-  //       params: {
-  //         input: this.state.input,
-  //         offset: this.state.offset
-  //       }
-  //     })
-  //     .then(res => {
-  //       console.log("getBooks :", res.data);
-  //       this.setState({
-  //         books: res.data
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
+  _changeInput = () => {
+    this.setState({
+      booksSearch: true
+    });
+  };
 
   _getBooks = async () => {
+    if(this.state.isFinish) {
+      return;
+    }
+
+    this.setState({
+      isLoaded: true
+    });
+
     console.log(this.state.offset, "offset");
     const changeOffset = this.state.offset + 30;
 
@@ -128,6 +104,7 @@ class Books extends Component {
 
     if (books.length === 0) {
       this.setState({
+        isFinish: true,
         isLoaded: false
       });
       console.log("데이터가 없습니다.");
@@ -135,7 +112,8 @@ class Books extends Component {
     } else {
       this.setState({
         books: this.state.books.concat(books),
-        offset: changeOffset
+        offset: changeOffset,
+        isLoaded: false
       });
       return;
     }
@@ -146,18 +124,17 @@ class Books extends Component {
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollHeight - scrollTop === clientHeight) {
-      this.setState({
-        isLoaded: true
-      });
       this._getBooks();
     }
   };
 
   render() {
-    console.log("render", this.state.books)
+    if(this.state.booksSearch) {
+      location.reload();
+    }
     return (
       <React.Fragment>
-        <Filter />
+        <Filter _changeInput={this._changeInput} />
         <div id="books">
           <div id="books_box">
             {this.state.books ? (
@@ -169,6 +146,7 @@ class Books extends Component {
             ) : (
               <Spinner />
             )}
+
             {this.state.isLoaded ? <Spinner /> : <div />}
           </div>
 
@@ -190,6 +168,8 @@ class Books extends Component {
             @media screen and (max-width: 600px) {
               #books_box {
                 width: 100%;
+
+                
               }
             }
           `}</style>

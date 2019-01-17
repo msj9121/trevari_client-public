@@ -66,7 +66,7 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log("ID", this.state.id)
+
     return (
       <Container>
         <div id="head">
@@ -97,6 +97,11 @@ export default class MyApp extends App {
             #pages {
               padding-top: 60px;
               width: 100%;
+            }
+            @media screen and (max-width: 600px) {
+              #pages {
+                padding-top: 65px;
+              }
             }
           `}</style>
         </div>

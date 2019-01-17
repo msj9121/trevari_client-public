@@ -22,7 +22,8 @@ class Index extends Component {
           </div>
         </div>
         <div id="index_box">
-          <img src="../static/index.png" />
+          <img className="index_web" src="../static/index.png" />
+          <img className="index_mobile" src="../static/index(mobile).png" />
         </div>
 
         <style jsx>{`
@@ -34,6 +35,9 @@ class Index extends Component {
             display: flex;
             justify-content: center;
             border: 1px solid #DDD;
+          }
+          .index_mobile {
+            display: none;
           }
           #banner {
             width: 100%;
@@ -98,6 +102,12 @@ class Index extends Component {
             }
             .banner-gradient_codestates {
               font-size: 40px;
+            }
+            .index_web {
+              display: none;
+            }
+            .index_mobile {
+              display: block;
             }
           }
         `}</style>
