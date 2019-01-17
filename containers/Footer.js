@@ -39,6 +39,7 @@ const Footer = () => (
       .footer-one {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         padding: 10px;
       }
       .footer-two {
@@ -83,6 +84,15 @@ const Footer = () => (
       @media screen and (max-width: 600px) {
         #footer_box {
           width: 100%;
+        }
+        .footer_button {
+          margin-top: 10px;
+        }
+        .footer-one {
+          padding-bottom: 0px;
+        }
+        .footer-two {
+          padding-top: 0px;
         }
       }
     `}</style>

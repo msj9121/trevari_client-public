@@ -7,7 +7,8 @@ const Spinner = () => {
       <style jsx>{`
         .spinner {
           margin: 50px auto 0;
-          width: 70px;
+          margin-bottom: 50px;
+          width: 100%;
           text-align: center;
         }
 

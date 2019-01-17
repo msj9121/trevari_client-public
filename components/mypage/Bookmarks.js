@@ -80,14 +80,14 @@ class Bookmarks extends React.Component {
             cursor: pointer;
             background-color: #e07300;
           }
-          .spinner {
-            height: 100px;
-          }
-          @media screen and (max-width: 800px) {
-            .viewMoreBtn {
-              font-size: 12px;
-              height: 20px;
-              padding: 0px;
+          @media screen and (max-width: 600px) {
+            // .viewMoreBtn {
+            //   font-size: 12px;
+            //   height: 20px;
+            //   padding: 0px;
+            // }
+            .image_container {
+              width: 100%;
             }
           }
         `}</style>

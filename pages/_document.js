@@ -3,6 +3,7 @@ import Document, { Head, Main, NextScript } from "next/document";
 const bodyStyle = {
   "margin": "0 auto",
   // width: '1600px'
+  
 };
 
 class CustomDocument extends Document {
@@ -10,8 +11,9 @@ class CustomDocument extends Document {
     return (
       <html>
         <Head>
-          {/* <title>트레바리 - 읽고, 쓰고, 대화하고, 친해져요</title> */}
+          <title>트레바리 - 읽고, 쓰고, 대화하고, 친해져요</title>
           <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
         <body style={bodyStyle}>
           <Main />

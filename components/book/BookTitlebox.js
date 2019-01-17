@@ -203,6 +203,17 @@ class BookTitlebox extends Component {
     }
   };
 
+  _getDate = () => {
+    const bareDate = JSON.stringify(this.props.book.publishedAt);
+
+    let year = bareDate.slice(0, 4);
+    let month = bareDate.slice(4, 6);
+    let day = bareDate.slice(6, 8);
+    let newDate = `${year}-${month}-${day}.`;
+
+    return newDate;
+  };
+
   render() {
     const Author = this.props.book.author.replace(/<[^>]*>/g, "");
     const Description = this.props.book.description.replace(/<[^>]*>/g, "");
@@ -215,14 +226,14 @@ class BookTitlebox extends Component {
           <div className="book_titlebox_titleName">{this.props.book.title}</div>
           <div className="book_titlebox_author">저자 : {Author}</div>
           <div className="book_titlebox_author">
-            {this.props.book.publishedAt}
+            {this._getDate()}
           </div>
           <div className="book_titlebox_isbn">
             ISBN : {this.props.book.isbn}
           </div>
           <div className="book_titlebox_description">{Description}</div>
           <div className="book_titlebox_review">
-            평점 : {this._renderStar()} {this.props.book.averageScore}(
+            평점 : {this._renderStar()} {Number(this.props.book.averageScore).toFixed(1)}(
             {this.props.bookReviewLength}명)
           </div>
           {this.props.ID && this.props._filterBookmarkId() ? (
@@ -306,6 +317,7 @@ class BookTitlebox extends Component {
             background-color: #ff8906;
             color: white;
             font-size: 20px;
+            font-weight: 500;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
             border-radius: .15rem;
@@ -318,6 +330,7 @@ class BookTitlebox extends Component {
             color: white;
             background-color: #246db7;
             font-size: 20px;
+            font-weight: 500;
             padding: 5px 25px 5px 25px;
             cursor: pointer;
             border-radius: .15rem;
@@ -329,6 +342,7 @@ class BookTitlebox extends Component {
             background-color: #ff8906;
             color: white;
             font-size: 20px;
+            font-weight: 500;
             padding: 5px 15px 5px 15px;
             margin-top: 10px;
             margin-right: 15px;
@@ -342,6 +356,7 @@ class BookTitlebox extends Component {
             background-color: #246db7;
             color: white;
             font-size: 20px;
+            font-weight: 500;
             padding: 5px 15px 5px 15px;
             margin-top: 10px;
             margin-right: 15px;
@@ -387,20 +402,25 @@ class BookTitlebox extends Component {
               display: none;
             }
             .book_titlebox_startReviewBtn {
-              font-size: 12px;
+              font-size: 13px;
+              font-weight: 700;
               padding: 5px 15px 5px 15px;
             }
             .book_titlebox_endReviewBtn {
-              font-size: 12px;
+              font-size: 13px;
+              font-weight: 700;
               padding: 5px 15px 5px 15px;
             }
             .book_titlebox_addBookmarkBtn {
-              font-size: 12px;
+              font-size: 13px;
+              font-weight: 700;
               margin-right: 5px;
               padding: 5px 12px 5px 12px;
             }
             .book_titlebox_deleteBookmarkBtn {
-              font-size: 12px;
+              font-size: 13px;
+              font-weight: 700;
+              margin-right: 5px;
               padding: 5px 12px 5px 12px;
             }
           }

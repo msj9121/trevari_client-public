@@ -27,6 +27,7 @@ class Filter extends Component {
   //   }
   // };
 
+
   render() {
     return (
       <div id="filter">
@@ -44,7 +45,7 @@ class Filter extends Component {
               X
             </div>
             <Link href={`/books?input=${this.state.bookTitle}`}>
-              <div className="filter_search">검색</div>
+              <div className="filter_search" onClick={this.props._changeInput}>검색</div>
             </Link>
           </div>
         </div>

@@ -194,6 +194,25 @@ class BookReview extends Component {
       });
   };
 
+  _getEmail = () => {
+    const bareEmail = JSON.stringify(this.props.email);
+    const email = bareEmail.slice(1, 5) + "***"
+    return email;
+  }
+
+  _getDate = () => {
+    const bareDate = JSON.stringify(this.props.createdAt);
+
+    let year = bareDate.slice(1, 5);
+    let month = bareDate.slice(6, 8);
+    let day = bareDate.slice(9, 11);
+    let time = bareDate.slice(12, 14);
+    let minute = bareDate.slice(15, 17);
+    let newDate = `${year}-${month}-${day}. ${time}: ${minute}`;
+
+    return newDate;
+  };
+
   render() {
     console.log("BookReview--ID", typeof this.props.ID);
     console.log("BookReview--user_id", typeof this.props.user_id);
@@ -242,7 +261,9 @@ class BookReview extends Component {
 
           <div className="bookReview_textbox_userEmailbox">
             <div className="bookReview_textbox_userEmail">
-              {this.props.email} | {this.props.createdAt}
+              {this._getEmail()}
+              <span id="a">|</span> 
+              {this._getDate()}
             </div>
 
             {this.props.ID === this.props.user_id &&
@@ -291,6 +312,10 @@ class BookReview extends Component {
           #bookReview {
             display: flex;
             margin-bottom: 30px;
+          }
+          #a {
+            margin-left: 5px;
+            margin-right: 5px;
           }
           .bookReview_scorebox {
           }
@@ -344,6 +369,8 @@ class BookReview extends Component {
             border-radius: 2px;
             text-align: center;
             cursor: pointer;
+            width: 30px;
+            height: 20px;
           }
           .bookReview_textbox_edit {
             font-size: 13px;
@@ -356,6 +383,8 @@ class BookReview extends Component {
             padding: 0px 2px 0px 2px;
             border-radius: 2px;
             cursor: pointer;
+            width: 35px;
+            height: 20px;
           }
           .bookReview_textbox_delete {
             font-size: 13px;
@@ -377,6 +406,8 @@ class BookReview extends Component {
             text-align: center;
             cursor: pointer;
             background-color: #ff8906;
+            width: 30px;
+            height: 20px;
           }
           .bookReview_textbox_post {
             font-size: 13px;
@@ -390,6 +421,8 @@ class BookReview extends Component {
             text-align: center;
             cursor: pointer;
             background-color: #ff8906;
+            width: 30px;
+            height: 20px;
           }
           .bookReview_textbox_cancel {
             font-size: 13px;
@@ -399,6 +432,12 @@ class BookReview extends Component {
           @media screen and (max-width: 600px) {
             #bookReview {
               flex-direction: column;
+            }
+            .bookReview_textbox_postbox {
+              padding: 0px 3px 0px 3px;
+            }
+            .bookReview_textbox_cancelbox {
+              padding: 0px 3px 0px 3px;
             }
           }
         `}</style>

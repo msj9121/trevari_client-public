@@ -119,6 +119,11 @@ class BookReviewInput extends Component {
             padding: 10px 30px 10px 30px;
             cursor: pointer;
           }
+          @media screen and (max-width: 600px) {
+            textarea {
+              height: 200px;
+            }
+          }
         `}</style>
       </div>
     );
