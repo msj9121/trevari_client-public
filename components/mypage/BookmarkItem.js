@@ -45,23 +45,21 @@ class BookmarkItem extends React.Component {
 
   render() {
     const book = this.props.book;
-    // const ID = Number(this.props.id)
-    console.log(this.props.book.Book.id)
+    const ID = Number(this.props.id);
 
     return (
       <div id="bookmark_content">
         <div>
-          <Link 
-            as={`/book/${book.Book.id}`} 
-            href={`/book?id=${book.Book.id}`}
-            // href={{
-            //   pathname: "/book",
-            //   query: { 
-            //     id: book.Book.id, 
-            //     ID: ID 
-            //   }
-            // }}
-            >
+          <Link
+            as={`/book/${book.Book.id}`}
+            href={{
+              pathname: "/book",
+              query: {
+                id: book.Book.id,
+                ID: ID
+              }
+            }}
+          >
             <div className="image_box">
               <img
                 className="image"

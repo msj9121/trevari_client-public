@@ -1,5 +1,6 @@
 import React from "react";
 import BookmarkItem from "./BookmarkItem";
+import Spinner from "../books/Spinner";
 
 class Bookmarks extends React.Component {
   constructor(props) {
@@ -15,21 +16,20 @@ class Bookmarks extends React.Component {
   }
 
   handleScroll = () => {
-    const { innerHeight } = window;
-    const { scrollHeight } = document.body;
-    
-    const scrollTop =
-      (document.documentElement && document.documentElement.scrollTop) ||
-      document.body.scrollTop;
-    
-    if (scrollHeight - innerHeight - scrollTop < 1) {
+    let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    let scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
       this.props._getMoreBookmarks();
     }
   };
-
-  // _viewMoreBtn_clickHandler = () => {
-  //   this.props._getMoreBookmarks();
-  // };
 
   render() {
     const books = this.props.books;
@@ -46,15 +46,10 @@ class Bookmarks extends React.Component {
             />
           ))}
         </div>
-        {/* <div>
-          <button
-            className="viewMoreBtn"
-            onClick={this._viewMoreBtn_clickHandler}
-            // onClick={this.forTestAddManyBookmarks}
-          >
-            더보기
-          </button>
-        </div> */}
+        <div className="spinner">
+          {this.props.loading ? <Spinner /> : <div />}
+        </div>
+
         <style jsx>{`
           .allContainer {
             background-color: white;
@@ -84,6 +79,9 @@ class Bookmarks extends React.Component {
           .viewMoreBtn:hover {
             cursor: pointer;
             background-color: #e07300;
+          }
+          .spinner {
+            height: 100px;
           }
           @media screen and (max-width: 800px) {
             .viewMoreBtn {

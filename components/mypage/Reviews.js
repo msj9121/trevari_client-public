@@ -1,5 +1,6 @@
 import React from "react";
 import ReviewItem from "./ReviewItem";
+import Spinner from "../books/Spinner";
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -15,20 +16,14 @@ class Reviews extends React.Component {
   }
 
   handleScroll = () => {
-    const { innerHeight } = window;
-    const { scrollHeight } = document.body;
-    // IE에서는 document.documentElement 를 사용.
-    const scrollTop =
-      (document.documentElement && document.documentElement.scrollTop) ||
-      document.body.scrollTop;
-    // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
-    if (scrollHeight - innerHeight - scrollTop < 1) {
-      
-      
-      this.props._getMoreReviews()
-      console.log("Almost Bottom Of This Browser");
+    let scrollHeight = document.documentElement.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      this.props._getMoreReviews();
     }
-  }
+  };
 
   _moreBtn_clickHandler = () => {
     this.props._getMoreReviews();
@@ -45,13 +40,12 @@ class Reviews extends React.Component {
               _deleteReview={this.props._deleteReview}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
+              id={this.props.id}
             />
           ))}
         </div>
-        <div className="moreViewBtn_container">
-          <button className="moreViewBtn" onClick={this._moreBtn_clickHandler}>
-            더보기
-          </button>
+        <div className="spinner">
+          {this.props.loading === true ? <Spinner /> : <div />}
         </div>
         <style jsx>{`
           #reviews_container {
@@ -75,6 +69,9 @@ class Reviews extends React.Component {
           }
           .moreViewBtn:hover {
             background-color: #e07300;
+          }
+          .spinner {
+            height: 100px;
           }
           @media screen and (max-width: 800px) {
             .moreViewBtn {

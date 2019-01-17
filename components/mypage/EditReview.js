@@ -33,7 +33,7 @@ class EditReview extends React.Component {
     let rating = this.state.ratingValue;
     let editedReviewE = document.getElementsByClassName(bookId)[0];
     let editedReview;
-    
+
     if (editedReviewE.value === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
@@ -55,10 +55,7 @@ class EditReview extends React.Component {
           >
             &times;
           </span>
-          <textarea
-            className={review.book_id}
-            defaultValue={review.text}
-          />
+          <textarea className={review.book_id} defaultValue={review.text} />
           <div id="reviewScore">
             <div className="reviewScore_text">별점을 선택해주세요.</div>
             <div className="reviewScore_scorebox">
@@ -83,6 +80,7 @@ class EditReview extends React.Component {
             </button>
           </div>
         </div>
+
         <style jsx>{`
           .modal {
             display: ${this.props.editModalStatus};

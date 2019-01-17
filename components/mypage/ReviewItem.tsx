@@ -3,9 +3,10 @@ import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 import EditReview from "./EditReview";
+import { IReviews } from "../../pages/Mypage";
 
 interface ReviewItemProps {
-  review: IReview;
+  review: IReviews;
   key: Number;
   _deleteReview: Function;
   editedReview: String;
@@ -26,10 +27,6 @@ export interface IReview {
   score: Number;
   text: String;
   id: Number;
-}
-
-interface IBook {
-  image: string;
 }
 
 class ReviewItem extends Component<ReviewItemProps, ReveiwItemState> {
@@ -55,10 +52,10 @@ class ReviewItem extends Component<ReviewItemProps, ReveiwItemState> {
   };
 
   _getBookImage = () => {
-    const Book: IBook = this.props.review.Book;
+    const Book = this.props.review.Book;
     const bareImage = Book.image;
     const targetIndex = bareImage.indexOf("?");
-    let bookImageURL: string;
+    let bookImageURL;
 
     if (targetIndex === -1) {
       bookImageURL = bareImage;

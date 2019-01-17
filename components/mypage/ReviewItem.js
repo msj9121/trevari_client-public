@@ -375,20 +375,24 @@ class ReviewItem extends React.Component {
 
   render() {
     const review = this.props.review;
-
+    const ID = Number(this.props.id)
+    
     return (
       <div id="reviewCard">
         <div className="reviewCard_box">
           <div id="outer_content">
             <Link
               as={`/book/${review.book_id}`}
-              href={`/book?id=${review.book_id}`}
+              href={{
+                pathname: "/book",
+                query: {
+                  id: review.book_id,
+                  ID: ID
+                }
+              }}
             >
               <div className="image_container">
-                <img
-                  src={this._getBookImage()}
-                  className="oneImage"
-                />
+                <img src={this._getBookImage()} className="oneImage" />
               </div>
             </Link>
             <div>

@@ -14,7 +14,7 @@ class Mypage extends React.Component {
         offset: 0
       }
     });
-    
+
     return {
       reviews: reviews.data,
       reviewsLength: reviews.data.length
@@ -32,6 +32,8 @@ class Mypage extends React.Component {
       tabName: "내가 평가한 책",
       userDataModal: false,
       editedReview: "",
+      loading: false,
+      isFinish: false
     };
   }
 
@@ -41,32 +43,24 @@ class Mypage extends React.Component {
         id: localStorage.getItem("user")
       });
     }
-
-    // window.addEventListener("scroll", this.handleScroll);
   }
 
-  // componentWillUnmount() {
-  //   window.removeEventListener("scroll", this.handleScroll);
-  // }
-
-  // handleScroll = () => {
-  //   const { innerHeight } = window;
-  //   const { scrollHeight } = document.body;
-  //   // IE에서는 document.documentElement 를 사용.
-  //   const scrollTop =
-  //     (document.documentElement && document.documentElement.scrollTop) ||
-  //     document.body.scrollTop;
-  //   // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
-  //   if (scrollHeight - innerHeight - scrollTop < 10) {
-      
-      
-  //     this._getMoreReviews()
-  //     console.log("Almost Bottom Of This Browser");
-  //   }
-  // }
+  _changeLoadingState = () => {
+    this.setState({
+      loading: false
+    });
+  };
 
   _getBookmarks = () => {
     const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    this.setState({
+      loading: true
+    });
 
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
@@ -78,7 +72,8 @@ class Mypage extends React.Component {
       .then(res => {
         this.setState({
           books: res.data,
-          booksLength: res.data.length
+          booksLength: res.data.length,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -88,7 +83,8 @@ class Mypage extends React.Component {
     let tabName = event.currentTarget.textContent;
 
     this.setState({
-      tabName: tabName
+      tabName: tabName,
+      isFinish: false
     });
   };
 
@@ -114,7 +110,19 @@ class Mypage extends React.Component {
   };
 
   _getMoreReviews = () => {
-    const userId = this.state.id
+    const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    if (this.state.isFinish) {
+      return;
+    }
+
+    this.setState({
+      loading: true
+    });
 
     axios
       .get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
@@ -124,15 +132,34 @@ class Mypage extends React.Component {
         }
       })
       .then(res => {
+        if (res.data.length === 0) {
+          this.setState({
+            isFinish: true
+          });
+        }
         this.setState({
+          // isFinish: res.data? true : false,
           reviews: this.state.reviews.concat(res.data),
-          reviewsLength: this.state.reviewsLength + res.data.length
+          reviewsLength: this.state.reviewsLength + res.data.length,
+          loading: false
         });
       });
   };
-  
+
   _getMoreBookmarks = () => {
     const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    if (this.state.isFinish) {
+      return;
+    }
+
+    this.setState({
+      loading: true
+    });
 
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
@@ -142,9 +169,16 @@ class Mypage extends React.Component {
         }
       })
       .then(res => {
+        if (res.data.length === 0) {
+          this.setState({
+            isFinish: true
+          });
+        }
         this.setState({
+          // isFinish: res.data? true : false,
           books: this.state.books.concat(res.data),
-          booksLength: this.state.booksLength + res.data.length
+          booksLength: this.state.booksLength + res.data.length,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -187,6 +221,7 @@ class Mypage extends React.Component {
   };
 
   render() {
+
     return (
       <div id="mypage">
         <link
@@ -236,6 +271,9 @@ class Mypage extends React.Component {
               _getMoreReviews={this._getMoreReviews}
               editedReview={this.state.editedReview}
               _editReview={this._editReview}
+              loading={this.state.loading}
+              _changeLoadingState={this._changeLoadingState}
+              id={this.state.id}
             />
           ) : (
             <Bookmarks
@@ -243,6 +281,8 @@ class Mypage extends React.Component {
               _deleteBookmark={this._deleteBookmark}
               _getMoreBookmarks={this._getMoreBookmarks}
               id={this.state.id}
+              loading={this.state.loading}
+              _changeLoadingState={this._changeLoadingState}
             />
           )}
         </div>

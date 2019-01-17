@@ -1,5 +1,4 @@
 import React from "react";
-// const server = "3.16.58.104:5000";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
@@ -13,12 +12,12 @@ class UpdateUserData extends React.Component {
     };
   }
 
-  onUpdatePhoneSend = (e) => {
+  onUpdatePhoneSend = e => {
     e && e.preventDefault();
-    
-    const numberElement = document.getElementById("newNumber") 
+
+    const numberElement = document.getElementById("newNumber");
     const newNumber = numberElement.value;
-    const userId = this.props.userId
+    const userId = this.props.userId;
 
     Number(newNumber)
       ? console.log("value", Number(newNumber))
@@ -28,7 +27,7 @@ class UpdateUserData extends React.Component {
       axios
         .put(`${BACKEND_ENDPOINT}/users/phone-number`, {
           userId: userId,
-          phoneNumber: newNumber
+          phoneNumber: Number(newNumber)
         })
         .then(response => {
           console.log("response", response);
@@ -37,7 +36,7 @@ class UpdateUserData extends React.Component {
               updatePhoneSuccess: true
             });
             setTimeout(() => {
-              this.props.onclose;
+              this.props._showUserDataModal;
             }, 2000);
           } else {
             this.setState({
@@ -55,7 +54,7 @@ class UpdateUserData extends React.Component {
         updatePhoneSuccess: false
       });
     }
-  }
+  };
 
   checkPasswordMatch = () => {
     var newPassword = document.getElementById("newPassword").value;
@@ -75,20 +74,16 @@ class UpdateUserData extends React.Component {
         passwordUnmatch: false
       });
     }
-  }
+  };
 
-  onUpdatePasswordSend = (e) => {
+  onUpdatePasswordSend = e => {
     e && e.preventDefault();
 
     var newPassword = document.getElementById("newPassword").value;
     var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
       .value;
 
-    console.log(`newPassword: ${newPassword}, type: ${typeof newPassword}`)
-    console.log(`userId: ${this.props.userId}, type: ${typeof this.props.userId}`)
-
     if (newPassword === newPasswordConfirmation) {
-      console.log("sending");
       axios
         .put(`${BACKEND_ENDPOINT}/users/password`, {
           userId: this.props.userId,
@@ -112,10 +107,9 @@ class UpdateUserData extends React.Component {
           });
         });
     }
-  }
+  };
 
   render() {
-
     return (
       <div className={"modal"} id={"userSettingsModal"}>
         <div className={"userSettingsModalHeader"}>
@@ -147,7 +141,7 @@ class UpdateUserData extends React.Component {
                   this.state.updatePhoneSuccess === true ? "block" : "none"
               }}
             >
-              Your phone number has been updated succesfully
+              휴대폰 번호가 성공적으로 변경 되었습니다.
             </p>
             <p
               className={"updateWarning"}
@@ -157,11 +151,14 @@ class UpdateUserData extends React.Component {
                   this.state.updatePhoneSuccess === false ? "block" : "none"
               }}
             >
-              Your phone number could not be updated. Please introduce a valid
-              number.
+              휴대폰 번호가 변경 되지 않았습니다. 올바른 휴대폰 번호를
+              입력해주세요.
             </p>
-            <button id={"updatePhoneSend"} onClick={e => this.onUpdatePhoneSend(e)}>
-              Update
+            <button
+              id={"updatePhoneSend"}
+              onClick={e => this.onUpdatePhoneSend(e)}
+            >
+              변경
             </button>
           </form>
         </div>
@@ -190,7 +187,7 @@ class UpdateUserData extends React.Component {
                 display: this.state.passwordUnmatch === true ? "block" : "none"
               }}
             >
-              Your passwords do not match
+              비밀번호가 일치하지 않습니다.
             </p>
             <p
               className={"updateWarning"}
@@ -200,7 +197,7 @@ class UpdateUserData extends React.Component {
                   this.state.updatePasswordSuccess === true ? "block" : "none"
               }}
             >
-              Your password has been updated succesfully
+              비밀번호가 성공적으로 변경되었습니다.
             </p>
             <p
               className={"updateWarning"}
@@ -210,8 +207,7 @@ class UpdateUserData extends React.Component {
                   this.state.updatePasswordSuccess === false ? "block" : "none"
               }}
             >
-              Your password could not be updated. You password must be different
-              from your current one..
+              기존의 비밀번호와 동일합니다. 다른 비밀번호를 입력해주세요.
             </p>
             <button
               id={"updatePasswordSend"}
@@ -240,15 +236,15 @@ class UpdateUserData extends React.Component {
           }
           #newNumber {
             padding: 10px;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
           }
           #newPassword {
             padding: 10px;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
           }
           #newPasswordConfirm {
             padding: 10px;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
           }
           .userSettingsOpt {
             text-align: left;
@@ -306,7 +302,7 @@ class UpdateUserData extends React.Component {
           hr {
             border-color: grey;
             border: none;
-            border-top: 1px solid #DDD;
+            border-top: 1px solid #ddd;
           }
           .updateWarning {
             font-weight: bold;
