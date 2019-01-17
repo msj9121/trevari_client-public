@@ -1,11 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 import EditReview from "./EditReview";
+import { IReviews } from "../../pages/Mypage";
 
-class ReviewItem extends React.Component {
-  constructor(props) {
+interface ReviewItemProps {
+  review: IReviews;
+  key: Number;
+  _deleteReview: Function;
+  editedReview: String;
+  _editReview: Function;
+}
+
+interface ReveiwItemState {
+  editModalStatus: String;
+  hiddenReviewStatus: String;
+  openBtnName: String;
+}
+
+export interface IReview {
+  Book: any;
+  createdAt: string;
+  user_id: Number;
+  book_id: Number;
+  score: Number;
+  text: String;
+  id: Number;
+}
+
+class ReviewItem extends Component<ReviewItemProps, ReveiwItemState> {
+  constructor(props: ReviewItemProps) {
     super(props);
     this.state = {
       editModalStatus: "none",
@@ -43,12 +68,12 @@ class ReviewItem extends React.Component {
   _getDate = () => {
     const bareDate = this.props.review.createdAt;
 
-    let year = bareDate.slice(1, 5);
-    let month = bareDate.slice(6, 8);
-    let day = bareDate.slice(9, 11);
-    let time = bareDate.slice(12, 14);
-    let minute = bareDate.slice(15, 17);
-    let newDate = `${year}-${month}-${day}. ${time}:${minute}`;
+    let year = bareDate.slice(0, 4);
+    let month = bareDate.slice(5, 7);
+    let day = bareDate.slice(8, 10);
+    let time = bareDate.slice(11, 13);
+    let minute = bareDate.slice(14, 16);
+    let newDate = `${year}년 ${month}월 ${day}일  ${time}시 ${minute}분`;
 
     return newDate;
   };
@@ -375,21 +400,14 @@ class ReviewItem extends React.Component {
 
   render() {
     const review = this.props.review;
-    const ID = Number(this.props.id)
-    
+
     return (
       <div id="reviewCard">
         <div className="reviewCard_box">
           <div id="outer_content">
             <Link
               as={`/book/${review.book_id}`}
-              href={{
-                pathname: "/book",
-                query: {
-                  id: review.book_id,
-                  ID: ID
-                }
-              }}
+              href={`/book?id=${review.book_id}`}
             >
               <div className="image_container">
                 <img src={this._getBookImage()} className="oneImage" />
@@ -411,7 +429,7 @@ class ReviewItem extends React.Component {
                 {review.Book.title}
               </div>
               <div className="date" type="text">
-                {this._getDate()}
+                작성시간 : {this._getDate()}
               </div>
             </div>
             <div className="reviewText_box" type="text">
@@ -573,8 +591,9 @@ class ReviewItem extends React.Component {
             
           }
           .reviewText {
-            padding-bottom: 20px;
+            margin-bottom: 20px;
             height: 70px;
+            
           }
           .bottom {
             display: flex;
@@ -596,9 +615,6 @@ class ReviewItem extends React.Component {
             .top {
               
             }
-            .name {
-              font-size: 15px;
-            }
             .reviewText {
               display: none;
             }
@@ -606,24 +622,10 @@ class ReviewItem extends React.Component {
               display: block;
             }
             .myRate {
-              font-size: 12px;
+              font-size: 14px;
             }
             .averageRate {
-              font-size: 12px;
-            }
-            #outer_content {
-              height: 180px;
-            }
-            .image_container {
-              width: 130px;
-              height: 180px;
-            }
-            #innerContent {
-              margin: 0px 0px 0px 15px;
-            }
-            .reviewCard_box {
-              padding-bottom: 20px;
-              border-bottom: 1px solid #DDD;
+              font-size: 14px;
             }
             // #reviewCard {
             //   display: flex;

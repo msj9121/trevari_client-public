@@ -1,38 +1,27 @@
-import React from "react";
-import BookmarkItem from "./BookmarkItem";
-import Spinner from "../books/Spinner";
+import React, { Component } from "react";
+import BookmarkItem, { Ibook } from "./BookmarkItem";
+import IBooks from "../../pages/Mypage";
 
-class Bookmarks extends React.Component {
-  constructor(props) {
+interface BookmarksProps {
+  books: IBooks
+  _deleteBookmark: Function
+  _getMoreBookmarks: Function
+  id: Number
+  loading={this.state.loading}
+  _changeLoadingState={this._changeLoadingState}
+}
+
+class Bookmarks extends Component<BookmarksProps> {
+  constructor(props: BookmarksProps) {
     super(props);
   }
 
-  componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  }
-
-  handleScroll = () => {
-    let scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    let scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-    let clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      this.props._getMoreBookmarks();
-    }
+  _viewMoreBtn_clickHandler = () => {
+    this.props._getMoreBookmarks();
   };
 
   render() {
-    const books = this.props.books;
+    const books = this.props.currentBookmarks;
 
     return (
       <div className="allContainer">
@@ -42,14 +31,17 @@ class Bookmarks extends React.Component {
               book={book}
               key={id}
               _deleteBookmark={this.props._deleteBookmark}
-              id={this.props.id}
             />
           ))}
         </div>
-        <div className="spinner">
-          {this.props.loading ? <Spinner /> : <div />}
+        <div>
+          <button
+            className="viewMoreBtn"
+            onClick={this._viewMoreBtn_clickHandler}
+          >
+            더보기
+          </button>
         </div>
-
         <style jsx>{`
           .allContainer {
             background-color: white;
@@ -80,14 +72,11 @@ class Bookmarks extends React.Component {
             cursor: pointer;
             background-color: #e07300;
           }
-          @media screen and (max-width: 600px) {
-            // .viewMoreBtn {
-            //   font-size: 12px;
-            //   height: 20px;
-            //   padding: 0px;
-            // }
-            .image_container {
-              width: 100%;
+          @media screen and (max-width: 800px) {
+            .viewMoreBtn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
             }
           }
         `}</style>

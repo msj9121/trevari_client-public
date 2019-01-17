@@ -1,9 +1,20 @@
-import React from "react";
-import ReviewItem from "./ReviewItem";
+import React, { Component } from "react";
+import ReviewItem, { IReview } from "./ReviewItem";
 import Spinner from "../books/Spinner";
+import { IReviews } from "../../pages/Mypage";
 
-class Reviews extends React.Component {
-  constructor(props) {
+interface ReviewsProps {
+  reviews: IReviews
+  _deleteReview: Function
+  _getMoreReviews: Function
+  editedReview: String
+  _editReview: Function
+  loading: Boolean
+  _changeLoadingState: Function
+}
+
+class Reviews extends Component<ReviewsProps> {
+  constructor(props: ReviewsProps) {
     super(props);
   }
 
@@ -33,16 +44,15 @@ class Reviews extends React.Component {
     return (
       <div id="reviews">
         <div id="reviews_container">
-          {this.props.reviews.map((review, id) => (
+          {this.props.reviews.map((review: IReviews, id: any) => {
             <ReviewItem
               review={review}
               key={id}
               _deleteReview={this.props._deleteReview}
               editedReview={this.props.editedReview}
               _editReview={this.props._editReview}
-              id={this.props.id}
-            />
-          ))}
+            />;
+          })}
         </div>
         <div className="spinner">
           {this.props.loading === true ? <Spinner /> : <div />}

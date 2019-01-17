@@ -1,11 +1,81 @@
+import React, { Component, MouseEvent } from "react";
 import axios from "axios";
-import UpdateUserData from "../components/mypage/UpdateUserData";
 import { BACKEND_ENDPOINT } from "../constant";
+import UpdateUserData from "../components/mypage/UpdateUserData";
 import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
 
-class Mypage extends React.Component {
-  static async getInitialProps(context) {
+interface MypageProps {
+  ID: string;
+  reviews: IReviews[];
+  reviewsLength: Number;
+}
+
+interface MypageState {
+  id: string | null;
+  reviews: IReviews[];
+  reviewsLength: Number;
+  books: IBooks | string[];
+  booksLength: Number;
+  tabName: string | null;
+  userDataModal: Boolean;
+  editedReview: string;
+  loading: Boolean;
+  isFinish: Boolean;
+}
+
+export interface IReviews {
+  Book: IBook;
+  data: string;
+  book_id: Number | string;
+  createdAt: String;
+  id: Number;
+  score: number;
+  text: string;
+  user_id: Number;
+  [key: string]: any;
+}
+
+export interface IBooks {
+  Book: IBook;
+  book_id: Number;
+  id: Number;
+  user_id: Number;
+}
+
+interface IBook {
+  author: String;
+  averageScore: Number;
+  bookmarkCount: Number;
+  description: String;
+  id: Number;
+  image: String;
+  isbn: String;
+  publishedAt: Number;
+  publisher: String;
+  title: String;
+}
+
+interface IContext {
+  query: IQuery;
+}
+
+interface IQuery {
+  userId: string;
+}
+
+interface IEvent {
+  target: HTMLButtonElement;
+}
+
+interface Itarget {
+  textContent: string;
+}
+
+class Mypage extends Component<MypageProps, MypageState> {
+  state: MypageState;
+
+  static async getInitialProps(context: IContext) {
     const { userId } = context.query;
 
     const reviews = await axios.get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
@@ -21,7 +91,7 @@ class Mypage extends React.Component {
     };
   }
 
-  constructor(props) {
+  constructor(props: MypageProps) {
     super(props);
     this.state = {
       id: this.props.ID,
@@ -79,7 +149,7 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  _changeTabName = event => {
+  _changeTabName = (event: MouseEvent<HTMLButtonElement>) => {
     let tabName = event.currentTarget.textContent;
 
     this.setState({
@@ -88,7 +158,7 @@ class Mypage extends React.Component {
     });
   };
 
-  _deleteReview = review => {
+  _deleteReview = (review: IReviews) => {
     const reviews = this.state.reviews;
     const targetIndex2 = reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
@@ -99,9 +169,10 @@ class Mypage extends React.Component {
     });
   };
 
-  _deleteBookmark = book => {
-    const targetIndex2 = this.state.books.indexOf(book);
-    const copiedBooks = this.state.books.slice();
+  _deleteBookmark = (book: string) => {
+    const books = this.state.books as string[];
+    const targetIndex2 = books.indexOf(book);
+    const copiedBooks = books.slice();
     copiedBooks.splice(targetIndex2, 1);
 
     this.setState({
@@ -174,9 +245,11 @@ class Mypage extends React.Component {
             isFinish: true
           });
         }
+
+        const books = this.state.books as string[];
+
         this.setState({
-          // isFinish: res.data? true : false,
-          books: this.state.books.concat(res.data),
+          books: books.concat(res.data),
           booksLength: this.state.booksLength + res.data.length,
           loading: false
         });
@@ -190,8 +263,14 @@ class Mypage extends React.Component {
     });
   };
 
-  _editReview = (editedReview, userId, bookId, reviewId, rating) => {
-    let newReviews = this.state.reviews;
+  _editReview = (
+    editedReview: string,
+    userId: number,
+    bookId: number,
+    reviewId: number,
+    rating: number
+  ) => {
+    let newReviews = this.state.reviews as IReviews[];
 
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
@@ -210,7 +289,7 @@ class Mypage extends React.Component {
       .then(res => {
         if (res.data) {
           this.setState({
-            review: newReviews
+            reviews: newReviews
           });
           console.log(
             `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
@@ -221,7 +300,6 @@ class Mypage extends React.Component {
   };
 
   render() {
-
     return (
       <div id="mypage">
         <link
@@ -273,7 +351,6 @@ class Mypage extends React.Component {
               _editReview={this._editReview}
               loading={this.state.loading}
               _changeLoadingState={this._changeLoadingState}
-              id={this.state.id}
             />
           ) : (
             <Bookmarks
@@ -287,88 +364,106 @@ class Mypage extends React.Component {
           )}
         </div>
         <style jsx>{`
-            #mypage {
-              background: rgba(0, 0, 0, 0.03);
-            }
-            #userSettingsButton {
-              font-size: 25px;
-              color: #ff8906;
-              background-color: white;
-              border: none;
-              outline-style: none;
-              cursor: pointer;
-              margin-right: 10px;
-            }
-            #userSettingsButton:hover {
-              color: #e07300;
-            }
-            #mypageTitle {
-              height: 10px;
-            }
-            #mypage_navBox {
-              border-bottom: solid 1px #ddd;
-              background-color: white;
-            }
-            #Mypage_nav {
-              margin: 0 auto;
-              max-width: 1140px;
-              display: flex;
-              justify-content: space-between;
-            }
-            #contents_box {
-              margin-left: auto;
-              margin-right: auto;
-              max-width: 1140px;
-            }
-            #reviews_btn {
-              font-size: 16px;
-              padding: 15px 10px 15px 10px;
-              margin-right: 10px;
-              color: #4e4e4e;
-              border: none;
-              background-color: white;
-              cursor: pointer;
-              outline-style: none;
-              font-weight: 400;
-            }
-            #reviews_btn:hover {
-              font-weight: 700;
-            }
-            #reviews_btn:focus {
+          #mypage {
+            background: rgba(0, 0, 0, 0.03);
+          }
+          #userSettingsButton {
+            float: right;
+            font-size: 16px;
+            color: grey;
+            border-radius: 10%;
+          }
+          #mypageTitle {
+            height: 10px;
+          }
+          #mypage_navBox {
+            border-bottom: solid 1px #ddd;
+            background-color: white;
+          }
+          #Mypage_nav {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1140px;
+          }
+          #contents_box {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1140px;
+          }
+
+          #reviews_btn {
+            font-size: 15px;
+            padding: 15px 10px 15px 10px;
+            margin-right: 10px;
+            color: #4e4e4e;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            outline-style: none;
+            font-weight: 400;
+          }
+          #reviews_btn:hover {
+            font-weight: 700;
+          }
+          #reviews_btn:focus {
             border-bottom: #ff8906 solid 2px;
             font-weight: 700;
           }
-            #bookmarks_btn {
-              font-size: 16px;
-              padding: 15px 10px 15px 10px;
-              margin-right: 10px;
-              color: #4e4e4e;
-              border: none;
-              background-color: white;
-              cursor: pointer;
-              outline-style: none;
-              font-weight: 400;
-            }
-            #bookmarks_btn:hover {
-              font-weight: 700;
-            }
-            #bookmarks_btn:focus {
-              border-bottom: #ff8906 solid 2px;
-              font-weight: 700;
-            }
 
-            #addBooks_btn {
-              border: solid 1px #ced4da;
+          #bookmarks_btn {
+            font-size: 15px;
+            padding: 15px 10px 15px 10px;
+            margin-right: 10px;
+            color: #4e4e4e;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            outline-style: none;
+            font-weight: 400;
+          }
+          #bookmarks_btn:hover {
+            font-weight: 700;
+          }
+          #bookmarks_btn:focus {
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
+
+          #addBooks_btn {
+            border: solid 1px #ced4da;
+          }
+          #addBooks_btn:hover {
+            font-weight: bold;
+          }
+          #addBooks_btn:focus {
+            font-weight: bold;
+            border: solid 2px #ced4da;
+          }
+          @media screen and (max-width: 800px) {
+            #mypage {
+              width: 100%;
             }
-            #addBooks_btn:hover {
-              font-weight: bold;
+            #contents_box {
+              width: 100%;
             }
-            #addBooks_btn:focus {
-              font-weight: bold;
-              border: solid 2px #ced4da;
+            #Mypage_nav {
+              width: 80%;
             }
-            @media screen and (max-width: 600px) {
-              
+            #reviews_btn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+              width: 30%;
+              margin-right: ;
+            }
+            #bookmarks_btn {
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+              width: 35%;
+              margin-right: ;
+            }
+            #userSettingsButton {
             }
           }
         `}</style>

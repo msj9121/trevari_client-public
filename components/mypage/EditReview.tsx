@@ -1,8 +1,23 @@
-import React from "react";
+import React, { Component, MouseEvent } from "react";
 import StarRatingComponent from "react-star-rating-component";
+import IReviews from "../../pages/Mypage";
 
-class EditReview extends React.Component {
-  constructor(props) {
+interface EditReviewProps {
+  _showEditModalBtn_clickHandler: Function;
+  editedReview: String;
+  _editReview: Function;
+  review: IReviews;
+  openBtnName: String;
+  editModalStatus: String;
+}
+
+interface EditReviewState {
+  rating: Number;
+  ratingValue: Number;
+}
+
+class EditReview extends Component<EditReviewProps, EditReviewState> {
+  constructor(props: EditReviewProps) {
     super(props);
     this.state = {
       rating: 1,
@@ -10,14 +25,14 @@ class EditReview extends React.Component {
     };
   }
 
-  _onStarHover = nextValue => {
+  _onStarHover = (nextValue: number) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
     });
   };
 
-  _onStarClick = nextValue => {
+  _onStarClick = (nextValue: number) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
@@ -31,9 +46,9 @@ class EditReview extends React.Component {
     let bookId = review.book_id;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
-    let editedReviewE = document.getElementsByClassName(bookId)[0];
+    let editedReviewE = document.getElementsByClassName(bookId)[0] as HTMLTextAreaElement;
     let editedReview;
-
+    
     if (editedReviewE.value === "") {
       editedReview = "작성된 평가가 없습니다.";
     } else {
@@ -44,18 +59,21 @@ class EditReview extends React.Component {
   };
 
   render() {
-    const review = this.props.review;
+    const review: IReviews = this.props.review;
 
     return (
       <div id="myModal" className="modal">
         <div className="modal_content">
           <span
             className="close-modal"
-            onClick={this.props._showEditModalBtn_clickHandler}
+            onClick={event => this.props._showEditModalBtn_clickHandler(event)}
           >
             &times;
           </span>
-          <textarea className={review.book_id} defaultValue={review.text} />
+          <textarea
+            className={review.book_id as string}
+            defaultValue={review.text as string}
+          />
           <div id="reviewScore">
             <div className="reviewScore_text">별점을 선택해주세요.</div>
             <div className="reviewScore_scorebox">
@@ -80,7 +98,6 @@ class EditReview extends React.Component {
             </button>
           </div>
         </div>
-
         <style jsx>{`
           .modal {
             display: ${this.props.editModalStatus};

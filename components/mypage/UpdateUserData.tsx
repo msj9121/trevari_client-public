@@ -1,46 +1,60 @@
-import React from "react";
+import React, { Component, MouseEvent } from "react";
+const server = "3.16.58.104:5000";
 import axios from "axios";
 import { BACKEND_ENDPOINT } from "../../constant";
 
-class UpdateUserData extends React.Component {
-  constructor(props) {
+interface UpdateUserDataProps {
+  userId: string | null;
+  _showUserDataModal: Function;
+}
+
+interface UpdateUserDataState {
+  updatePhoneSuccess: Object;
+  updatePasswordSuccess: Object;
+  passwordUnmatch: Boolean;
+}
+
+interface InumberElement{
+  value: string;
+}
+
+class UpdateUserData extends Component<UpdateUserDataProps, UpdateUserDataState> {
+  constructor(props: UpdateUserDataProps) {
     super(props);
     this.state = {
-      updatePhoneSuccess: null,
-      updatePasswordSuccess: null,
+      updatePhoneSuccess: false,
+      updatePasswordSuccess: false,
       passwordUnmatch: false
     };
   }
 
-  onUpdatePhoneSend = e => {
+  onUpdatePhoneSend = (e: MouseEvent<HTMLButtonElement>) => {
     e && e.preventDefault();
-
-    const numberElement = document.getElementById("newNumber");
+    const numberElement = document.getElementById("newNumber") as HTMLInputElement;
     const newNumber = numberElement.value;
-    const userId = this.props.userId;
-
     Number(newNumber)
       ? console.log("value", Number(newNumber))
       : console.log("fail");
 
     if (newNumber) {
       axios
-        .put(`${BACKEND_ENDPOINT}/users/phone-number`, {
-          userId: userId,
-          phoneNumber: Number(newNumber)
+      .post(`http://${server}/users/updatePhoneNumber`, {
+      // .post(`http://${BACKEND_ENDPOINT}/users/updatePhoneNumber`, {
+        userId: this.props.userId,
+          phoneNumber: newNumber
         })
         .then(response => {
           console.log("response", response);
           if (response.data) {
             this.setState({
-              updatePhoneSuccess: true
+              updatePhoneSuccess: !this.state.updatePhoneSuccess
             });
             setTimeout(() => {
               this.props._showUserDataModal;
             }, 2000);
           } else {
             this.setState({
-              updatePhoneSuccess: false
+              updatePhoneSuccess: !this.state.updatePhoneSuccess
             });
           }
         })
@@ -54,12 +68,13 @@ class UpdateUserData extends React.Component {
         updatePhoneSuccess: false
       });
     }
-  };
+  }
 
   checkPasswordMatch = () => {
-    var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
-      .value;
+    var newPasswordE = document.getElementById("newPassword") as HTMLInputElement;
+    var newPassword = newPasswordE.value;
+    var newPasswordConfirmationE = document.getElementById("newPasswordConfirm") as HTMLInputElement;
+    var newPasswordConfirmation = newPasswordConfirmationE.value
 
     if (
       newPasswordConfirmation.length &&
@@ -74,18 +89,20 @@ class UpdateUserData extends React.Component {
         passwordUnmatch: false
       });
     }
-  };
+  }
 
-  onUpdatePasswordSend = e => {
+  onUpdatePasswordSend = (e: MouseEvent<HTMLButtonElement>) => {
     e && e.preventDefault();
 
-    var newPassword = document.getElementById("newPassword").value;
-    var newPasswordConfirmation = document.getElementById("newPasswordConfirm")
-      .value;
+    var newPasswordE = document.getElementById("newPassword") as HTMLInputElement;
+    var newPassword = newPasswordE.value;
+    var newPasswordConfirmationE = document.getElementById("newPasswordConfirm") as HTMLInputElement;
+    var newPasswordConfirmation = newPasswordConfirmationE.value
 
     if (newPassword === newPasswordConfirmation) {
+      console.log("sending");
       axios
-        .put(`${BACKEND_ENDPOINT}/users/password`, {
+        .post(`${BACKEND_ENDPOINT}/users/updatePassword`, {
           userId: this.props.userId,
           password: newPassword
         })
@@ -107,9 +124,10 @@ class UpdateUserData extends React.Component {
           });
         });
     }
-  };
+  }
 
   render() {
+
     return (
       <div className={"modal"} id={"userSettingsModal"}>
         <div className={"userSettingsModalHeader"}>
@@ -121,18 +139,14 @@ class UpdateUserData extends React.Component {
           >
             X
           </button>
-          <h3 id={"userSettingsLabel"}>내 정보 수정</h3>
+          <h3 id={"userSettingsLabel"}>User Settings </h3>
         </div>
         <hr />
         <div className={"updatePhone"}>
-          <h4 className={"userSettingsOpt"}>휴대폰 번호</h4>
+          <h4 className={"userSettingsOpt"}>Update your phone number</h4>
           <form>
-            {/* <label>New number</label> */}
-            <input
-              type={"text"}
-              id={"newNumber"}
-              placeholder="휴대폰 번호를 입력해주세요."
-            />
+            <label>New number</label>
+            <input type={"text"} id={"newNumber"} />
             <p
               className={"updateWarning"}
               id={"updatePhoneSuccess"}
@@ -141,7 +155,7 @@ class UpdateUserData extends React.Component {
                   this.state.updatePhoneSuccess === true ? "block" : "none"
               }}
             >
-              휴대폰 번호가 성공적으로 변경 되었습니다.
+              Your phone number has been updated succesfully
             </p>
             <p
               className={"updateWarning"}
@@ -151,34 +165,25 @@ class UpdateUserData extends React.Component {
                   this.state.updatePhoneSuccess === false ? "block" : "none"
               }}
             >
-              휴대폰 번호가 변경 되지 않았습니다. 올바른 휴대폰 번호를
-              입력해주세요.
+              Your phone number could not be updated. Please introduce a valid
+              number.
             </p>
-            <button
-              id={"updatePhoneSend"}
-              onClick={e => this.onUpdatePhoneSend(e)}
-            >
-              변경
+            <button id={"updatePhoneSend"} onClick={e => this.onUpdatePhoneSend(e)}>
+              Update
             </button>
           </form>
         </div>
         <div className={"updatePhone"}>
-          <h4 className={"userSettingsOpt"}>비밀번호</h4>
+          <h4 className={"userSettingsOpt"}>Update your password</h4>
           <form>
-            {/* <label>New password</label> */}
-            <input
-              type={"password"}
-              name={"Password"}
-              id={"newPassword"}
-              placeholder="비밀번호를 입력해주세요.(8~16자)"
-            />
-            {/* <label>Confirm new password</label> */}
+            <label>New password</label>
+            <input type={"password"} name={"Password"} id={"newPassword"} />
+            <label>Confirm new password</label>
             <input
               type={"password"}
               name={"Password"}
               id={"newPasswordConfirm"}
               onBlur={this.checkPasswordMatch}
-              placeholder="비밀번호를 다시 입력해주세요."
             />
             <p
               className={"updateWarning"}
@@ -187,7 +192,7 @@ class UpdateUserData extends React.Component {
                 display: this.state.passwordUnmatch === true ? "block" : "none"
               }}
             >
-              비밀번호가 일치하지 않습니다.
+              Your passwords do not match
             </p>
             <p
               className={"updateWarning"}
@@ -197,7 +202,7 @@ class UpdateUserData extends React.Component {
                   this.state.updatePasswordSuccess === true ? "block" : "none"
               }}
             >
-              비밀번호가 성공적으로 변경되었습니다.
+              Your password has been updated succesfully
             </p>
             <p
               className={"updateWarning"}
@@ -207,13 +212,14 @@ class UpdateUserData extends React.Component {
                   this.state.updatePasswordSuccess === false ? "block" : "none"
               }}
             >
-              기존의 비밀번호와 동일합니다. 다른 비밀번호를 입력해주세요.
+              Your password could not be updated. You password must be different
+              from your current one..
             </p>
             <button
               id={"updatePasswordSend"}
               onClick={this.onUpdatePasswordSend}
             >
-              변경
+              Update
             </button>
           </form>
         </div>
@@ -226,30 +232,17 @@ class UpdateUserData extends React.Component {
             background-color: #fff;
             padding: 20px;
             box-shadow: 1px 1px 10px grey;
-            top: 20%;
+            border-radius: 5%;
+
             left: 50%;
             transform: translate(-50%);
             margin: 0 auto;
 
             font-family: helvetica, sans-serif;
-            color: black;
-          }
-          #newNumber {
-            padding: 10px;
-            border: 1px solid #ddd;
-          }
-          #newPassword {
-            padding: 10px;
-            border: 1px solid #ddd;
-          }
-          #newPasswordConfirm {
-            padding: 10px;
-            border: 1px solid #ddd;
+            color: #565656;
           }
           .userSettingsOpt {
-            text-align: left;
-            margin-top: 20px;
-            margin-bottom: 0px;
+            text-align: center;
           }
           #userSettingsLabel {
             font-family: helvetica, sans-serif;
@@ -270,30 +263,26 @@ class UpdateUserData extends React.Component {
           }
           .closeButton {
             float: right;
-            font-size: 25px;
-            font-weight: 600;
+            font-size: 20px;
+            color: grey;
             border: none;
-            background-color: white;
-            cursor: pointer;
           }
           #updatePhoneSend,
           #updatePasswordSend {
-            background-color: #ff8906;
-            padding: 5px 20px;
-            font-weight: 500;
-            border: none;
-            border-radius: 0.15rem;
+            background-color: #f97400;
+            padding: 10px;
             text-align: center;
             color: white;
             margin: auto;
             margin-top: 10px;
+            text-shadow: 1px 0px 3px grey;
+            border-radius: 10%;
             font-size: 16px;
-            outline-style: none;
-            cursor: pointer;
           }
           #updatePhoneSend:hover,
           #updatePasswordSend:hover {
-            background-color: #e07300;
+            box-shadow: 0px 1px 5px #f9cf9a;
+            top: 1px;
           }
           #updatePhoneSend:focus,
           #updatePasswordSend:focus {
@@ -303,7 +292,7 @@ class UpdateUserData extends React.Component {
           hr {
             border-color: grey;
             border: none;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid #ccc;
           }
           .updateWarning {
             font-weight: bold;
