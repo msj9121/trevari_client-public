@@ -43,11 +43,11 @@ class ReviewItem extends React.Component {
   _getDate = () => {
     const bareDate = this.props.review.createdAt;
 
-    let year = bareDate.slice(1, 5);
-    let month = bareDate.slice(6, 8);
-    let day = bareDate.slice(9, 11);
-    let time = bareDate.slice(12, 14);
-    let minute = bareDate.slice(15, 17);
+    let year = bareDate.slice(0, 4);
+    let month = bareDate.slice(5, 7);
+    let day = bareDate.slice(8, 10);
+    let time = bareDate.slice(11, 13);
+    let minute = bareDate.slice(14, 16);
     let newDate = `${year}-${month}-${day}. ${time}:${minute}`;
 
     return newDate;
@@ -446,6 +446,11 @@ class ReviewItem extends React.Component {
                       삭제
                     </button>
                   </div>
+                  <div className="openHiddenTextBtn_container">
+                    <button className="openHiddenTextBtn" onClick={this._openReviewBtn_clickHandler}>
+                      {this.state.openBtnName}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -472,7 +477,7 @@ class ReviewItem extends React.Component {
           </div>
         </div>
 
-        <div className="reviewText-hidden">{review.text}</div>
+        <div className="reviewText_hidden">{review.text}</div>
 
         <style jsx>{`
           #reviewCard {
@@ -584,17 +589,24 @@ class ReviewItem extends React.Component {
           .openReviewBtn {
             display: none;
           }
+          .openHiddenTextBtn_container{
+            display: none;
+          }
           .hidden_editReviewBtn {
             display: none;
           }
-          .reviewText-hidden {
+          .reviewText_hidden {
             margin-top: 15px;
             font-size: 13px;
             display: none;
           }
           @media (max-width: 600px) {
+            .reviewCard_box {
+              flex-direction: column;
+            }
             .top {
-              
+              flex-direction: column;
+              align-items: center;
             }
             .name {
               font-size: 15px;
@@ -602,8 +614,8 @@ class ReviewItem extends React.Component {
             .reviewText {
               display: none;
             }
-            .reviewText-hidden {
-              display: block;
+            .reviewText_hidden {
+              display: ${this.state.hiddenReviewStatus};
             }
             .myRate {
               font-size: 12px;
@@ -613,13 +625,38 @@ class ReviewItem extends React.Component {
             }
             #outer_content {
               height: 180px;
+              margin-bottom: 10px;
             }
             .image_container {
               width: 130px;
               height: 180px;
+              margin-left: auto;
+              margin-right: auto;
             }
             #innerContent {
-              margin: 0px 0px 0px 15px;
+              margin: 0px 0px 0px 0px;
+            }
+            .bottom {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .deleteBtn {
+              margin-right: 10px;
+            }
+            .openHiddenTextBtn_container {
+              display: block;
+            }
+            .openHiddenTextBtn {
+              font-size: 15px;
+              font-weight: 600;
+              padding: 3px 20px 3px 20px;
+              color: white;
+              background-color: #ff8906;
+              border: none;
+              cursor: pointer;
+              border-radius: .15rem;
+          
             }
             .reviewCard_box {
               padding-bottom: 20px;
