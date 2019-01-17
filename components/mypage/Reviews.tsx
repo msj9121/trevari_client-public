@@ -1,19 +1,40 @@
 import React, { Component } from "react";
 import ReviewItem, { IReview } from "./ReviewItem";
+import Spinner from "../books/Spinner";
 import { IReviews } from "../../pages/Mypage";
 
 interface ReviewsProps {
-  currentReviews: IReview[];
-  _deleteReview: Function;
-  _getMoreReviews: Function;
-  editedReview: string;
-  _editReview: Function;
+  reviews: IReviews
+  _deleteReview: Function
+  _getMoreReviews: Function
+  editedReview: String
+  _editReview: Function
+  loading: Boolean
+  _changeLoadingState: Function
 }
 
 class Reviews extends Component<ReviewsProps> {
   constructor(props: ReviewsProps) {
     super(props);
   }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    let scrollHeight = document.documentElement.scrollHeight;
+    let scrollTop = document.documentElement.scrollTop;
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      this.props._getMoreReviews();
+    }
+  };
 
   _moreBtn_clickHandler = () => {
     this.props._getMoreReviews();
@@ -23,7 +44,7 @@ class Reviews extends Component<ReviewsProps> {
     return (
       <div id="reviews">
         <div id="reviews_container">
-          {this.props.currentReviews.map((review, id) => {
+          {this.props.reviews.map((review: IReviews, id: any) => {
             <ReviewItem
               review={review}
               key={id}
@@ -33,10 +54,8 @@ class Reviews extends Component<ReviewsProps> {
             />;
           })}
         </div>
-        <div className="moreViewBtn_container">
-          <button className="moreViewBtn" onClick={this._moreBtn_clickHandler}>
-            더보기
-          </button>
+        <div className="spinner">
+          {this.props.loading === true ? <Spinner /> : <div />}
         </div>
         <style jsx>{`
           #reviews_container {
@@ -60,6 +79,9 @@ class Reviews extends Component<ReviewsProps> {
           }
           .moreViewBtn:hover {
             background-color: #e07300;
+          }
+          .spinner {
+            height: 100px;
           }
           @media screen and (max-width: 800px) {
             .moreViewBtn {

@@ -6,27 +6,54 @@ import Reviews from "../components/mypage/Reviews";
 import Bookmarks from "../components/mypage/Bookmarks";
 
 interface MypageProps {
-  ID: string
-  reviews: IReviews[] | string[]
-  currentReviews: IReviews[] | string[]
+  ID: string;
+  reviews: IReviews[];
+  reviewsLength: Number;
 }
 
 interface MypageState {
   id: string | null;
-  reviews: IReviews[] | string[]
-  currentReviews: IReviews[] | string[]
-  books: string[]
-  currentBookmarks: string[]
-  tabName: string | null
-  userDataModal: Boolean
-  editedReview: string
+  reviews: IReviews[];
+  reviewsLength: Number;
+  books: IBooks | string[];
+  booksLength: Number;
+  tabName: string | null;
+  userDataModal: Boolean;
+  editedReview: string;
+  loading: Boolean;
+  isFinish: Boolean;
 }
 
 export interface IReviews {
-  text: string
-  score: number
+  Book: IBook;
   data: string;
+  book_id: Number | string;
+  createdAt: String;
+  id: Number;
+  score: number;
+  text: string;
+  user_id: Number;
   [key: string]: any;
+}
+
+export interface IBooks {
+  Book: IBook;
+  book_id: Number;
+  id: Number;
+  user_id: Number;
+}
+
+interface IBook {
+  author: String;
+  averageScore: Number;
+  bookmarkCount: Number;
+  description: String;
+  id: Number;
+  image: String;
+  isbn: String;
+  publishedAt: Number;
+  publisher: String;
+  title: String;
 }
 
 interface IContext {
@@ -38,30 +65,29 @@ interface IQuery {
 }
 
 interface IEvent {
-  target: HTMLButtonElement
+  target: HTMLButtonElement;
 }
 
 interface Itarget {
-  textContent: string
+  textContent: string;
 }
 
 class Mypage extends Component<MypageProps, MypageState> {
-  state: MypageState
+  state: MypageState;
 
   static async getInitialProps(context: IContext) {
     const { userId } = context.query;
 
-    const reviews = await axios.get(
-      `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
-        params: {
-          userId: userId
-        }
+    const reviews = await axios.get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+      params: {
+        userId: userId,
+        offset: 0
       }
-    )
+    });
 
     return {
       reviews: reviews.data,
-      currentReviews: reviews.data.slice(0, 10)
+      reviewsLength: reviews.data.length
     };
   }
 
@@ -70,12 +96,14 @@ class Mypage extends Component<MypageProps, MypageState> {
     this.state = {
       id: this.props.ID,
       reviews: props.reviews,
-      currentReviews: props.currentReviews,
+      reviewsLength: props.reviewsLength,
       books: [],
-      currentBookmarks: [],
+      booksLength: 0,
       tabName: "내가 평가한 책",
       userDataModal: false,
-      editedReview: ""
+      editedReview: "",
+      loading: false,
+      isFinish: false
     };
   }
 
@@ -87,8 +115,22 @@ class Mypage extends Component<MypageProps, MypageState> {
     }
   }
 
+  _changeLoadingState = () => {
+    this.setState({
+      loading: false
+    });
+  };
+
   _getBookmarks = () => {
-    const userId = this.props.ID;
+    const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    this.setState({
+      loading: true
+    });
 
     axios
       .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
@@ -100,7 +142,8 @@ class Mypage extends Component<MypageProps, MypageState> {
       .then(res => {
         this.setState({
           books: res.data,
-          currentBookmarks: res.data.slice(0, 10)
+          booksLength: res.data.length,
+          loading: false
         });
       })
       .catch(err => console.log(err));
@@ -110,58 +153,108 @@ class Mypage extends Component<MypageProps, MypageState> {
     let tabName = event.currentTarget.textContent;
 
     this.setState({
-      tabName: tabName
+      tabName: tabName,
+      isFinish: false
     });
   };
 
-  _deleteReview = (review: string) => {
-    const currentReviews = this.state.currentReviews as string[];
-    const targetIndex1 = currentReviews.indexOf(review);
-    const copiedCurrentReviews = this.state.currentReviews.slice();
-    copiedCurrentReviews.splice(targetIndex1, 1);
-
-    const reviews = this.state.reviews as string[];
+  _deleteReview = (review: IReviews) => {
+    const reviews = this.state.reviews;
     const targetIndex2 = reviews.indexOf(review);
     const copiedReviews = this.state.reviews.slice();
     copiedReviews.splice(targetIndex2, 1);
 
     this.setState({
-      reviews: copiedReviews,
-      currentReviews: copiedCurrentReviews
+      reviews: copiedReviews
     });
   };
 
   _deleteBookmark = (book: string) => {
-    const targetIndex1 = this.state.currentBookmarks.indexOf(book);
-    const copiedCurrentBookmarks = this.state.currentBookmarks.slice();
-    copiedCurrentBookmarks.splice(targetIndex1, 1);
-
-    const targetIndex2 = this.state.books.indexOf(book);
-    const copiedBooks = this.state.books.slice();
+    const books = this.state.books as string[];
+    const targetIndex2 = books.indexOf(book);
+    const copiedBooks = books.slice();
     copiedBooks.splice(targetIndex2, 1);
 
     this.setState({
-      books: copiedBooks,
-      currentBookmarks: copiedCurrentBookmarks
+      books: copiedBooks
     });
   };
 
   _getMoreReviews = () => {
-    const reviewsLength = this.state.currentReviews.length;
-    const newLength = reviewsLength + 10;
+    const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    if (this.state.isFinish) {
+      return;
+    }
 
     this.setState({
-      currentReviews: this.state.reviews.slice(0, newLength)
+      loading: true
     });
+
+    axios
+      .get(`${BACKEND_ENDPOINT}/reviews/my-reviews`, {
+        params: {
+          userId: userId,
+          offset: this.state.reviewsLength
+        }
+      })
+      .then(res => {
+        if (res.data.length === 0) {
+          this.setState({
+            isFinish: true
+          });
+        }
+        this.setState({
+          // isFinish: res.data? true : false,
+          reviews: this.state.reviews.concat(res.data),
+          reviewsLength: this.state.reviewsLength + res.data.length,
+          loading: false
+        });
+      });
   };
 
   _getMoreBookmarks = () => {
-    const bookmarksLength = this.state.currentBookmarks.length;
-    const newLength = bookmarksLength + 10;
+    const userId = this.state.id;
+
+    if (this.state.loading) {
+      return;
+    }
+
+    if (this.state.isFinish) {
+      return;
+    }
 
     this.setState({
-      currentBookmarks: this.state.books.slice(0, newLength)
+      loading: true
     });
+
+    axios
+      .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        params: {
+          userId: userId,
+          offset: this.state.booksLength
+        }
+      })
+      .then(res => {
+        if (res.data.length === 0) {
+          this.setState({
+            isFinish: true
+          });
+        }
+
+        const books = this.state.books as string[];
+
+        this.setState({
+          books: books.concat(res.data),
+          booksLength: this.state.booksLength + res.data.length,
+          loading: false
+        });
+      })
+      .catch(err => console.log(err));
   };
 
   _showUserDataModal = () => {
@@ -170,9 +263,15 @@ class Mypage extends Component<MypageProps, MypageState> {
     });
   };
 
-  _editReview = (editedReview: string, userId: number, bookId: number, reviewId: number, rating: number) => {
+  _editReview = (
+    editedReview: string,
+    userId: number,
+    bookId: number,
+    reviewId: number,
+    rating: number
+  ) => {
     let newReviews = this.state.reviews as IReviews[];
-    
+
     for (var i = 0; i < newReviews.length; i++) {
       if (newReviews[i]["id"] === reviewId) {
         newReviews[i]["text"] = editedReview;
@@ -181,23 +280,23 @@ class Mypage extends Component<MypageProps, MypageState> {
     }
 
     axios
-    .put(`${BACKEND_ENDPOINT}/reviews/review`, {
-      userId: userId,
-      bookId: bookId,
-      score: rating,
-      text: editedReview
-    })
-    .then(res => {
-      if (res.data) {
-        this.setState({
-          reviews: newReviews
-        });
-        console.log(
-          `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
-        );
-      }
-    })
-    .catch(err => console.log(err));
+      .put(`${BACKEND_ENDPOINT}/reviews/review`, {
+        userId: userId,
+        bookId: bookId,
+        score: rating,
+        text: editedReview
+      })
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            reviews: newReviews
+          });
+          console.log(
+            `수정된 리뷰: ${editedReview}, 수정된 평가점수: ${rating}`
+          );
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -245,130 +344,131 @@ class Mypage extends Component<MypageProps, MypageState> {
         <div id="contents_box">
           {this.state.tabName === "내가 평가한 책" ? (
             <Reviews
-              // reviews={this.state.reviews}
-              currentReviews={this.state.currentReviews}
+              reviews={this.state.reviews}
               _deleteReview={this._deleteReview}
               _getMoreReviews={this._getMoreReviews}
               editedReview={this.state.editedReview}
               _editReview={this._editReview}
-              // _showReview={this._showReview}
-              // openBtnName={this.state.openBtnName}
+              loading={this.state.loading}
+              _changeLoadingState={this._changeLoadingState}
             />
           ) : (
             <Bookmarks
-              currentBookmarks={this.state.currentBookmarks}
+              books={this.state.books}
               _deleteBookmark={this._deleteBookmark}
               _getMoreBookmarks={this._getMoreBookmarks}
+              id={this.state.id}
+              loading={this.state.loading}
+              _changeLoadingState={this._changeLoadingState}
             />
           )}
         </div>
-          <style jsx>{`
+        <style jsx>{`
+          #mypage {
+            background: rgba(0, 0, 0, 0.03);
+          }
+          #userSettingsButton {
+            float: right;
+            font-size: 16px;
+            color: grey;
+            border-radius: 10%;
+          }
+          #mypageTitle {
+            height: 10px;
+          }
+          #mypage_navBox {
+            border-bottom: solid 1px #ddd;
+            background-color: white;
+          }
+          #Mypage_nav {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1140px;
+          }
+          #contents_box {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1140px;
+          }
+
+          #reviews_btn {
+            font-size: 15px;
+            padding: 15px 10px 15px 10px;
+            margin-right: 10px;
+            color: #4e4e4e;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            outline-style: none;
+            font-weight: 400;
+          }
+          #reviews_btn:hover {
+            font-weight: 700;
+          }
+          #reviews_btn:focus {
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
+
+          #bookmarks_btn {
+            font-size: 15px;
+            padding: 15px 10px 15px 10px;
+            margin-right: 10px;
+            color: #4e4e4e;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            outline-style: none;
+            font-weight: 400;
+          }
+          #bookmarks_btn:hover {
+            font-weight: 700;
+          }
+          #bookmarks_btn:focus {
+            border-bottom: #ff8906 solid 2px;
+            font-weight: 700;
+          }
+
+          #addBooks_btn {
+            border: solid 1px #ced4da;
+          }
+          #addBooks_btn:hover {
+            font-weight: bold;
+          }
+          #addBooks_btn:focus {
+            font-weight: bold;
+            border: solid 2px #ced4da;
+          }
+          @media screen and (max-width: 800px) {
             #mypage {
-              background: rgba(0, 0, 0, 0.03);
-            }
-            #userSettingsButton {
-              float: right;
-              font-size: 16px;
-              color: grey;
-              border-radius: 10%;
-            }
-            #mypageTitle {
-              height: 10px;
-            }
-            #mypage_navBox {
-              border-bottom: solid 1px #ddd;
-              background-color: white;;
-            }
-            #Mypage_nav {
-              margin-left: auto;
-              margin-right: auto;
-              max-width: 1140px;
+              width: 100%;
             }
             #contents_box {
-              margin-left: auto;
-              margin-right: auto;
-              max-width: 1140px;
+              width: 100%;
             }
-
+            #Mypage_nav {
+              width: 80%;
+            }
             #reviews_btn {
-              font-size: 15px;
-              padding: 15px 10px 15px 10px;
-              margin-right: 10px;
-              color: #4e4e4e;
-              border: none;
-              background-color: white;
-              cursor: pointer;
-              outline-style: none;
-              font-weight: 400;
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+              width: 30%;
+              margin-right: ;
             }
-            #reviews_btn:hover {
-              font-weight: 700;
-            }
-            #reviews_btn:focus {
-              border-bottom: #ff8906 solid 2px;
-              font-weight: 700;
-            }
-
             #bookmarks_btn {
-              font-size: 15px;
-              padding: 15px 10px 15px 10px;
-              margin-right: 10px;
-              color: #4e4e4e;
-              border: none;
-              background-color: white;
-              cursor: pointer;
-              outline-style: none;
-              font-weight: 400;
+              font-size: 12px;
+              height: 20px;
+              padding: 0px;
+              width: 35%;
+              margin-right: ;
             }
-            #bookmarks_btn:hover {
-              font-weight: 700;
+            #userSettingsButton {
             }
-            #bookmarks_btn:focus {
-              border-bottom: #ff8906 solid 2px;
-              font-weight: 700;
-            }
-
-            #addBooks_btn {
-              border: solid 1px #ced4da;
-            }
-            #addBooks_btn:hover {
-              font-weight: bold;
-            }
-            #addBooks_btn:focus {
-              font-weight: bold;
-              border: solid 2px #ced4da;
-            }
-            @media screen and (max-width: 800px) {
-              #mypage {
-                width: 100%;
-              }
-              #contents_box {
-                width: 100%;
-              }
-              #Mypage_nav {
-                width: 80%;
-              }
-              #reviews_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 30%;
-                margin-right: ;
-              }
-              #bookmarks_btn {
-                font-size: 12px;
-                height: 20px;
-                padding: 0px;
-                width: 35%;
-                margin-right: ;
-              }
-              #userSettingsButton {
-              }
-            }
-          `}</style>
-        </div>
-      );
-    }
+          }
+        `}</style>
+      </div>
+    );
   }
 }
 

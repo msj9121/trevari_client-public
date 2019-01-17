@@ -1,11 +1,12 @@
 import React, { Component, MouseEvent } from "react";
 import StarRatingComponent from "react-star-rating-component";
+import IReviews from "../../pages/Mypage";
 
 interface EditReviewProps {
   _showEditModalBtn_clickHandler: Function;
   editedReview: String;
   _editReview: Function;
-  review: IReview;
+  review: IReviews;
   openBtnName: String;
   editModalStatus: String;
 }
@@ -13,13 +14,6 @@ interface EditReviewProps {
 interface EditReviewState {
   rating: Number;
   ratingValue: Number;
-}
-
-interface IReview {
-  user_id: Number;
-  book_id: Number | string;
-  id: Number;
-  text: String;
 }
 
 class EditReview extends Component<EditReviewProps, EditReviewState> {
@@ -46,10 +40,10 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
   };
 
   _submitBtn_ClickHandler = () => {
-    const review: IReview = this.props.review;
+    const review = this.props.review;
 
     let userId = review.user_id;
-    let bookId = review.book_id as string;
+    let bookId = review.book_id;
     let reviewId = review.id;
     let rating = this.state.ratingValue;
     let editedReviewE = document.getElementsByClassName(bookId)[0] as HTMLTextAreaElement;
@@ -65,7 +59,7 @@ class EditReview extends Component<EditReviewProps, EditReviewState> {
   };
 
   render() {
-    const review: IReview = this.props.review;
+    const review: IReviews = this.props.review;
 
     return (
       <div id="myModal" className="modal">

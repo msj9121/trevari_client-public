@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import BookmarkItem, { Ibook } from "./BookmarkItem";
+import IBooks from "../../pages/Mypage";
 
 interface BookmarksProps {
-  currentBookmarks: Ibook[];
-  _deleteBookmark: Function;
-  _getMoreBookmarks: Function;
+  books: IBooks
+  _deleteBookmark: Function
+  _getMoreBookmarks: Function
+  id: Number
+  loading={this.state.loading}
+  _changeLoadingState={this._changeLoadingState}
 }
 
 class Bookmarks extends Component<BookmarksProps> {
