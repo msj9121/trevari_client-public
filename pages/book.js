@@ -33,10 +33,9 @@ class Book extends Component {
 
     if (ID) {
       const bookMarkData = await axios
-        .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+        .get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks/all`, {
           params: {
-            userId: ID,
-            offset: 0
+            userId: ID
           }
         })
         .then(response => response.data)
@@ -134,10 +133,9 @@ class Book extends Component {
   //------------------BookMark----------------------------//
 
   _changeBookMarkData = async () => {
-    const res = await axios.get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks`, {
+    const res = await axios.get(`${BACKEND_ENDPOINT}/bookmarks/my-bookmarks/all`, {
       params: {
-        userId: this.props.ID,
-        offset: 0
+        userId: this.props.ID
       }
     });
     const changeBookmark = res.data;

@@ -12,7 +12,8 @@ class Mypage extends React.Component {
     const reviews = await axios.get(
       `${BACKEND_ENDPOINT}/reviews/my-reviews`, {
         params: {
-          userId: userId
+          userId: userId,
+          offset: 0
         }
       }
     )
