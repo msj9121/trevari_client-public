@@ -53,7 +53,6 @@ class Login extends Component {
   };
 
   requestLogin = () => {
-    console.log("asfasfasf")
     const data = {
       email: this.state.email,
       password: this.state.password
@@ -165,7 +164,7 @@ class Login extends Component {
             margin-bottom: 5px;
           }
           .input-box {
-            width: 320px;
+            width: 100%;
             height: 40px;
             font-size: 15px;
             padding: 5px 0px 5px 5px;
@@ -179,7 +178,7 @@ class Login extends Component {
           .login-btn {
             font-size: 18px;
             font-weight: 500;
-            width: 330px;
+            width: 100%;
             height: 50px;
             padding: 10px;
             color: whitesmoke;
@@ -207,6 +206,9 @@ class Login extends Component {
           @media screen and (max-width: 600px) {
             #login {
               width: 100%;
+            }
+            .login_container {
+              height: 600px;
             }
           }
         `}</style>

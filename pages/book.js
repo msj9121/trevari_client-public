@@ -4,6 +4,7 @@ import BookTitlebox from "../components/book/BookTitlebox";
 import BookReviewbox from "../components/book/BookReviewbox";
 import { BACKEND_ENDPOINT } from "../constant";
 import Filter from "../containers/Filter";
+import Router from "next/router";
 
 class Book extends Component {
   static async getInitialProps(context) {
@@ -63,6 +64,10 @@ class Book extends Component {
 
   componentDidMount() {
   }
+
+  _onSearchBookTitle = title => {
+    Router.push("/books?input=" + title);
+  };
 
   //------------------BookReview----------------------------//
 
@@ -146,7 +151,6 @@ class Book extends Component {
   };
 
   _filterBookmarkId = () => {
-    console.log("filter--------", this.state.bookMarkData)
     if (this.props.ID && this.state.bookMarkData) {
       const bookId = this.props.book.id;
       const bookmarkData = this.state.bookMarkData;
@@ -164,7 +168,7 @@ class Book extends Component {
   render() {
     return (
       <React.Fragment>
-        <Filter />
+        <Filter _onSearchBookTitle={this._onSearchBookTitle}/>
         <div id="book">
           <div id="book_box">
             <BookTitlebox

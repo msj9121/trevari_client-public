@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Link from "next/link";
 
 class Filter extends Component {
   constructor(props) {
@@ -21,12 +20,15 @@ class Filter extends Component {
     });
   };
 
-  // _handleKeyPress = e => {
-  //   if (e.charCode === 13) {
-  //     this._deleteBookTitle();
-  //   }
-  // };
+  _onSearchBookTitle = () => {
+    this.props._onSearchBookTitle(this.state.bookTitle);
+  };
 
+  _handleKeyPress = e => {
+    if (e.charCode === 13) {
+      this._onSearchBookTitle();
+    }
+  };
 
   render() {
     return (
@@ -39,14 +41,14 @@ class Filter extends Component {
               className="filter_input"
               value={this.state.bookTitle}
               onChange={this._changeBookTitle}
-              // onKeyPress={this._handleKeyPress}
+              onKeyPress={this._handleKeyPress}
             />
             <div className="filter_xbox" onClick={this._deleteBookTitle}>
               X
             </div>
-            <Link href={`/books?input=${this.state.bookTitle}`}>
-              <div className="filter_search" onClick={this.props._changeInput}>검색</div>
-            </Link>
+            <div className="filter_search" onClick={this._onSearchBookTitle}>
+              검색
+            </div>
           </div>
         </div>
         <style jsx>{`
