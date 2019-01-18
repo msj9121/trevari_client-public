@@ -5,6 +5,7 @@ import RecommendBooks from "../components/recommend/RecommendBooks";
 import Filter from "../containers/Filter";
 import { BACKEND_ENDPOINT } from "../constant";
 import Spinner from "../components/books/Spinner";
+import Router from "next/router";
 
 class Recommend extends Component {
   static async getInitialProps() {
@@ -32,6 +33,10 @@ class Recommend extends Component {
   componentDidMount() {
     this._getRecommendBooks();
   }
+
+  _onSearchBookTitle = title => {
+    Router.push("/books?input=" + title);
+  };
 
   _getRecommendBooks = () => {
     //신작
@@ -104,7 +109,7 @@ class Recommend extends Component {
   render() {
     return (
       <div>
-        <Filter />
+        <Filter _onSearchBookTitle={this._onSearchBookTitle}/>
         <div id="recommend">
           <RecommendBanner ID={this.props.ID} />
           <div id="recommend-container">

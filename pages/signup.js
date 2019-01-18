@@ -191,7 +191,7 @@ class Signup extends Component {
             margin-bottom: 10px;
           }
           .input-box {
-            width: 320px;
+            width: 100%;
             height: 40px;
             font-size: 15px;
             padding: 5px 0px 5px 5px;
@@ -204,7 +204,7 @@ class Signup extends Component {
           }
           .signup-btn {
             font-size: 18px;
-            width: 330px;
+            width: 100%;
             height: 50px;
             padding: 10px;
             color: whitesmoke;
@@ -219,6 +219,9 @@ class Signup extends Component {
           @media screen and (max-width: 600px) {
             #signup {
               width: 100%;
+            }
+            .signup_container {
+              height: 600px;
             }
           }
         `}</style>

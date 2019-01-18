@@ -136,7 +136,7 @@ class BookReview extends Component {
     }
   };
 
-  _onStarClickHover = (nextValue, prevValue, name) => {
+  _onStarClick = (nextValue, prevValue, name) => {
     this.setState({
       rating: nextValue,
       editRatingValue: nextValue * 2
@@ -145,7 +145,9 @@ class BookReview extends Component {
 
   _edit = () => {
     this.setState({
-      edit: true
+      edit: true,
+      editRatingValue:0,
+      rating: 0
     });
   };
 
@@ -186,8 +188,6 @@ class BookReview extends Component {
       .then(res => {
         console.log("삭제 성공 : ", res.data);
         this.props._getReviewChange(res.data, false);
-        console.log("score", this.props.score);
-        console.log("text", this.props.text);
       })
       .catch(err => {
         console.log(err);
@@ -214,9 +214,6 @@ class BookReview extends Component {
   };
 
   render() {
-    console.log("BookReview--ID", typeof this.props.ID);
-    console.log("BookReview--user_id", typeof this.props.user_id);
-    console.log("BookREview--edit", typeof this.state.edit);
     return (
       <div id="bookReview">
         <div className="bookReview_scorebox">
@@ -228,8 +225,7 @@ class BookReview extends Component {
                   starCount={5}
                   starColor={"red"}
                   value={this.state.rating}
-                  onStarClick={this._onStarClickHover}
-                  onStarHover={this._onStarClickHover}
+                  onStarClick={this._onStarClick}
                 />
               </div>
               <div className="bookReview_scorebox2_score">

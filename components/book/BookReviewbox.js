@@ -12,7 +12,7 @@ class BookReviewbox extends Component {
     };
   }
 
-  _onStarClickHover = (nextValue, prevValue, name) => {
+  _onStarClick = (nextValue, prevValue, name) => {
     this.setState({
       rating: nextValue,
       ratingValue: nextValue * 2
@@ -20,13 +20,12 @@ class BookReviewbox extends Component {
   };
 
   render() {
-    console.log("reviewbox---show");
     return (
       <div className="book_reviewbox">
         {this.props.review ? (
           <div>
             <BookReviewScore
-              _onStarClickHover={this._onStarClickHover}
+              _onStarClick={this._onStarClick}
               rating={this.state.rating}
               ratingValue={this.state.ratingValue}
             />
@@ -39,7 +38,7 @@ class BookReviewbox extends Component {
             />
           </div>
         ) : (
-          console.log("reviewbox---hide")
+          <div />
         )}
         <BookReviewInner
           ID={this.props.ID}

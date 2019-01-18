@@ -617,12 +617,6 @@ class ReviewItem extends React.Component {
             .reviewText_hidden {
               display: ${this.state.hiddenReviewStatus};
             }
-            .myRate {
-              font-size: 12px;
-            }
-            .averageRate {
-              font-size: 12px;
-            }
             #outer_content {
               height: 180px;
               margin-bottom: 10px;

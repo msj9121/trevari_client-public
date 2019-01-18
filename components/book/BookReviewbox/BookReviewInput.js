@@ -51,8 +51,13 @@ class BookReviewInput extends Component {
     }
   };
 
+  _handleKeyPress = e => {
+    if (e.charCode === 13) {
+      this._addReview();
+    }
+  };
+
   render() {
-    console.log("BookReviewInput---isReviewed", this.props.isReviewed)
     return (
       <div id="bookReviewInput">
         <textarea
@@ -62,6 +67,7 @@ class BookReviewInput extends Component {
           value={this.state.reviewText}
           onChange={this._changeReviewText}
           onClick={this._checkUserid}
+          onKeyPress={this._handleKeyPress}
         />
         <div className="bookReviewInput_btnbox">
           <div className="bookReviewInput_btnbox_count">
