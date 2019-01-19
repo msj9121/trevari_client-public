@@ -58,11 +58,22 @@ class Book extends Component {
       book: this.props.book,
       bookReviewData: this.props.bookReviewData,
       bookReviewLength: this.props.bookReviewData.length,
-      bookMarkData: this.props.bookMarkData
+      bookMarkData: this.props.bookMarkData,
+      isLoaded: false,
+      pushLoaded: false
     };
   }
 
-  componentDidMount() {
+  _Loading = () => {
+    this.setState({
+      isLoaded: true
+    });
+  };
+
+  _PushLoading = () => {
+    this.setState({
+      pushLoaded: true
+    });
   }
 
   _onSearchBookTitle = title => {
@@ -127,6 +138,8 @@ class Book extends Component {
         bookReviewData: changeBookReviews,
         bookReviewLength: changeBookReviews.length,
         book: changeBook,
+        pushLoaded: false,
+        isLoaded: false,
         isReviewed: del === false ? false : true
       });
       console.log("Change BookReviews, Book 성공");
@@ -189,6 +202,10 @@ class Book extends Component {
               bookReviewData={this.state.bookReviewData}
               _getReviewChange={this._getReviewChange}
               _chackUserReview={this._chackUserReview}
+              _Loading={this._Loading}
+              isLoaded={this.state.isLoaded}
+              _PushLoading={this._PushLoading}
+              pushLoaded={this.state.pushLoaded}
             />
           </div>
 

@@ -121,9 +121,7 @@ class BookmarkItem extends React.Component {
           }
           @media screen and (max-width: 600px) {
             // #bookmark_content {
-            //   width: 80px;
-            //   height: 130px;
-            //   position: relative;
+            //   margin: 15px;
             // }
             // .image_container {
             //   width: 80px;

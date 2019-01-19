@@ -4,19 +4,79 @@ import Link from "next/link";
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      index: false,
+      recommend: false,
+      mypage: false,
+      login: false
+    };
   }
+  _toggleIndex = () => {
+    this.setState({
+      index: false,
+      recommend: false,
+      mypage: false,
+      login: false
+    });
+  };
+
+  _toggleRecommend = () => {
+    this.setState({
+      recommend: true,
+      mypage: false,
+      login: false
+    });
+  };
+  _toggleMypage = () => {
+    this.setState({
+      recommend: false,
+      mypage: true,
+      login: false
+    });
+  };
+
+  _toggleLogin = () => {
+    this.setState({
+      recommend: false,
+      mypage: false,
+      login: true
+    });
+  };
+
+  _toggleLogout = () => {
+    this.setState({
+      recommend: false,
+      mypage: false,
+      login: false
+    });
+  };
 
   render() {
     return (
       <div id="header">
         <div id="header_box">
           <Link href="/">
-            <img src="../static/trevari ci.png" className="header_logo" />
+            <img
+              src="../static/trevari ci.png"
+              id="header_logo"
+              onClick={this._toggleIndex}
+            />
           </Link>
           <ul>
             <Link href="/recommend">
               <li>
-                <button id="header_recommend">추천 도서</button>
+                {this.state.recommend ? (
+                  <button
+                    id="header_recommend2"
+                    onClick={this._toggleRecommend}
+                  >
+                    추천 도서
+                  </button>
+                ) : (
+                  <button id="header_recommend" onClick={this._toggleRecommend}>
+                    추천 도서
+                  </button>
+                )}
               </li>
             </Link>
             <Link
@@ -24,12 +84,34 @@ class Header extends Component {
               href={`/mypage?userId=${this.props.ID}`}
             >
               <li>
-                <button id="header_mypage">마이페이지</button>
+                {this.state.mypage ? (
+                  <button id="header_mypage2" onClick={this._toggleMypage}>
+                    마이페이지
+                  </button>
+                ) : (
+                  <button id="header_mypage" onClick={this._toggleMypage}>
+                    마이페이지
+                  </button>
+                )}
               </li>
             </Link>
             <Link href={this.props.loginState.movepage}>
               <li onClick={this.props.rechangeCondition}>
-                <button id="header_login">{this.props.loginState.text}</button>
+                {this.props.loginState.text === "로그인" ? (
+                  this.state.login ? (
+                    <button id="header_login2">
+                      {this.props.loginState.text}
+                    </button>
+                  ) : (
+                    <button id="header_login" onClick={this._toggleLogin}>
+                      {this.props.loginState.text}
+                    </button>
+                  )
+                ) : (
+                  <button id="header_logout" onClick={this._toggleLogout}>
+                    {this.props.loginState.text}
+                  </button>
+                )}
               </li>
             </Link>
           </ul>
@@ -38,7 +120,7 @@ class Header extends Component {
           <div id="hidden-container">
             <div>
               <Link href="/">
-                <img src="../static/trevari ci.png" className="header_logo" />
+                <img src="../static/trevari ci.png" id="header_logo" />
               </Link>
             </div>
             <div className="btn-container">
@@ -61,6 +143,7 @@ class Header extends Component {
             background-color: white;
             width: 100%;
           }
+
           #header_mypage {
             display: ${this.props.headerMypage_status};
           }
@@ -70,7 +153,7 @@ class Header extends Component {
             margin: 0 auto;
             max-width: 1140px;
           }
-          .header_logo {
+          #header_logo {
             width: 100px;
             height: 35px;
             cursor: pointer;
@@ -86,7 +169,6 @@ class Header extends Component {
             display: inline-block;
           }
           button {
-            color: rgba(0, 0, 0, 0.5);
             cursor: pointer;
             background-color: white;
             border: none;
@@ -94,16 +176,37 @@ class Header extends Component {
             font-size: 16px;
             margin-left: 15px;
           }
-          button:hover {
+          #header_recommend {
+            color: rgba(0, 0, 0, 0.5);
+          }
+          #header_recommend2 {
             color: #ff8906;
           }
-          #header_recommend:focus {
+          #header_mypage {
+            color: rgba(0, 0, 0, 0.5);
+          }
+          #header_mypage2 {
             color: #ff8906;
           }
-          #header_mypage:focus {
+          #header_login {
+            color: rgba(0, 0, 0, 0.5);
+          }
+          #header_login2 {
             color: #ff8906;
           }
-          #header_login:focus {
+          #header_logout {
+            color: rgba(0, 0, 0, 0.5);
+          }
+          #header_logout2 {
+            color: #ff8906;
+          }
+          #header_recommend:hover {
+            color: #ff8906;
+          }
+          #header_mypage:hover {
+            color: #ff8906;
+          }
+          #header_login:hover {
             color: #ff8906;
           }
           #hidden_header_box {
@@ -224,14 +327,14 @@ const Hamburger = function(props) {
           margin-left: auto;
           margin-right: 8px;
         }
-        
+
         .link {
           border-bottom: solid 1px #ddd;
           font-size: 17px;
           margin-right: 10px;
           margin-left: 10px;
           padding-top: 10px;
-          color: rgba(0,0,0,0.5);
+          color: rgba(0, 0, 0, 0.5);
         }
         .link:hover {
           color: #ff8906;

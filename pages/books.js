@@ -120,6 +120,10 @@ class Books extends Component {
   _onSearchBookTitle = async title => {
     Router.push("/books?input=" + title);
 
+    if(title === "") {
+      return;
+    }
+
     document.documentElement.scrollTop = 0
 
     const res = await axios.get(`${BACKEND_ENDPOINT}/books/search/title`, {
@@ -154,7 +158,7 @@ class Books extends Component {
                 );
               })
             ) : (
-              <Spinner />
+              <div></div>
             )}
 
             {this.state.isLoaded ? <Spinner /> : <div />}

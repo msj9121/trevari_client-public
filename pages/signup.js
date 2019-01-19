@@ -101,6 +101,12 @@ class Signup extends Component {
       .catch(err => console.log(err));
   };
 
+  _handleKeyPress = e => {
+    if (e.charCode === 13) {
+      this.clickSignupButton();
+    }
+  };
+
   render() {
     return (
       <div id="signup">
@@ -115,6 +121,7 @@ class Signup extends Component {
                   placeholder="이메일을 입력해주세요."
                   name="email"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -125,6 +132,7 @@ class Signup extends Component {
                   type="password"
                   name="password"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
               <div className="signup-input">
@@ -134,6 +142,7 @@ class Signup extends Component {
                   type="password"
                   name="repassword"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
 
@@ -143,6 +152,7 @@ class Signup extends Component {
                   placeholder="이름을 입력해주세요."
                   name="name"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
               <div className="signup-input">
@@ -151,6 +161,7 @@ class Signup extends Component {
                   placeholder="휴대폰 번호를 입력해주세요."
                   name="phoneNumber"
                   onChange={this.handleChange}
+                  onKeyPress={this._handleKeyPress}
                 />
               </div>
               <div className="wanning-div">{this.state.check}</div>

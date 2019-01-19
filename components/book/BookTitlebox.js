@@ -291,6 +291,7 @@ class BookTitlebox extends Component {
             margin-top: 50px;
             margin-bottom: 50px;
             margin-right: 50px;
+            padding-top: 15px;
             padding-bottom: 15px;
           }
           .book_titlebox_titleName {
@@ -317,8 +318,8 @@ class BookTitlebox extends Component {
             background-color: #ff8906;
             color: white;
             font-size: 20px;
-            font-weight: 500;
-            padding: 5px 25px 5px 25px;
+            font-weight: 600;
+            padding: 9px 20px 7px 20px;
             cursor: pointer;
             border-radius: .15rem;
           }
@@ -330,8 +331,8 @@ class BookTitlebox extends Component {
             color: white;
             background-color: #246db7;
             font-size: 20px;
-            font-weight: 500;
-            padding: 5px 25px 5px 25px;
+            font-weight: 600;
+            padding: 9px 20px 7px 20px;
             cursor: pointer;
             border-radius: .15rem;
           }
@@ -342,8 +343,8 @@ class BookTitlebox extends Component {
             background-color: #ff8906;
             color: white;
             font-size: 20px;
-            font-weight: 500;
-            padding: 5px 15px 5px 15px;
+            font-weight: 600;
+            padding: 9px 15px 7px 15px;
             margin-top: 10px;
             margin-right: 15px;
             cursor: pointer;
@@ -356,8 +357,8 @@ class BookTitlebox extends Component {
             background-color: #246db7;
             color: white;
             font-size: 20px;
-            font-weight: 500;
-            padding: 5px 15px 5px 15px;
+            font-weight: 600;
+            padding: 9px 15px 7px 15px;
             margin-top: 10px;
             margin-right: 15px;
             cursor: pointer;
@@ -380,7 +381,8 @@ class BookTitlebox extends Component {
               margin-top: 18px;
               margin-bottom: 17px;
               margin-right: 15px;
-              padding-bottom: 15px;
+              padding-top: 8px;
+              padding-bottom: 8px;
             }
             .book_titlebox_titleName {
               font-size: 16px;
@@ -404,24 +406,24 @@ class BookTitlebox extends Component {
             .book_titlebox_startReviewBtn {
               font-size: 13px;
               font-weight: 700;
-              padding: 5px 15px 5px 15px;
+              padding: 8px 15px 6px 15px;
             }
             .book_titlebox_endReviewBtn {
               font-size: 13px;
               font-weight: 700;
-              padding: 5px 15px 5px 15px;
+              padding: 8px 15px 6px 15px;
             }
             .book_titlebox_addBookmarkBtn {
               font-size: 13px;
               font-weight: 700;
               margin-right: 5px;
-              padding: 5px 12px 5px 12px;
+              padding: 8px 13px 6px 13px;
             }
             .book_titlebox_deleteBookmarkBtn {
               font-size: 13px;
               font-weight: 700;
               margin-right: 5px;
-              padding: 5px 12px 5px 12px;
+              padding: 8px 13px 6px 13px;
             }
           }
         `}</style>

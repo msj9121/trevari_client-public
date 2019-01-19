@@ -8,16 +8,16 @@ const RecommendBanner = props => {
           <div className="recommend_banner_top">
             <div className="recommend_banner_titlebox">
               <div className="recommend_banner_titlebox_title">
-                이번주 베스트셀러
+                트레바리 베스트셀러
               </div>
-              <div className="recommend_banner_titlebox_title">BEST 3</div>
+              <div className="recommend_banner_titlebox_title">TOP 3</div>
             </div>
             <div className="recommend_banner_booksbox">
               <div className="recommend_banner_books">
                 <div className="recommend_banner_books_book1">
-                  <div className="recommend_banner_books_book_best">
-                    <div>BEST</div>
-                    <div>2</div>
+                  <div>
+                    <div className="recommend_banner_books_book_best">TOP</div>
+                    <div className="recommend_banner_books_book_best">2</div>
                   </div>
                   <Link
                     as={`/book/900`}
@@ -32,9 +32,9 @@ const RecommendBanner = props => {
                   </Link>
                 </div>
                 <div className="recommend_banner_books_book2">
-                  <div className="recommend_banner_books_book_best">
-                    <div>BEST</div>
-                    <div>1</div>
+                  <div>
+                    <div className="recommend_banner_books_book_best">TOP</div>
+                    <div className="recommend_banner_books_book_best">1</div>
                   </div>
                   <Link
                     as={`/book/530`}
@@ -49,9 +49,9 @@ const RecommendBanner = props => {
                   </Link>
                 </div>
                 <div className="recommend_banner_books_book3">
-                  <div className="recommend_banner_books_book_best">
-                    <div>BEST</div>
-                    <div>3</div>
+                  <div>
+                    <div className="recommend_banner_books_book_best">TOP</div>
+                    <div className="recommend_banner_books_book_best"> 3</div>
                   </div>
                   <Link
                     as={`/book/195`}
@@ -109,7 +109,7 @@ const RecommendBanner = props => {
         }
         .recommend_banner_titlebox_title {
           font-size: 35px;
-          font-weight: 500;
+          font-weight: 700;
           color: white;
         }
         .recommend_banner_booksbox {
@@ -130,8 +130,6 @@ const RecommendBanner = props => {
         }
         .recommend_banner_books_book3 {
           width: 150px;
-        }
-        .recommend_banner_books_book1_best {
         }
         .recommend_banner_books_book1_img1 {
           width: 100%;
@@ -160,7 +158,7 @@ const RecommendBanner = props => {
           align-items: center;
           color: white;
           font-size: 18px;
-          font-weight: 500;
+          font-weight: 700;
         }
         .recommend_banner_nextbox {
           border: solid 1px #ddd;

@@ -9,16 +9,16 @@ import Router from "next/router";
 
 class Recommend extends Component {
   static async getInitialProps() {
-    const recommend = "/books/most-bookmarks";
+    const recommend = "/books/best-rated";
 
-    // 인기작품
-    const res = await axios.get(`${BACKEND_ENDPOINT}/books/most-bookmarks`);
+    // 평점
+    const res = await axios.get(`${BACKEND_ENDPOINT}/books/best-rated`);
 
-    const mostBookmarks = res.data.slice(0, 6);
+    const bestRated = res.data.slice(0, 6);
 
     return {
       recommend,
-      mostBookmarks
+      bestRated
     };
   }
 
@@ -26,7 +26,7 @@ class Recommend extends Component {
     super(props);
     this.state = {
       recommend: this.props.recommend,
-      mostBookmarks: this.props.mostBookmarks
+      bestRated: this.props.bestRated
     };
   }
 
@@ -50,13 +50,13 @@ class Recommend extends Component {
       })
       .catch(err => console.log(err));
 
-    //평점
+    // 인기작품
     axios
-      .get(`${BACKEND_ENDPOINT}/books/best-rated`)
+      .get(`${BACKEND_ENDPOINT}/books/most-bookmarks`)
       .then(res => {
         this.setState({
-          recommend3: "/books/best-rated",
-          bestRated: res.data.slice(0, 6)
+          recommend3: "/books/most-bookmarks",
+          mostBookmarks: res.data.slice(0, 6)
         });
       })
       .catch(err => console.log(err));
@@ -79,29 +79,33 @@ class Recommend extends Component {
 
   _renderRecommendBooks = () => {
     const newRelease = this.state.newRelease;
-    const bestRated = this.state.bestRated;
+    const mostBookmarks = this.state.mostBookmarks;
     const myRecommendations = this.state.myRecommendations;
 
     return (
       <React.Fragment>
         <RecommendBooks
-          title={"2019년 신작"}
+          title={"2018년 신작"}
           recommendBooks={newRelease}
           ID={this.props.ID}
           recommend={this.state.recommend2}
         />
         <RecommendBooks
-          title={"최고 인기작품 TOP 30"}
-          recommendBooks={bestRated}
+          title={"인기작품 TOP 30"}
+          recommendBooks={mostBookmarks}
           ID={this.props.ID}
           recommend={this.state.recommend3}
         />
-        <RecommendBooks
-          title={"트레바리 추천"}
-          recommendBooks={myRecommendations}
-          ID={this.props.ID}
-          recommend={this.state.recommend4}
-        />
+        {this.props.ID ? (
+          <RecommendBooks
+            title={"트레바리 추천작"}
+            recommendBooks={myRecommendations}
+            ID={this.props.ID}
+            recommend={this.state.recommend4}
+          />
+        ) : (
+          <div />
+        )}
       </React.Fragment>
     );
   };
@@ -109,20 +113,20 @@ class Recommend extends Component {
   render() {
     return (
       <div>
-        <Filter _onSearchBookTitle={this._onSearchBookTitle}/>
+        <Filter _onSearchBookTitle={this._onSearchBookTitle} />
         <div id="recommend">
           <RecommendBanner ID={this.props.ID} />
           <div id="recommend-container">
             <div id="recommend_box">
               <RecommendBooks
-                title={"트레바리 인기작품 BEST 30"}
-                recommendBooks={this.state.mostBookmarks}
+                title={"트레바리 BEST 30"}
+                recommendBooks={this.state.bestRated}
                 ID={this.props.ID}
                 recommend={this.state.recommend}
               />
 
               {this.state.newRelease &&
-              this.state.bestRated &&
+              this.state.mostBookmarks &&
               this.state.myRecommendations ? (
                 this._renderRecommendBooks()
               ) : (
@@ -133,7 +137,7 @@ class Recommend extends Component {
 
           <style jsx>{`
             #recommend {
-              padding-top: 57px;
+              padding-top: 53px;
             }
             #recommend-container {
               background: rgba(0, 0, 0, 0.03);

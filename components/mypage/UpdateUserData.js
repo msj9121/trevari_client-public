@@ -280,7 +280,7 @@ class UpdateUserData extends React.Component {
           #updatePasswordSend {
             background-color: #ff8906;
             padding: 5px 20px;
-            font-weight: 500;
+            font-weight: 700;
             border: none;
             border-radius: 0.15rem;
             text-align: center;
@@ -307,10 +307,11 @@ class UpdateUserData extends React.Component {
           }
           .updateWarning {
             font-weight: bold;
+            font-size: 14px;
           }
           #updatePhoneSuccess,
           #updatePasswordSuccess {
-            color: green;
+            color: #246db7;
           }
           #updatePhoneFail,
           #updatePasswordFail,

@@ -34,7 +34,7 @@ class Index extends Component {
             max-width: 1140px;
             display: flex;
             justify-content: center;
-            border: 1px solid #DDD;
+            border: 1px solid #ddd;
           }
           .index_mobile {
             display: none;
@@ -45,7 +45,7 @@ class Index extends Component {
             background: url(http://image.trevari.co.kr/landing/top.jpg) center
               center / cover no-repeat;
           }
-          
+
           .banner-gradient {
             background: linear-gradient(
               135deg,
