@@ -33,7 +33,9 @@ class Mypage extends React.Component {
       userDataModal: false,
       editedReview: "",
       loading: false,
-      isFinish: false
+      isFinish: false,
+      tabReviews: true,
+      tabBookmarks: false
     };
   }
 
@@ -220,8 +222,21 @@ class Mypage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  render() {
+  _toggleReviews = () => {
+    this.setState({
+      tabReviews: true,
+      tabBookmarks: false
+    });
+  };
 
+  _toggleBookmarks = () => {
+    this.setState({
+      tabReviews: false,
+      tabBookmarks: true
+    });
+  };
+
+  render() {
     return (
       <div id="mypage">
         <link
@@ -242,13 +257,55 @@ class Mypage extends React.Component {
         <div id="mypage_navBox">
           <div id="Mypage_nav">
             <div>
-              <button
+              {this.state.tabReviews ? (
+                <button
+                  id="reviews_btn2"
+                  onClick={event => {
+                    this._changeTabName(event);
+                  }}
+                >
+                  내가 평가한 책
+                </button>
+              ) : (
+                <button
+                  id="reviews_btn"
+                  onClick={event => {
+                    this._changeTabName(event);
+                    this._toggleReviews();
+                  }}
+                >
+                  내가 평가한 책
+                </button>
+              )}
+              {/* <button
                 id="reviews_btn"
                 onClick={event => this._changeTabName(event)}
               >
                 내가 평가한 책
-              </button>
-              <button
+              </button> */}
+              {this.state.tabBookmarks ? (
+                <button
+                  id="bookmarks_btn2"
+                  onClick={event => {
+                    this._changeTabName(event);
+                    this._getBookmarks();
+                  }}
+                >
+                  내가 읽고싶은 책
+                </button>
+              ) : (
+                <button
+                  id="bookmarks_btn"
+                  onClick={event => {
+                    this._changeTabName(event);
+                    this._getBookmarks();
+                    this._toggleBookmarks()
+                  }}
+                >
+                  내가 읽고싶은 책
+                </button>
+              )}
+              {/* <button
                 id="bookmarks_btn"
                 onClick={event => {
                   this._changeTabName(event);
@@ -256,7 +313,7 @@ class Mypage extends React.Component {
                 }}
               >
                 내가 읽고싶은 책
-              </button>
+              </button> */}
             </div>
             <button id={"userSettingsButton"} onClick={this._showUserDataModal}>
               <i className="fas fa-cog" />
@@ -331,13 +388,26 @@ class Mypage extends React.Component {
               outline-style: none;
               font-weight: 400;
             }
+            #reviews_btn2 {
+              font-size: 16px;
+              padding: 15px 10px 15px 10px;
+              margin-right: 10px;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
+            }
             #reviews_btn:hover {
               font-weight: 700;
             }
-            #reviews_btn:focus {
-            border-bottom: #ff8906 solid 2px;
-            font-weight: 700;
-          }
+            #reviews_btn2 {
+              border-bottom: #ff8906 solid 2px;
+              font-weight: 700;
+            }
             #bookmarks_btn {
               font-size: 16px;
               padding: 15px 10px 15px 10px;
@@ -349,14 +419,22 @@ class Mypage extends React.Component {
               outline-style: none;
               font-weight: 400;
             }
-            #bookmarks_btn:hover {
-              font-weight: 700;
-            }
-            #bookmarks_btn:focus {
+            #bookmarks_btn2 {
+              font-size: 16px;
+              padding: 15px 10px 15px 10px;
+              margin-right: 10px;
+              color: #4e4e4e;
+              border: none;
+              background-color: white;
+              cursor: pointer;
+              outline-style: none;
+              font-weight: 400;
               border-bottom: #ff8906 solid 2px;
               font-weight: 700;
             }
-
+            #bookmarks_btn:hover {
+              font-weight: 700;
+            }
             #addBooks_btn {
               border: solid 1px #ced4da;
             }

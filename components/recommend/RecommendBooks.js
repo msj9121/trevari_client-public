@@ -48,6 +48,7 @@ const RecommendBooks = props => {
         @media screen and (max-width: 600px) {
           .recommend_books_imgs {
             justify-content: center;
+            margin: 0px;
           }
         }
       `}</style>

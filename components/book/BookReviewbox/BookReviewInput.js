@@ -6,20 +6,18 @@ class BookReviewInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviewText: "",
-      reviewTextLength: 0
+      reviewText: ""
     };
   }
 
   _changeReviewText = e => {
     this.setState({
-      reviewText: e.target.value,
-      reviewTextLength: this.state.reviewText.length + 1
+      reviewText: e.target.value
     });
   };
 
   _checkUserid = () => {
-    if (this.props.ID === "") {
+    if (this.props.ID === undefined) {
       alert("로그인 해주세요!");
     }
   };
@@ -27,6 +25,10 @@ class BookReviewInput extends Component {
   _addReview = async () => {
     if (this.props.ID && this.props.isReviewed === false) {
       console.log("평점을 올릴 수 있습니다.")
+      this.props._PushLoading()
+      this.setState({
+        reviewText: ""
+      })
       const bookReviews = await axios
         .post(`${BACKEND_ENDPOINT}/reviews/review`, {
           userId: this.props.ID,
@@ -71,7 +73,7 @@ class BookReviewInput extends Component {
         />
         <div className="bookReviewInput_btnbox">
           <div className="bookReviewInput_btnbox_count">
-            {this.state.reviewTextLength} / 300
+            {this.state.reviewText.length} / 300
           </div>
           <div
             className="bookReviewInput_btnbox_submit"
@@ -121,7 +123,8 @@ class BookReviewInput extends Component {
           .bookReviewInput_btnbox_submit {
             background-color: #ff8906;
             color: white;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 700;
             padding: 10px 30px 10px 30px;
             cursor: pointer;
           }

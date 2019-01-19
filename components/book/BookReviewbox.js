@@ -35,6 +35,7 @@ class BookReviewbox extends Component {
               _getReviewChange={this.props._getReviewChange}
               isReviewed={this.props.isReviewed}
               ratingValue={this.state.ratingValue}
+              _PushLoading={this.props._PushLoading}
             />
           </div>
         ) : (
@@ -46,6 +47,9 @@ class BookReviewbox extends Component {
           bookReviewData={this.props.bookReviewData}
           _chackUserReview={this.props._chackUserReview}
           _getReviewChange={this.props._getReviewChange}
+          _Loading={this.props._Loading}
+          isLoaded={this.props.isLoaded}
+          pushLoaded={this.props.pushLoaded}
         />
 
         <style jsx>{`

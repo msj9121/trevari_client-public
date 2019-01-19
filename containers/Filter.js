@@ -71,7 +71,6 @@ class Filter extends Component {
           }
           .filter_input {
             margin: 0;
-            font-size: inherit;
             display: block;
             border: 1px solid #ced4da;
             border-radius: 3px 0px 0px 3px;
@@ -88,7 +87,8 @@ class Filter extends Component {
           .filter_search {
             background-color: #ff8906;
             color: white;
-            padding: 5px 10px 5px 10px;
+            padding: 7px 10px 5px 10px;
+            font-weight: 600;
             border-radius: 0px 3px 3px 0px;
             cursor: pointer;
           }

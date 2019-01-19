@@ -528,7 +528,7 @@ class ReviewItem extends React.Component {
           .deleteBtn {
             font-size: 15px;
             font-weight: 600;
-            padding: 3px 20px 3px 20px;
+            padding: 5px 20px 3px 20px;
             color: white;
             background-color: #ff8906;
             border: none;
@@ -542,7 +542,7 @@ class ReviewItem extends React.Component {
           .editReviewBtn {
             font-size: 15px;
             font-weight: 600;
-            padding: 3px 20px 3px 20px;
+            padding: 5px 20px 3px 20px;
             outline-style: none;
             color: white;
             background-color: #ff8906;
@@ -644,7 +644,7 @@ class ReviewItem extends React.Component {
             .openHiddenTextBtn {
               font-size: 15px;
               font-weight: 600;
-              padding: 3px 20px 3px 20px;
+              padding: 5px 20px 3px 20px;
               color: white;
               background-color: #ff8906;
               border: none;
